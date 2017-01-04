@@ -1,0 +1,43 @@
+/*
+	1.setup:安装CMS程序时的style;
+*/
+body{
+	font-family:"Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
+	background-color:#f8f8f8;
+    color:#555;
+}
+/*setup*/
+body.setup .setupBox{
+	width:40vw;
+	margin:40px auto;
+	padding:20px 60px;
+	border-radius:8px;
+	background-color:#fff;
+	border:1px solid #dedede;
+	font-size:16px;
+}
+body.setup .setupBox h1{
+	margin-bottom:20px;
+	font-weight:700;
+}
+body.setup .logoColor{
+	color:#E64A19;
+	font-style:normal;
+}
+body.setup form{
+	margin-bottom:.9em;
+}
+body.setup .setupBox p{
+	text-indent:2em;
+}
+body.setup .setupBox ol{
+	margin-top:1em;
+}
+body.setup .setupBox ol li{
+	line-height:1.8em;
+}
+body.setup .setupBox textarea{
+	width:100%;
+	margin-bottom:1em;
+	margin-top:1em;
+}
