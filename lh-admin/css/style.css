@@ -41,3 +41,11 @@ body.setup .setupBox textarea{
 	margin-bottom:1em;
 	margin-top:1em;
 }
+body.setup .setupBox .table{
+	font-size:14px;
+	margin-top:30px;
+	margin-bottom:30px;
+}
+body.setup .setupBox .table td{
+	vertical-align:middle;
+}

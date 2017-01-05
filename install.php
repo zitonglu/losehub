@@ -19,8 +19,50 @@
  * @copyright LoseHub
  * @version 1.0
  */
-global $LH;
 $step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
+$dbhost = isset( $_POST['dbhost'] ) ? (string) $_POST['dbhost'] : 'localhost';
+$dbuser = isset( $_POST['dbuser'] ) ? (string) $_POST['dbuser'] : 'root';
+$dbpass = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : '';
+$dbname = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
+$dbprefix = isset( $_POST['dbprefix'] ) ? (string) $_POST['dbprefix'] : 'lh_';
+if (isset($_POST['dbname'])) {
+    @$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+    if(!$conn){
+        $step = (int)2;
+        echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
+        // die('无法链接数据库' . mysql_error());
+    }else{
+        $step = (int)3;
+        // 这里应该链接全局变量了
+        $GLOBALS['dataBase'] = array(
+            'dbhost' => $dbhost,
+            'dbuser' => $dbuser,
+            'dbpass' => $dbpass,
+            'dbname' => $dbname,
+            'dbprefix' => $dbprefix
+        );
+    }
+}
+if(isset($_POST['title'])){
+    $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
+    $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
+    $password = isset( $_POST['password'] ) ? $_POST['password'] : '';
+    $password2 = isset( $_POST['password2'] ) ? $_POST['password2'] : '';
+    $Email = isset( $_POST['Email'] ) ? $_POST['Email'] : '';
+    if ($password != $password2) {
+        $step = 3;
+        echo '<p class="text-danger text-center">两次密码输入不一致</p>';
+    }else{
+        $step = 4;
+        // 这里应该链接全局变量了
+        $GLOBALS['admin'] = array(
+            'title' => $title,
+            'admin' => $admin,
+            'password' => $password,
+            'email' => $Email
+        );
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -46,19 +88,26 @@ switch ($step) {
     case 1:
         setup1();
         break;
+    case 2:
+        setup2();
+        break;
+    case 3:
+        setup3();
+        break;
+    case 4:
+        setup4();
+        break;
     default:
-        echo $step;
+        echo '<p>安装错误，请重新打开安装！</p>';
         break;
 }
 ?>
     </form>
     <input type="button" class="btn btn-default pull-left" value="← 返回" onclick="javascript:window.history.back(-1);">
-<!-- 安装第一步 -->
+<!-- 安装步骤 -->
 <?php 
-function setup0(){ 
-    $step = (int)1;
-?>
-    <input type="hidden" name="step" id="step" value="<?php echo $step;?>"/>
+function setup0(){ ?>
+    <input type="hidden" name="step" value="1"/>
     <p>
         感谢您使用 LoseHub 。LoseHub 基于 PHP 技术，采用 MySQL 或 SQLite 或 PostgreSQL 作为数据库，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的移动端站点解决方案。
     </p>
@@ -92,11 +141,9 @@ function setup0(){
     <p class="text-right">协议发布时间：2017 年 1 月 1 日</p>
     <input type="submit" class="btn btn-default pull-right" value="我同意，继续安装 →">
 <?php }
-//Setup1 end
-function setup1(){ 
-    $step = (int)2;
-?>
-    <input type="hidden" name="step" id="step" value="<?php echo $step;?>"/>
+//Setup0 end
+function setup1(){ ?>
+    <input type="hidden" name="step" value="2"/>
     <p>
         欢迎使用 LoseHub 。在安装程序开始前，请准备好如下信息：
     </p>
@@ -109,18 +156,89 @@ function setup1(){
     </ol>
     <input type="submit" class="btn btn-default pull-right" value="现在开始安装 →">
 
+<?php }
+//Setup1 end
+function setup2(){ 
+    $dbhost = isset( $_POST['dbhost'] ) ? (string) $_POST['dbhost'] : 'localhost';
+    $dbuser = isset( $_POST['dbuser'] ) ? (string) $_POST['dbuser'] : 'root';
+    $dbpass = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : '';
+    $dbname = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
+    $dbprefix = isset( $_POST['prefix'] ) ? (string) $_POST['prefix'] : 'lh_';
+?>
+    <p>请填写下面信息，如果您不确定，请联系您的服务提供商。</p>
+    <table class="table table-striped" valign="middle">
+        <tbody>
+            <tr>
+                <td class="text-right">数据库名：</td>
+                <td><input type="text" name="dbname" class="form-control" required="required" value="<?php echo $dbname; ?>"></td>
+                <td>安装在哪个数据库</td>
+            </tr>
+            <tr>
+                <td class="text-right">用户名：</td>
+                <td><input type="text" name="dbuser" class="form-control" required="required" value="<?php echo $dbuser; ?>"></td>
+                <td>您的MySQL用户名</td>
+            </tr>
+            <tr>
+                <td class="text-right">密码：</td>
+                <td><input name="dbpass" type="password" class="form-control" value="<?php echo $dbpass; ?>"></td>
+                <td>您的MySQL的密码</td>
+            </tr>
+            <tr>
+                <td class="text-right">数据库主机名：</td>
+                <td><input type="text" name="dbhost" class="form-control"
+                required="required" value="<?php echo $dbhost; ?>"></td>
+                <td>localhost为本地</td>
+            </tr>
+            <tr>
+                <td class="text-right">表前缀：</td>
+                <td><input type="text" name="dbprefix" class="form-control" value="<?php echo $dbprefix; ?>"></td>
+                <td>可区分多个程序</td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
+<?php } //Setup2 end
+function setup3(){ 
+    global $dataBase;
+    $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
+    $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
+    // $password = isset( $_POST['password'] ) ? (string) $_POST['password'] : '';
+    // $password2 = isset( $_POST['password2'] ) ? (string) $_POST['password2'] : '';
+    $Email = isset( $_POST['Email'] ) ? $_POST['Email'] : '';
+?>
+    <p>您的数据库链接正常，请设置管理员及相关信息。</p>
+    <table class="table table-striped" valign="middle">
+        <tbody>
+            <tr>
+                <td class="text-right">站点名称：</td>
+                <td><input type="text" name="title" class="form-control" required="required" value="<?php echo $title; ?>"></td>
+            </tr>
+            <tr>
+                <td class="text-right">管理员名称：</td>
+                <td><input type="text" name="admin" class="form-control" required="required" value="<?php echo $admin; ?>"></td>
+            </tr>
+            <tr>
+                <td class="text-right">密码：</td>
+                <td><input name="password" type="password" class="form-control" required="required" value="<?php echo @$password; ?>"></td>
+            </tr>
+            <tr>
+                <td class="text-right">重复密码：</td>
+                <td><input name="password2" type="password" class="form-control" required="required" value="<?php echo @$password2; ?>"></td>
+            </tr>
+            <tr>
+                <td class="text-right">邮箱：</td>
+                <td><input type="email" name="Email" class="form-control" required="required" value="<?php echo $Email; ?>"></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
+<?php } //setup3 end
+function setup4(){ ?>
+    <p>恭喜，您已安装成功！</p>
+    <input type="button" class="btn btn-default pull-right" value="登录网站" onClick="window.location.href='index.php'">
 <?php } ?><!-- setp end -->
 </div><!-- setupBox end -->
 
-<?php
-	$dbhost = 'localhost:3306';  //mysql服务器主机地址
-	$dbuser = 'localhost';      //mysql用户名
-	$dbpass = '';//mysql用户名密码
-	$conn = mysql_connect($dbhost, $dbuser, $dbpass);
-	if(!$conn ){
-		die('无法链接数据库' . mysql_error());
-	}
-?>
 <!-- Bootstrap jQuery -->
 <script src="lh-admin/js/jquery-2.2.4.min.js"></script>
 <script src="lh-admin/js/bootstrap.min.js"></script>
