@@ -32,8 +32,7 @@ if (isset($_POST['dbname'])) {
         echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
         // die('无法链接数据库' . mysql_error());
     }else{
-        $step = (int)3;
-        // 这里应该链接全局变量了
+        // 定义数据库的全局变量
         $GLOBALS['dataBase'] = array(
             'dbhost' => $dbhost,
             'dbuser' => $dbuser,
@@ -41,6 +40,11 @@ if (isset($_POST['dbname'])) {
             'dbname' => $dbname,
             'dbprefix' => $dbprefix
         );
+        if (mysql_query('CREATE DATABASE '.$dataBase['dbname'],$conn)) {
+            $step = (int)3;
+        }else{
+            echo '创建数据库出错，错误号：'.mysql_errno().'<br>错误原因：'.mysql_error();
+        }
     }
 }
 if(isset($_POST['title'])){
@@ -54,8 +58,8 @@ if(isset($_POST['title'])){
         echo '<p class="text-danger text-center">两次密码输入不一致</p>';
     }else{
         $step = 4;
-        // 这里应该链接全局变量了
-        $GLOBALS['admin'] = array(
+        // 定义管理员的全局变量
+        $GLOBALS['adminInf'] = array(
             'title' => $title,
             'admin' => $admin,
             'password' => $password,
@@ -233,10 +237,14 @@ function setup3(){
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } //setup3 end
-function setup4(){ ?>
-    <p>恭喜，您已安装成功！</p>
-    <input type="button" class="btn btn-default pull-right" value="登录网站" onClick="window.location.href='index.php'">
+function setup4(){
+    require_once('lh-admin/function/createdb.php');
+    ?>
+    <p><br></p>
+    <input type="submit" class="btn btn-default pull-right" value="进入网站" >
+    <!-- onClick="window.location.href='index.php'" -->
 <?php } ?><!-- setp end -->
+
 </div><!-- setupBox end -->
 
 <!-- Bootstrap jQuery -->
