@@ -236,7 +236,7 @@ function setup3(){
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } //setup3 end
 function setup4(){
-    require_once('lh-admin/function/createdb.php');
+    require('lh-admin/function/createdb.php');
 ?>
     <p><br></p>
     <input type="submit" class="btn btn-default pull-right" value="进入网站" >
