@@ -33,41 +33,38 @@ $dataBase['dbpass'] = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : ''
 $dataBase['dbname'] = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
 $dataBase['dbprefix'] = isset( $_POST['dbprefix'] ) ? (string) $_POST['dbprefix'] : 'lh_';
 
-$step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
+// 定义管理员的全局变量
+$GLOBALS['adminInf'] = array(
+    'title' => '',
+    'admin' => '',
+    'password' => '',
+    'email' => '',
+);
+$adminInf['title'] = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
+$adminInf['admin'] = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
+$adminInf['password'] = isset( $_POST['password'] ) ? $_POST['password'] : '';
+$adminInf['email'] = isset( $_POST['email'] ) ? $_POST['email'] : '';
 
+$step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
+// 用PDO方法检查数据库是否正常
 if (isset($_POST['dbname'])) {
-    @$conn = mysql_connect($dataBase['dbhost'], $dataBase['dbuser'], $dataBase['dbpass']);
-    if(!$conn){
-        $step = (int)2;
+    try {
+    $dsn = 'mysql:host='.$dataBase['dbhost'].';dbname='.$dataBase['dbname'];
+    $dbh = new PDO($dsn,$dataBase['dbuser'],$dataBase['dbpass']);
+    $step = (int)3;
+    } catch (PDOException $e) {
+        echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
         echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
-    }else{
-        if (mysql_query('CREATE DATABASE '.$dataBase['dbname'],$conn)) {
-            $step = (int)3;
-        }else{
-            echo '<p class="text-center">创建数据库出错，错误号：'.mysql_errno().'<br>错误原因：'.mysql_error().'</p>';
-            $step = (int)2;
-        }
+        $step = (int)2;
     }
 }
-
-if(isset($_POST['title'])){
-    $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
-    $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
-    $password = isset( $_POST['password'] ) ? $_POST['password'] : '';
-    $password2 = isset( $_POST['password2'] ) ? $_POST['password2'] : '';
-    $Email = isset( $_POST['Email'] ) ? $_POST['Email'] : '';
-    if ($password != $password2) {
+// 检查初始密码是否正确
+if(isset($_POST['password'])){
+    if ($_POST['password'] != $_POST['password2']) {
         $step = 3;
         echo '<p class="text-danger text-center">两次密码输入不一致</p>';
     }else{
         $step = 4;
-        // 定义管理员的全局变量
-        $GLOBALS['adminInf'] = array(
-            'title' => $title,
-            'admin' => $admin,
-            'password' => $password,
-            'email' => $Email,
-        );
     }
 }
 ?>
@@ -201,35 +198,31 @@ function setup2(){
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } //Setup2 end
-function setup3(){ 
-    $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
-    $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
-    // $password = isset( $_POST['password'] ) ? (string) $_POST['password'] : '';
-    // $password2 = isset( $_POST['password2'] ) ? (string) $_POST['password2'] : '';
-    $Email = isset( $_POST['Email'] ) ? $_POST['Email'] : '';
+function setup3(){
+    global $adminInf; 
 ?>
     <p>您的数据库链接正常，请设置管理员及相关信息。</p>
     <table class="table table-striped" valign="middle">
         <tbody>
             <tr>
                 <td class="text-right">站点名称：</td>
-                <td><input type="text" name="title" class="form-control" required="required" value="<?php echo $title; ?>"></td>
+                <td><input type="text" name="title" class="form-control" required="required" value="<?php echo $adminInf['title']; ?>"></td>
             </tr>
             <tr>
                 <td class="text-right">管理员名称：</td>
-                <td><input type="text" name="admin" class="form-control" required="required" value="<?php echo $admin; ?>"></td>
+                <td><input type="text" name="admin" class="form-control" required="required" value="<?php echo $adminInf['admin']; ?>"></td>
             </tr>
             <tr>
                 <td class="text-right">密码：</td>
-                <td><input name="password" type="password" class="form-control" required="required" value="<?php echo @$password; ?>"></td>
+                <td><input name="password" type="password" class="form-control" required="required" value="<?php echo $adminInf['password']; ?>"></td>
             </tr>
             <tr>
                 <td class="text-right">重复密码：</td>
-                <td><input name="password2" type="password" class="form-control" required="required" value="<?php echo @$password2; ?>"></td>
+                <td><input name="password2" type="password" class="form-control" required="required" value=""></td>
             </tr>
             <tr>
                 <td class="text-right">邮箱：</td>
-                <td><input type="email" name="Email" class="form-control" required="required" value="<?php echo $Email; ?>"></td>
+                <td><input type="email" name="email" class="form-control" required="required" value="<?php echo $adminInf['email']; ?>"></td>
             </tr>
         </tbody>
     </table>
