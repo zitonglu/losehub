@@ -19,34 +19,37 @@
  * @copyright LoseHub
  * @version 1.0
  */
+// 数据库全局变量
+$GLOBALS['dataBase'] = array(
+    'dbhost' => '',
+    'dbuser' => '',
+    'dbpass' => '',
+    'dbname' => '',
+    'dbprefix' => '',
+);
+$dataBase['dbhost'] = isset( $_POST['dbhost'] ) ? (string) $_POST['dbhost'] : 'localhost';
+$dataBase['dbuser'] = isset( $_POST['dbuser'] ) ? (string) $_POST['dbuser'] : 'root';
+$dataBase['dbpass'] = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : '';
+$dataBase['dbname'] = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
+$dataBase['dbprefix'] = isset( $_POST['dbprefix'] ) ? (string) $_POST['dbprefix'] : 'lh_';
+
 $step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
-$dbhost = isset( $_POST['dbhost'] ) ? (string) $_POST['dbhost'] : 'localhost';
-$dbuser = isset( $_POST['dbuser'] ) ? (string) $_POST['dbuser'] : 'root';
-$dbpass = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : '';
-$dbname = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
-$dbprefix = isset( $_POST['dbprefix'] ) ? (string) $_POST['dbprefix'] : 'lh_';
+
 if (isset($_POST['dbname'])) {
-    @$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+    @$conn = mysql_connect($dataBase['dbhost'], $dataBase['dbuser'], $dataBase['dbpass']);
     if(!$conn){
         $step = (int)2;
         echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
-        // die('无法链接数据库' . mysql_error());
     }else{
-        // 定义数据库的全局变量
-        $GLOBALS['dataBase'] = array(
-            'dbhost' => $dbhost,
-            'dbuser' => $dbuser,
-            'dbpass' => $dbpass,
-            'dbname' => $dbname,
-            'dbprefix' => $dbprefix
-        );
         if (mysql_query('CREATE DATABASE '.$dataBase['dbname'],$conn)) {
             $step = (int)3;
         }else{
-            echo '创建数据库出错，错误号：'.mysql_errno().'<br>错误原因：'.mysql_error();
+            echo '<p class="text-center">创建数据库出错，错误号：'.mysql_errno().'<br>错误原因：'.mysql_error().'</p>';
+            $step = (int)2;
         }
     }
 }
+
 if(isset($_POST['title'])){
     $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
     $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
@@ -63,7 +66,7 @@ if(isset($_POST['title'])){
             'title' => $title,
             'admin' => $admin,
             'password' => $password,
-            'email' => $Email
+            'email' => $Email,
         );
     }
 }
@@ -163,39 +166,35 @@ function setup1(){ ?>
 <?php }
 //Setup1 end
 function setup2(){ 
-    $dbhost = isset( $_POST['dbhost'] ) ? (string) $_POST['dbhost'] : 'localhost';
-    $dbuser = isset( $_POST['dbuser'] ) ? (string) $_POST['dbuser'] : 'root';
-    $dbpass = isset( $_POST['dbpass'] ) ? (string) $_POST['dbpass'] : '';
-    $dbname = isset( $_POST['dbname'] ) ? (string) $_POST['dbname'] : 'losehub';
-    $dbprefix = isset( $_POST['prefix'] ) ? (string) $_POST['prefix'] : 'lh_';
-?>
+    global $dataBase;
+    ?>
     <p>请填写下面信息，如果您不确定，请联系您的服务提供商。</p>
     <table class="table table-striped" valign="middle">
         <tbody>
             <tr>
                 <td class="text-right">数据库名：</td>
-                <td><input type="text" name="dbname" class="form-control" required="required" value="<?php echo $dbname; ?>"></td>
+                <td><input type="text" name="dbname" class="form-control" required="required" value="<?php echo $dataBase['dbname']; ?>"></td>
                 <td>安装在哪个数据库</td>
             </tr>
             <tr>
                 <td class="text-right">用户名：</td>
-                <td><input type="text" name="dbuser" class="form-control" required="required" value="<?php echo $dbuser; ?>"></td>
+                <td><input type="text" name="dbuser" class="form-control" required="required" value="<?php echo $dataBase['dbuser']; ?>"></td>
                 <td>您的MySQL用户名</td>
             </tr>
             <tr>
                 <td class="text-right">密码：</td>
-                <td><input name="dbpass" type="password" class="form-control" value="<?php echo $dbpass; ?>"></td>
+                <td><input name="dbpass" type="password" class="form-control" value="<?php echo $dataBase['dbpass']; ?>"></td>
                 <td>您的MySQL的密码</td>
             </tr>
             <tr>
                 <td class="text-right">数据库主机名：</td>
                 <td><input type="text" name="dbhost" class="form-control"
-                required="required" value="<?php echo $dbhost; ?>"></td>
+                required="required" value="<?php echo $dataBase['dbhost']; ?>"></td>
                 <td>localhost为本地</td>
             </tr>
             <tr>
                 <td class="text-right">表前缀：</td>
-                <td><input type="text" name="dbprefix" class="form-control" value="<?php echo $dbprefix; ?>"></td>
+                <td><input type="text" name="dbprefix" class="form-control" value="<?php echo $dataBase['dbprefix']; ?>"></td>
                 <td>可区分多个程序</td>
             </tr>
         </tbody>
@@ -203,7 +202,6 @@ function setup2(){
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } //Setup2 end
 function setup3(){ 
-    global $dataBase;
     $title = isset( $_POST['title'] ) ? (string) $_POST['title'] : '站点名称';
     $admin = isset( $_POST['admin'] ) ? (string) $_POST['admin'] : 'admin';
     // $password = isset( $_POST['password'] ) ? (string) $_POST['password'] : '';
@@ -239,7 +237,7 @@ function setup3(){
 <?php } //setup3 end
 function setup4(){
     require_once('lh-admin/function/createdb.php');
-    ?>
+?>
     <p><br></p>
     <input type="submit" class="btn btn-default pull-right" value="进入网站" >
     <!-- onClick="window.location.href='index.php'" -->
