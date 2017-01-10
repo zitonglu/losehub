@@ -7,12 +7,10 @@
  */
 
 // 数据库相关信息
-$GLOBALS['dataBase'] = array(
-	'dbhost' => '',
-	'dbuser' => '',
-	'dbpass' => '',
-	'dbname' => '',
-	'dbprefix' => '',
-);
+$GLOBALS['LH'] = array();
+
+if ($LH == null) {
+	$LH
+}
 
 ?>

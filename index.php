@@ -19,5 +19,8 @@
  * @copyright 紫铜炉
  * @version 1.0
  */
-require 'lh-admin/web/index.php';
+require('lh-admin/function/base.php');
+
+print_r($LH);
+
 ?>

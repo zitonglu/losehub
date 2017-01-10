@@ -19,6 +19,8 @@
  * @copyright LoseHub
  * @version 1.0
  */
+require('lh-admin/function/base.php');
+
 // 数据库全局变量
 $GLOBALS['dataBase'] = array(
     'dbhost' => '',
@@ -48,9 +50,15 @@ $adminInf['email'] = isset( $_POST['email'] ) ? $_POST['email'] : '';
 $step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
 // 用PDO方法检查数据库是否正常
 if (isset($_POST['dbname'])) {
+    $conn = mysql_connect($dataBase['dbhost'], $dataBase['dbuser'], $dataBase['dbpass']);
+    if ($conn) {
+        $sql = 'CREATE DATABASE '.$dataBase['dbname'];
+        mysql_query($sql,$conn);
+    }
     try {
     $dsn = 'mysql:host='.$dataBase['dbhost'].';dbname='.$dataBase['dbname'];
     $dbh = new PDO($dsn,$dataBase['dbuser'],$dataBase['dbpass']);
+    $dbh->exec($sql);
     $step = (int)3;
     } catch (PDOException $e) {
         echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
@@ -232,8 +240,7 @@ function setup4(){
     require('lh-admin/function/createdb.php');
 ?>
     <p><br></p>
-    <input type="submit" class="btn btn-default pull-right" value="进入网站" >
-    <!-- onClick="window.location.href='index.php'" -->
+    <input type="submit" class="btn btn-default pull-right" value="进入网站" onClick="window.location.href='index.php'">
 <?php } ?><!-- setp end -->
 
 </div><!-- setupBox end -->
@@ -243,3 +250,7 @@ function setup4(){
 <script src="lh-admin/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php
+    $LH = array_merge($LH,$dataBase);
+    print_r($LH);
+?>
