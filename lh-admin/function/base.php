@@ -6,11 +6,18 @@
  * @copyright (C) 紫铜炉
  */
 
-// 数据库相关信息
-$GLOBALS['LH'] = array();
 
-if ($LH == null) {
-	$LH
+//安装地址 
+defined('LH_PATH') || define('LH_PATH', rtrim(str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../')), '/') . '/');
+
+$GLOBALS['abc'] = fopen('C:\xampp\htdocs\zblog\zb_users\c_option.php', 'r');
+
+function foo(){
+	global $abc;
+	$abc;
+}
+foreach($foo as $k=>$v){
+ echo $k.'=>'.$v.'<br/>';
 }
 
 ?>

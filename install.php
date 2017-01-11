@@ -250,7 +250,3 @@ function setup4(){
 <script src="lh-admin/js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php
-    $LH = array_merge($LH,$dataBase);
-    print_r($LH);
-?>

@@ -39,6 +39,11 @@ function setup_createTable(){
 	$conn = null;
 }
 
-setup_createTable();
+// 保存数据库登录信息
+function SN($value=''){
+	# code...
+}
 
+setup_createTable();
+	
 ?>

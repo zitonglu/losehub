@@ -21,6 +21,6 @@
  */
 require('lh-admin/function/base.php');
 
-print_r($LH);
+
 
 ?>
