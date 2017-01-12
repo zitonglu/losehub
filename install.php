@@ -48,7 +48,7 @@ $adminInf['password'] = isset( $_POST['password'] ) ? $_POST['password'] : '';
 $adminInf['email'] = isset( $_POST['email'] ) ? $_POST['email'] : '';
 
 $step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
-// 用PDO方法检查数据库是否正常
+// 检查数据库是否正常并且创建数据库名
 if (isset($_POST['dbname'])) {
     $conn = mysql_connect($dataBase['dbhost'], $dataBase['dbuser'], $dataBase['dbpass']);
     if ($conn) {
@@ -75,6 +75,14 @@ if(isset($_POST['password'])){
         $step = 4;
     }
 }
+// 保存数据库登录的信息
+function LH_setup_echo(){
+    global $dataBase;
+    $str = "<?php return ";
+    $str .= var_export($dataBase,TRUE);
+    $str .= " ?>";
+    file_put_contents('lh-user\database.php', $str);
+}
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -90,7 +98,7 @@ if(isset($_POST['password'])){
 </head>
 <body class="setup">
 <div class="setupBox">
-    <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS</h1>
+    <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS <small>v<?PHP echo LH_VERSION; ?></small></h1>
     <form method="post" action="install.php?step=<?php echo $step + 1 ;?>"> 
 <?php
 switch ($step) {
@@ -205,7 +213,8 @@ function setup2(){
         </tbody>
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
-<?php } //Setup2 end
+<?php } 
+//Setup2 end
 function setup3(){
     global $adminInf; 
 ?>
@@ -235,12 +244,13 @@ function setup3(){
         </tbody>
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
-<?php } //setup3 end
+<?php } 
+//setup3 end
 function setup4(){
     require('lh-admin/function/createdb.php');
 ?>
     <p><br></p>
-    <input type="submit" class="btn btn-default pull-right" value="进入网站" onClick="window.location.href='index.php'">
+    <a href="index.php" class="btn btn-default pull-right">进入网站</a>
 <?php } ?><!-- setp end -->
 
 </div><!-- setupBox end -->
