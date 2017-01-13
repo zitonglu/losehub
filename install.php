@@ -14,10 +14,13 @@
  */
 
 /**
- * LoseHub CMS 安装程序
- * @author 紫铜炉
+ * LoseHub CMS 安装程序:setup
  * @copyright LoseHub
- * @version 1.0
+ * @author 紫铜炉 910109610@QQ.com
+ * @global $dataBase,$adminInf
+ * @version 2017-1-13
+ * 
+ * @return login.php (bataBase and LH-USER\DATABASE.PHP)
  */
 require('lh-admin/function/base.php');
 
@@ -75,7 +78,15 @@ if(isset($_POST['password'])){
         $step = 4;
     }
 }
-// 保存数据库登录的信息
+/**
+ * 输出数据库相关信息到文件
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $str
+ * @package setup
+ * @version 2017-1-13
+ *
+ * @return LH-USER\DATABASE.PHP
+ */
 function LH_setup_echo(){
     global $dataBase;
     $str = "<?php return ";
@@ -124,8 +135,16 @@ switch ($step) {
 ?>
     </form>
     <input type="button" class="btn btn-default pull-left" value="← 返回" onclick="javascript:window.history.back(-1);">
-<!-- 安装步骤 -->
+
 <?php 
+/**
+ * 安装第一步：版本说明
+ * @author 紫铜炉 910109610@QQ.com
+ * @package setup
+ * @version 2017-1-6
+ *
+ * @return setup1();
+ */
 function setup0(){ ?>
     <input type="hidden" name="step" value="1"/>
     <p>
@@ -161,7 +180,14 @@ function setup0(){ ?>
     <p class="text-right">协议发布时间：2017 年 1 月 1 日</p>
     <input type="submit" class="btn btn-default pull-right" value="我同意，继续安装 →">
 <?php }
-//Setup0 end
+/**
+ * 安装第二步：准备说明提示
+ * @author 紫铜炉 910109610@QQ.com
+ * @package setup
+ * @version 2017-1-6
+ *
+ * @return setup2();
+ */
 function setup1(){ ?>
     <input type="hidden" name="step" value="2"/>
     <p>
@@ -175,9 +201,15 @@ function setup1(){ ?>
         <li>数据表前缀</li>
     </ol>
     <input type="submit" class="btn btn-default pull-right" value="现在开始安装 →">
-
 <?php }
-//Setup1 end
+/**
+ * 安装第三步：input数据库相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @package setup
+ * @version 2017-1-10
+ *
+ * @return setup3(); $dataBase value
+ */
 function setup2(){ 
     global $dataBase;
     ?>
@@ -214,7 +246,14 @@ function setup2(){
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } 
-//Setup2 end
+/**
+ * 安装第三步：input管理员相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @package setup
+ * @version 2017-1-11
+ *
+ * @return setup4(); $adminInf value
+ */
 function setup3(){
     global $adminInf; 
 ?>
@@ -245,12 +284,19 @@ function setup3(){
     </table>
     <input type="submit" class="btn btn-default pull-right" value="提交，安装 →">
 <?php } 
-//setup3 end
+/**
+ * 安装第三步：input管理员相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @package setup
+ * @version 2017-1-13
+ *
+ * @return a->lh-admin/login.php
+ */
 function setup4(){
     require('lh-admin/function/createdb.php');
 ?>
     <p><br></p>
-    <a href="index.php" class="btn btn-default pull-right">进入网站</a>
+    <a href="lh-admin/login.php" class="btn btn-default pull-right">进入网站</a>
 <?php } ?><!-- setp end -->
 
 </div><!-- setupBox end -->

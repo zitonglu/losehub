@@ -1,4 +1,13 @@
 <?php
+/**
+ * LoseHub CMS 安装程序:setup - createdb
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global $conn
+ * @version 2017-1-13
+ * 
+ * @return none
+ */
 global $dataBase;
 
 try {
@@ -10,7 +19,15 @@ try {
 	echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
 }
 
-// 创建user表
+/**
+ * 创建user数据表，并写入管理员相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2017-1-12
+ *
+ * @return <p>
+ */
 function LH_setup_CTuser(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'user';
