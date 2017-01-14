@@ -1,5 +1,6 @@
 /*
 	1.setup:安装CMS程序时的style;
+	2.login:登录后台界面的style;
 */
 body{
 	font-family:"Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -7,7 +8,7 @@ body{
     color:#555;
 }
 /*setup*/
-body.setup .setupBox{
+body#setup .setupBox{
 	width:40vw;
 	margin:40px auto;
 	padding:20px 60px;
@@ -16,36 +17,74 @@ body.setup .setupBox{
 	border:1px solid #dedede;
 	font-size:16px;
 }
-body.setup .setupBox h1{
+body#setup .setupBox h1{
 	margin-bottom:20px;
 	font-weight:700;
 }
-body.setup .logoColor{
+body#setup .logoColor{
 	color:#E64A19;
 	font-style:normal;
 }
-body.setup form{
+body#setup form{
 	margin-bottom:.9em;
 }
-body.setup .setupBox p{
+body#setup .setupBox p{
 	text-indent:2em;
 }
-body.setup .setupBox ol{
+body#setup .setupBox ol{
 	margin-top:1em;
 }
-body.setup .setupBox ol li{
+body#setup .setupBox ol li{
 	line-height:1.8em;
 }
-body.setup .setupBox textarea{
+body#setup .setupBox textarea{
 	width:100%;
 	margin-bottom:1em;
 	margin-top:1em;
 }
-body.setup .setupBox .table{
+body#setup .setupBox .table{
 	font-size:14px;
 	margin-top:30px;
 	margin-bottom:30px;
 }
-body.setup .setupBox .table td{
+body#setup .setupBox .table td{
 	vertical-align:middle;
+}
+/*login*/
+body#login .form-signin{
+	max-width:330px;
+	margin:100px auto 0;
+	border:1px solid #dedede;
+	border-radius:8px;
+	background:#fff;
+	overflow:hidden;
+}
+body#login .form-signin h2.form-signin-heading{
+	margin: 0;
+	padding: 20px 15px;
+	text-align: center;
+	background: #41cac0;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 600;
+}
+body#login .form-signin .login-wrap{
+	padding:20px;
+}
+body#login .form-signin input[type="text"],
+body#login .form-signin input[type="password"]{
+	margin-bottom:20px;
+	border: 1px solid #eaeaea;
+	font-size: 12px;
+	text-align:center;
+}
+body#login .form-signin .checkbox{
+	color: #b6b6b6;
+	font-weight: 300;
+	margin-left:20px;
+}
+body#login .form-signin .btn-login{
+	display: block;
+	width: 100%;
+	margin-bottom:10px;
 }

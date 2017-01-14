@@ -1,9 +1,11 @@
 <?php
 /**
- * 系统初始化等相关操作
- * @package LoseHub
- * @subpackage System/Base 基础操作
- * @copyright (C) 紫铜炉
+ * LoseHub CMS 基础设置数据
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2017-1-13
+ * 
+ * @return none
  */
 //版本号
 define('LH_VERSION_MAJOR','1');

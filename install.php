@@ -107,7 +107,7 @@ function LH_setup_echo(){
     <!-- My CSS -->
     <link href="lh-admin/css/style.css" rel="stylesheet">
 </head>
-<body class="setup">
+<body id="setup">
 <div class="setupBox">
     <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS <small>v<?PHP echo LH_VERSION; ?></small></h1>
     <form method="post" action="install.php?step=<?php echo $step + 1 ;?>"> 
@@ -301,8 +301,8 @@ function setup4(){
 
 </div><!-- setupBox end -->
 
-<!-- Bootstrap jQuery -->
+<!-- Bootstrap jQuery 
 <script src="lh-admin/js/jquery-2.2.4.min.js"></script>
-<script src="lh-admin/js/bootstrap.min.js"></script>
+<script src="lh-admin/js/bootstrap.min.js"></script>-->
 </body>
 </html>
