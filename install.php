@@ -53,13 +53,9 @@ $adminInf['email'] = isset( $_POST['email'] ) ? $_POST['email'] : '';
 $step = isset( $_POST['step'] ) ? (int) $_POST['step'] : 0;
 // 检查数据库是否正常并且创建数据库名
 if (isset($_POST['dbname'])) {
-    $conn = mysql_connect($dataBase['dbhost'], $dataBase['dbuser'], $dataBase['dbpass']);
-    if ($conn) {
-        $sql = 'CREATE DATABASE '.$dataBase['dbname'];
-        mysql_query($sql,$conn);
-    }
+    $sql = 'CREATE DATABASE '.$dataBase['dbname'];
     try {
-    $dsn = 'mysql:host='.$dataBase['dbhost'].';dbname='.$dataBase['dbname'];
+    $dsn = 'mysql:host='.$dataBase['dbhost'];
     $dbh = new PDO($dsn,$dataBase['dbuser'],$dataBase['dbpass']);
     $dbh->exec($sql);
     $step = (int)3;

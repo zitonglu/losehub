@@ -3,9 +3,9 @@
  * LoseHub CMS 后台登录界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @version 2017-1-14
+ * @version 2017-1-15
  * 
- * @return edit.php
+ * @return redirect edit.php
  */
 require('function/base.php');
 
@@ -16,26 +16,27 @@ if (!file('../lh-user/database.php')) {
   $tableName = $dataBase['dbprefix'].'user';
 }
 
-$mysql = mysqli_connect($dataBase['dbhost'],$dataBase['dbuser'],$dataBase['dbpass']);
-if (!$mysql) {
-  echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
-}
-
-$selected = mysqli_select_db($mysql,'user_login');
-if ($selected) {
-  echo '<p class="text-danger text-center">无法搜索数据库</p>';
-  exit;
+try {
+$dsn = 'mysql:host='.$dataBase['dbhost'].';dbname='.$dataBase['dbname'];
+$dbh = new PDO($dsn,$dataBase['dbuser'],$dataBase['dbpass']);
+}catch (PDOException $e) {
+echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
+echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
 }
 
 @$userName = $_GET['userName'];
 @$userPassWord = $_GET['userPassWord'];
 
-$query = "select count(*) from `".$tableName."` where ";
+$query = "SELECT COUNT(*) FROM `".$tableName."` WHERE ";
 $query .= "`user_login` = '".$userName."'";
-$query .= " and ";
-$query .= "`user_password` = '".$userPassWord."'";
-echo $query;
-
+$query .= " AND ";
+$query .= "`user_pass` = '".$userPassWord."'";
+$count = $dbh->query($query);
+if ($count->fetchColumn() > 0) {
+  redirect('edit.php');
+}else{
+  echo '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
+}
 ?>
 
 <!DOCTYPE html>
