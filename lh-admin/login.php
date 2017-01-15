@@ -33,10 +33,13 @@ $query .= " AND ";
 $query .= "`user_pass` = '".$userPassWord."'";
 $count = $dbh->query($query);
 if ($count->fetchColumn() > 0) {
-  redirect('edit.php');
+  setcookie("LH_cookie_user",$userName,time()+3600);
+  redirect('edit.php?act='.$userName);
 }else{
+  setcookie("LH_cookie_user");
   echo '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
 }
+
 ?>
 
 <!DOCTYPE html>

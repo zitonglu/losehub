@@ -7,6 +7,11 @@
  * 
  * @return ？？
  */
+require('function/base.php');
+
+if (editUser() == FALSE) {
+	redirect('login.php');
+}
 
 ?>
 <!DOCTYPE html>
@@ -16,6 +21,6 @@
 	<title>Document</title>
 </head>
 <body>
-	111111
+	<a href=""></a>
 </body>
 </html>
