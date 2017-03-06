@@ -27,3 +27,4 @@ if (!file('lh-user/database.php')) {
   redirect('install.php');
   exit;
 }
+?>
