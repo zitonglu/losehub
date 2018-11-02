@@ -99,7 +99,7 @@ function LH_setup_echo(){
 	<meta name="author" content="Zitonglu">
 	<title>LoseHub CMS程序安装</title>
 	<!-- Bootstrap core CSS -->
-    <link href="lh-admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/css/bootstrap.min.css" rel="stylesheet">
     <!-- My CSS -->
     <link href="lh-admin/css/style.css" rel="stylesheet">
 </head>
@@ -171,7 +171,7 @@ function setup0(){ ?>
 3. 电子文本形式的授权协议如同双方书面签署的协议一样，具有完全的和等同的法律效力。您一旦开始确认本协议并安装 LoseHub ，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。协议许可范围以外的行为，将直接违反本授权协议并构成侵权，我们有权随时终止授权，责令停止损害，并保留追究相关责任的权力。
 4. 如果本软件带有其它软件的整合API示范例子包，这些文件版权不属于本软件官方，并且这些文件是没经过授权发布的，请参考相关软件的使用许可合法的使用。
 
-版权所有 ©2017 - 2017，LoseHub 保留所有权利。
+版权所有 ©2017 - 2020，LoseHub 保留所有权利。
     </textarea>
     <p class="text-right">协议发布时间：2017 年 1 月 1 日</p>
     <input type="submit" class="btn btn-default pull-right" value="我同意，继续安装 →">
@@ -298,7 +298,7 @@ function setup4(){
 </div><!-- setupBox end -->
 
 <!-- Bootstrap jQuery 
-<script src="lh-admin/js/jquery-2.2.4.min.js"></script>
-<script src="lh-admin/js/bootstrap.min.js"></script>-->
+<script src="public/js/jquery-2.2.4.min.js"></script>
+<script src="public/js/bootstrap.min.js"></script>-->
 </body>
 </html>
