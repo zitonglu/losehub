@@ -20,7 +20,7 @@
  * @global $dataBase,$adminInf
  * @version 2017-1-13
  * 
- * @return login.php (bataBase and LH-USER\DATABASE.PHP)
+ * @return login.php (bataBase and LH-ADMIN\DATABASE.PHP)
  */
 require('lh-admin/function/base.php');
 
@@ -81,14 +81,14 @@ if(isset($_POST['password'])){
  * @package setup
  * @version 2017-1-13
  *
- * @return LH-USER\DATABASE.PHP
+ * @return LH-ADMIN\DATABASE.PHP
  */
 function LH_setup_echo(){
     global $dataBase;
     $str = "<?php return ";
     $str .= var_export($dataBase,TRUE);
     $str .= " ?>";
-    file_put_contents('lh-user\database.php', $str);
+    file_put_contents('lh-admin\database.php', $str);
 }
 ?>
 <!DOCTYPE html>
@@ -99,7 +99,7 @@ function LH_setup_echo(){
 	<meta name="author" content="Zitonglu">
 	<title>LoseHub CMS程序安装</title>
 	<!-- Bootstrap core CSS -->
-    <link href="public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lh-includes/css/bootstrap.min.css" rel="stylesheet">
     <!-- My CSS -->
     <link href="lh-admin/css/style.css" rel="stylesheet">
 </head>

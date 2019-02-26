@@ -9,10 +9,10 @@
  */
 require('function/base.php');
 
-if (!file('../lh-user/database.php')) {
+if (!file('../lh-admin/database.php')) {
   die('未安装成功或者安装有误!');
 }else{
-  $dataBase = require '../lh-user/database.php';
+  $dataBase = require '../lh-admin/database.php';
   $tableName = $dataBase['dbprefix'].'user';
 }
 
@@ -49,7 +49,7 @@ if ($count->fetchColumn() > 0) {
   <meta name="author" content="Zitonglu">
   <title>LoseHub CMS程序后台登录</title>
   <!-- Bootstrap core CSS -->
-  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../lh-includes/css/bootstrap.min.css" rel="stylesheet">
   <!-- My CSS -->
   <link href="css/style.css" rel="stylesheet">
 </head>
