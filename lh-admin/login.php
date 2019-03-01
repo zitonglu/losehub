@@ -49,9 +49,9 @@ if ($count->fetchColumn() > 0) {
   <meta name="author" content="Zitonglu">
   <title>LoseHub CMS程序后台登录</title>
   <!-- Bootstrap core CSS -->
-  <link href="../lh-includes/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../lh-includes/syle/bootstrap.min.css" rel="stylesheet">
   <!-- My CSS -->
-  <link href="css/style.css" rel="stylesheet">
+  <link href="style/style.css" rel="stylesheet">
 </head>
 <body id="login">
   <div class="container">

@@ -99,9 +99,9 @@ function LH_setup_echo(){
 	<meta name="author" content="Zitonglu">
 	<title>LoseHub CMS程序安装</title>
 	<!-- Bootstrap core CSS -->
-    <link href="lh-includes/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lh-includes/style/bootstrap.min.css" rel="stylesheet">
     <!-- My CSS -->
-    <link href="lh-admin/css/style.css" rel="stylesheet">
+    <link href="lh-admin/style/style.css" rel="stylesheet">
 </head>
 <body id="setup">
 <div class="setupBox">
@@ -144,7 +144,7 @@ switch ($step) {
 function setup0(){ ?>
     <input type="hidden" name="step" value="1"/>
     <p>
-        感谢您使用 LoseHub 。LoseHub 基于 PHP 技术，采用 MySQL 或 SQLite 或 PostgreSQL 作为数据库，全部源码开放。希望我们的努力能为您提供一个高效快速、强大的移动端站点解决方案。
+        感谢您使用 LoseHub 。LoseHub基于PHP技术，采用MySQL(或SQLite、PostgreSQL)作为数据库，全部源码开放。该系统满足了那些喜欢用RSS方式阅读者的需求，并提供了评论及分享功能。用户可自行在服务上搭建一个RSS阅读程序，管理者可发布相关言论等信息。
     </p>
     <p>LoseHub 官方网址：<a href="http://loseHub.com" target="_blank" title="LoseHub官方网站">http://loseHub.com</a></p>
     <p>为了使您正确并合法的使用本软件，请您在使用前务必阅读清楚下面的协议条款：</p>
