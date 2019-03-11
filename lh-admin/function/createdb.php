@@ -20,6 +20,39 @@ try {
 }
 
 /**
+ * 创建type数据表，并写入P\A\pic\V\pre\u相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-9
+ *
+ * @return <p>
+ */
+function LH_setup_CTtypes(){
+	global $conn,$dataBase,$adminInf;
+	$tableName = $dataBase['dbprefix'].'types';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			type_code varchar(10) NOT NULL primary key, 
+			type_name varchar(20) NOT NULL DEFAULT "",
+			type_describe varchar(100) NOT NULL DEFAULT ""
+			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
+	try{
+		$conn->exec($sql);
+		echo '<p>创建'.$tableName.'表，正常......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	// 控制type类型名称不可重复
+	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`type_code`)";
+	$conn->exec($sql);
+	// 创建管理员信息
+	$sql = "insert into ".$tableName." (type_code,type_name,type_describe) values ('P',N'段落',N'简短文字、留言等')";
+	$conn->exec($sql);
+	echo '<p>插入管理员信息成功......</p>';
+}
+
+
+/**
  * 创建user数据表，并写入管理员相关信息
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
@@ -54,6 +87,7 @@ function LH_setup_CTuser(){
 	echo '<p>插入管理员信息成功......</p>';
 }
 
+LH_setup_CTtypes();
 LH_setup_CTuser();
 LH_setup_echo();
 
