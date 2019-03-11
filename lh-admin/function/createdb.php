@@ -20,7 +20,7 @@ try {
 }
 
 /**
- * 创建type数据表，并写入P\A\pic\V\pre\u相关信息
+ * 创建type数据表，并写入P\A\pic\V\pre\U相关信息
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
  * @package createdb
@@ -54,6 +54,43 @@ function LH_setup_CTtypes(){
 		('U',N'未知',N'未标明属性的东西')";
 	$conn->exec($sql);
 	echo '<p>设置类别信息成功......</p>';
+}
+
+/**
+ * 创建states数据表，并写入P\D\C\N\pvt\U相关信息
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-11
+ *
+ * @return <p>
+ */
+function LH_setup_CTstates(){
+	global $conn,$dataBase,$adminInf;
+	$tableName = $dataBase['dbprefix'].'states';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			state_code varchar(10) NOT NULL primary key, 
+			state_name varchar(20) NOT NULL DEFAULT "",
+			state_describe varchar(100) NOT NULL DEFAULT ""
+			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
+	try{
+		$conn->exec($sql);
+		echo '<p>创建'.$tableName.'表，正常......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	// 控制state类型名称不可重复
+	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`state_code`)";
+	$conn->exec($sql);
+	// 创建内容的状态信息
+	$sql = "insert into ".$tableName." (state_code,state_name,state_describe) values ('P',N'公开的',N'文章正常显示状态'),
+		('D',N'草稿',N'仅自己预览，不公开显示的'),
+		('C',N'关闭的',N'无效关闭的'),
+		('pvt',N'私有的',N'私有类型，收藏类型'),
+		('N',N'便签',N'只在后台显示的'),
+		('U',N'未审核的',N'未审核的')";
+	$conn->exec($sql);
+	echo '<p>设置状态信息成功......</p>';
 }
 
 /**
@@ -92,6 +129,7 @@ function LH_setup_CTuser(){
 }
 
 LH_setup_CTtypes();
+LH_setup_CTstates();
 LH_setup_CTuser();
 LH_setup_echo();
 
