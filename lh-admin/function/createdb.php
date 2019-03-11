@@ -94,6 +94,43 @@ function LH_setup_CTstates(){
 }
 
 /**
+ * 创建段落P数据表，段落为CMS发布每条信息的最小节点
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-11
+ *
+ * @return <p>
+ */
+function LH_setup_CTparagraphs(){
+	global $conn,$dataBase,$adminInf;
+	$tableName = $dataBase['dbprefix'].'paragraphs';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			id int(11) NOT NULL AUTO_INCREMENT primary key,
+			p_contect text NOT NULL DEFAULT "",
+			p_state_code varchar(10) NOT NULL DEFAULT "",
+			p_c_state_code varchar(10) NOT NULL DEFAULT "",
+			p_type_code varchar(10) NOT NULL DEFAULT "",
+			p_datetime DATETIME NOT NULL DEFAULT NOW(),
+			p_a_id int NOT NULL DEFAULT "0",
+			p_item_id int NOT NULL DEFAULT "0"
+			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '<p>创建'.$tableName.'表，正常......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	// 控制段落ID不可重复
+	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`id`)";
+	$conn->exec($sql);
+	// 创建内容的状态信息
+	$sql = "insert into ".$tableName." (p_contect) values (N'欢迎使用losehubCMS')";
+	$conn->exec($sql);
+	echo '<p>写入段落信息成功......</p>';
+}
+
+/**
  * 创建user数据表，并写入管理员相关信息
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
@@ -130,6 +167,7 @@ function LH_setup_CTuser(){
 
 LH_setup_CTtypes();
 LH_setup_CTstates();
+LH_setup_CTparagraphs();
 LH_setup_CTuser();
 LH_setup_echo();
 
