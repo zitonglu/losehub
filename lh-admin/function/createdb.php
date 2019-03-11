@@ -32,9 +32,10 @@ function LH_setup_CTtypes(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'types';
 	$sql = 'CREATE TABLE '.$tableName.'(
-			type_code varchar(10) NOT NULL primary key, 
+			type_code varchar(10) NOT NULL, 
 			type_name varchar(20) NOT NULL DEFAULT "",
-			type_describe varchar(100) NOT NULL DEFAULT ""
+			type_describe varchar(100) NOT NULL DEFAULT "",
+			PRIMARY KEY (type_code)
 			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
@@ -69,9 +70,10 @@ function LH_setup_CTstates(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'states';
 	$sql = 'CREATE TABLE '.$tableName.'(
-			state_code varchar(10) NOT NULL primary key, 
+			state_code varchar(10) NOT NULL, 
 			state_name varchar(20) NOT NULL DEFAULT "",
-			state_describe varchar(100) NOT NULL DEFAULT ""
+			state_describe varchar(100) NOT NULL DEFAULT "",
+			PRIMARY KEY (state_code)
 			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
@@ -106,14 +108,17 @@ function LH_setup_CTparagraphs(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'paragraphs';
 	$sql = 'CREATE TABLE '.$tableName.'(
-			id int(11) NOT NULL AUTO_INCREMENT primary key,
+			id int(11) NOT NULL AUTO_INCREMENT,
 			p_contect text NOT NULL DEFAULT "",
-			p_state_code varchar(10) NOT NULL DEFAULT "",
+			p_order int NOT NULL DEFAULT "0",
+			p_state_code varchar(10),
 			p_c_state_code varchar(10) NOT NULL DEFAULT "",
 			p_type_code varchar(10) NOT NULL DEFAULT "",
 			p_datetime DATETIME NOT NULL DEFAULT NOW(),
 			p_a_id int NOT NULL DEFAULT "0",
-			p_item_id int NOT NULL DEFAULT "0"
+			p_item_id int NOT NULL DEFAULT "0",
+			PRIMARY KEY (id),
+			CONSTRAINT pToState FOREIGN KEY (p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code)
 			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
@@ -124,8 +129,11 @@ function LH_setup_CTparagraphs(){
 	// 控制段落ID不可重复
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`id`)";
 	$conn->exec($sql);
+	// 创建外键 alter table 表名 add constraint 外键约束名 foreign key(列名) references 引用外键表(列名)
+	// $sql = "ALTER TABLE $tableName ADD CONSTRAINT what foreign key(p_state_code) references ".$dataBase['dbprefix'].'states'."(state_code) ON UPDATE CASCADE;";
+	// $conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert into ".$tableName." (p_contect) values (N'欢迎使用losehubCMS')";
+	$sql = "insert into ".$tableName." (p_contect,p_state_code) values (N'欢迎使用losehubCMS','54')";
 	$conn->exec($sql);
 	echo '<p>写入段落信息成功......</p>';
 }
