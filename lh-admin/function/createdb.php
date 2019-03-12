@@ -269,6 +269,72 @@ function LH_setup_CTcomments(){
 }
 
 /**
+ * 创建RSS源数据表：存储收购RSS源信息，未测试写入
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CTRSS(){
+	global $conn,$dataBase;
+	$tableName = $dataBase['dbprefix'].'RSS';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			RSS_id int(11) NOT NULL AUTO_INCREMENT,
+			RSS_title varchar(255) NOT NULL,
+			RSS_url varchar(255) NOT NULL DEFAULT "0",
+			RSS_link varchar(255) NOT NULL DEFAULT "0",
+			RSS_ico_link varchar(255) NOT NULL DEFAULT "0",
+			RSS_description text NOT NULL,
+			RSS_email varchar(100) NOT NULL DEFAULT "0",
+			RSS_state_code varchar(10) NOT NULL DEFAULT "P",
+			RSS_datetime DATETIME NOT NULL DEFAULT NOW(),
+			RSS_category varchar(100) NOT NULL DEFAULT "0",
+			PRIMARY KEY (RSS_id),
+			CONSTRAINT RSSToState FOREIGN KEY(RSS_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......</br>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+}
+
+/**
+ * 创建items数据表：存储收藏、评论过的items，未测试写入
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CTitems(){
+	global $conn,$dataBase;
+	$tableName = $dataBase['dbprefix'].'items';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			item_id int(11) NOT NULL AUTO_INCREMENT,
+			item_RSS_id int(11) NOT NULL,
+			item_title varchar(255) NOT NULL,
+			item_url varchar(255) NOT NULL DEFAULT "0",
+			item_description text NOT NULL,
+			item_state_code varchar(10) NOT NULL DEFAULT "P",
+			item_datetime DATETIME NOT NULL DEFAULT NOW(),
+			PRIMARY KEY (item_id),
+			CONSTRAINT itemToState FOREIGN KEY(item_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
+			CONSTRAINT itemToRSS FOREIGN KEY(item_RSS_id) REFERENCES '.$dataBase['dbprefix'].'RSS'.'(RSS_id)
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......</br>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+}
+
+/**
  * 创建user数据表，并写入管理员相关信息
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
@@ -309,6 +375,8 @@ LH_setup_CTarticles();
 LH_setup_CTtags();
 LH_setup_CTparagraphs();
 LH_setup_CTcomments();
+LH_setup_CTRSS();
+LH_setup_CTitems();
 LH_setup_CTuser();
 LH_setup_echo();
 
