@@ -369,6 +369,44 @@ function LH_setup_CTuser(){
 	echo '插入管理员信息成功......</br>';
 }
 
+/**
+ * 创建options选项数据表：自动加载变量
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql,$options
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CToptions(){
+	global $conn,$dataBase,$adminInf;
+	$tableName = $dataBase['dbprefix'].'options';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			option_code varchar(30) NOT NULL,
+			option_value varchar(255) NOT NULL,
+			option_autoload char(1) NOT NULL DEFAULT "Y",
+			PRIMARY KEY (option_code)
+		)ENGINE=MyISAM DEFAULT CHARSET=utf8';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	// 控制变量名称不可重复
+	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`option_code`)";
+	$conn->exec($sql);
+	// 插入站点名称和管理员邮箱信息
+	$options['site_name']=$adminInf['title'];
+	$options['author_email']=$adminInf['email'];
+	foreach ($options as $key => $value) {
+		$sql = "insert into ".$tableName." (option_code,option_value) values (N'".$key."',N'".$value."')";
+		$conn->exec($sql);
+	}
+	echo '插入相关配置信息.....</br>';
+}
+
+
 LH_setup_CTtypes();
 LH_setup_CTstates();
 LH_setup_CTarticles();
@@ -378,6 +416,7 @@ LH_setup_CTcomments();
 LH_setup_CTRSS();
 LH_setup_CTitems();
 LH_setup_CTuser();
+LH_setup_CToptions();
 LH_setup_echo();
 
 $GLOBALS['conn'] = null;	
