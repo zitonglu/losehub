@@ -29,7 +29,7 @@ try {
  * @return <p>
  */
 function LH_setup_CTtypes(){
-	global $conn,$dataBase,$adminInf;
+	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'types';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			type_code varchar(10) NOT NULL, 
@@ -71,7 +71,7 @@ function LH_setup_CTtypes(){
  * @return <p>
  */
 function LH_setup_CTstates(){
-	global $conn,$dataBase,$adminInf;
+	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'states';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			state_code varchar(10) NOT NULL, 
@@ -113,15 +113,15 @@ function LH_setup_CTstates(){
  * @return <p>
  */
 function LH_setup_CTarticles(){
-	global $conn,$dataBase,$adminInf;
+	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'articles';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			a_id int(11) NOT NULL AUTO_INCREMENT,
 			a_title varchar(255) NOT NULL DEFAULT "",
 			a_guid varchar(255) NOT NULL DEFAULT "0",
-			a_state_code varchar(10),
-			a_c_state_code varchar(10),
-			a_type_code varchar(10),
+			a_state_code varchar(10) NOT NULL DEFAULT "P",
+			a_c_state_code varchar(10) NOT NULL DEFAULT "C",
+			a_type_code varchar(10) NOT NULL DEFAULT "P",
 			a_datetime DATETIME NOT NULL DEFAULT NOW(),
 			a_first_pic varchar(255) NOT NULL DEFAULT "0",
 			PRIMARY KEY (a_id),
@@ -146,6 +146,43 @@ function LH_setup_CTarticles(){
 }
 
 /**
+ * 创建标签tags数据表，只有长篇文章才可以有多个标签
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CTtags(){
+	global $conn,$dataBase;
+	$tableName = $dataBase['dbprefix'].'tags';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			tag_id int(11) NOT NULL AUTO_INCREMENT,
+			tag_name varchar(20) NOT NULL DEFAULT "",
+			tag_a_id int(11) NOT NULL DEFAULT "0",
+			tag_state_code varchar(10) NOT NULL DEFAULT "P",
+			PRIMARY KEY (tag_id),
+			CONSTRAINT tagToarticle FOREIGN KEY(tag_a_id) REFERENCES '.$dataBase['dbprefix'].'articles'.'(a_id) on delete cascade on update cascade,
+			CONSTRAINT tagTostate FOREIGN KEY(tag_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	//创建标签信息
+	$sql = "insert into ".$tableName." (tag_name,tag_a_id) values (N'文章',1)";
+	try{
+		$conn->exec($sql);
+		echo '标签创建成功......</br>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+}
+
+/**
  * 创建段落paragraphs数据表，段落为CMS发布每条信息的最小节点
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql,$text
@@ -155,15 +192,15 @@ function LH_setup_CTarticles(){
  * @return <p>
  */
 function LH_setup_CTparagraphs(){
-	global $conn,$dataBase,$adminInf;
+	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'paragraphs';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			id int(11) NOT NULL AUTO_INCREMENT,
 			p_contect text NOT NULL DEFAULT "",
 			p_order int NOT NULL DEFAULT "0",
-			p_state_code varchar(10),
-			p_c_state_code varchar(10),
-			p_type_code varchar(10),
+			p_state_code varchar(10) NOT NULL DEFAULT "P",
+			p_c_state_code varchar(10) NOT NULL DEFAULT "C",
+			p_type_code varchar(10) NOT NULL DEFAULT "P",
 			p_datetime DATETIME NOT NULL DEFAULT NOW(),
 			p_a_id int NOT NULL DEFAULT "0",
 			p_item_id int NOT NULL DEFAULT "0",
@@ -228,6 +265,7 @@ function LH_setup_CTuser(){
 LH_setup_CTtypes();
 LH_setup_CTstates();
 LH_setup_CTarticles();
+LH_setup_CTtags();
 LH_setup_CTparagraphs();
 LH_setup_CTuser();
 LH_setup_echo();
