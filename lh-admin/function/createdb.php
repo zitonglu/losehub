@@ -53,8 +53,12 @@ function LH_setup_CTtypes(){
 		('V',N'视频',N'视频类型'),
 		('pre',N'引用',N'引用文章,电脑源代码等'),
 		('U',N'未知',N'未标明属性的东西')";
-	$conn->exec($sql);
-	echo '<p>设置类别信息成功......</p>';
+	try{
+		$conn->exec($sql);
+		echo '<p>设置类别信息成功......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
 }
 
 /**
@@ -91,8 +95,12 @@ function LH_setup_CTstates(){
 		('pvt',N'私有的',N'私有类型，收藏类型'),
 		('N',N'便签',N'只在后台显示的'),
 		('U',N'未审核的',N'未审核的')";
-	$conn->exec($sql);
-	echo '<p>设置状态信息成功......</p>';
+	try{
+		$conn->exec($sql);
+		echo '<p>设置状态信息成功......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
 }
 
 /**
@@ -112,13 +120,15 @@ function LH_setup_CTparagraphs(){
 			p_contect text NOT NULL DEFAULT "",
 			p_order int NOT NULL DEFAULT "0",
 			p_state_code varchar(10),
-			p_c_state_code varchar(10) NOT NULL DEFAULT "",
-			p_type_code varchar(10) NOT NULL DEFAULT "",
+			p_c_state_code varchar(10),
+			p_type_code varchar(10),
 			p_datetime DATETIME NOT NULL DEFAULT NOW(),
 			p_a_id int NOT NULL DEFAULT "0",
 			p_item_id int NOT NULL DEFAULT "0",
 			PRIMARY KEY (id),
-			CONSTRAINT pToState FOREIGN KEY(p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			CONSTRAINT pToState FOREIGN KEY(p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
+			CONSTRAINT pcToState FOREIGN KEY(p_c_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
+			CONSTRAINT pTotype FOREIGN KEY(p_type_code) REFERENCES '.$dataBase['dbprefix'].'types'.'(type_code) on delete cascade on update cascade
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
@@ -130,9 +140,13 @@ function LH_setup_CTparagraphs(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`id`)";
 	$conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert into ".$tableName." (p_contect,p_state_code) values (N'欢迎使用losehubCMS','P')";
-	$conn->exec($sql);
-	echo '<p>写入段落信息成功......</p>';
+	$sql = "insert into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code) values (N'欢迎使用losehubCMS','P','C','P')";
+	try{
+		$conn->exec($sql);
+		echo '<p>写入段落信息成功......</p>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
 }
 
 /**
