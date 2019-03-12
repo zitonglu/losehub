@@ -36,7 +36,7 @@ function LH_setup_CTtypes(){
 			type_name varchar(20) NOT NULL DEFAULT "",
 			type_describe varchar(100) NOT NULL DEFAULT "",
 			PRIMARY KEY (type_code)
-			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
+			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
 		echo '<p>创建'.$tableName.'表，正常......</p>';
@@ -74,7 +74,7 @@ function LH_setup_CTstates(){
 			state_name varchar(20) NOT NULL DEFAULT "",
 			state_describe varchar(100) NOT NULL DEFAULT "",
 			PRIMARY KEY (state_code)
-			)ENGINE=MyISAM DEFAULT CHARSET=utf8';
+			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
 		echo '<p>创建'.$tableName.'表，正常......</p>';
@@ -118,8 +118,8 @@ function LH_setup_CTparagraphs(){
 			p_a_id int NOT NULL DEFAULT "0",
 			p_item_id int NOT NULL DEFAULT "0",
 			PRIMARY KEY (id),
-			CONSTRAINT pToState FOREIGN KEY (p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code)
-			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+			CONSTRAINT pToState FOREIGN KEY(p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
 		echo '<p>创建'.$tableName.'表，正常......</p>';
@@ -129,11 +129,8 @@ function LH_setup_CTparagraphs(){
 	// 控制段落ID不可重复
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`id`)";
 	$conn->exec($sql);
-	// 创建外键 alter table 表名 add constraint 外键约束名 foreign key(列名) references 引用外键表(列名)
-	// $sql = "ALTER TABLE $tableName ADD CONSTRAINT what foreign key(p_state_code) references ".$dataBase['dbprefix'].'states'."(state_code) ON UPDATE CASCADE;";
-	// $conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert into ".$tableName." (p_contect,p_state_code) values (N'欢迎使用losehubCMS','54')";
+	$sql = "insert into ".$tableName." (p_contect,p_state_code) values (N'欢迎使用losehubCMS','P')";
 	$conn->exec($sql);
 	echo '<p>写入段落信息成功......</p>';
 }
