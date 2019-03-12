@@ -39,7 +39,7 @@ function LH_setup_CTtypes(){
 			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
-		echo '<p>创建'.$tableName.'表，正常......</p>';
+		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
@@ -55,7 +55,7 @@ function LH_setup_CTtypes(){
 		('U',N'未知',N'未标明属性的东西')";
 	try{
 		$conn->exec($sql);
-		echo '<p>设置类别信息成功......</p>';
+		echo '设置类别信息成功......</br>';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
@@ -81,7 +81,7 @@ function LH_setup_CTstates(){
 			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
-		echo '<p>创建'.$tableName.'表，正常......</p>';
+		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
@@ -97,16 +97,58 @@ function LH_setup_CTstates(){
 		('U',N'未审核的',N'未审核的')";
 	try{
 		$conn->exec($sql);
-		echo '<p>设置状态信息成功......</p>';
+		echo '设置状态信息成功......</br>';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 }
 
 /**
- * 创建段落P数据表，段落为CMS发布每条信息的最小节点
+ * 创建文章articles数据表，多个段落集合成长篇文章
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CTarticles(){
+	global $conn,$dataBase,$adminInf;
+	$tableName = $dataBase['dbprefix'].'articles';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			a_id int(11) NOT NULL AUTO_INCREMENT,
+			a_title varchar(255) NOT NULL DEFAULT "",
+			a_guid varchar(255) NOT NULL DEFAULT "0",
+			a_state_code varchar(10),
+			a_c_state_code varchar(10),
+			a_type_code varchar(10),
+			a_datetime DATETIME NOT NULL DEFAULT NOW(),
+			a_first_pic varchar(255) NOT NULL DEFAULT "0",
+			PRIMARY KEY (a_id),
+			CONSTRAINT aToState FOREIGN KEY(a_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
+			CONSTRAINT acToState FOREIGN KEY(a_c_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
+			CONSTRAINT aTotype FOREIGN KEY(a_type_code) REFERENCES '.$dataBase['dbprefix'].'types'.'(type_code) on delete cascade on update cascade
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	//创建长篇文章信息
+	$sql = "insert into ".$tableName." (a_title,a_state_code,a_c_state_code,a_type_code) values (N'欢迎使用losehubCMS','P','C','P')";
+	try{
+		$conn->exec($sql);
+		echo '长篇文章创建成功......</br>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+}
+
+/**
+ * 创建段落paragraphs数据表，段落为CMS发布每条信息的最小节点
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql,$text
  * @package createdb
  * @version 2019-3-11
  *
@@ -128,25 +170,24 @@ function LH_setup_CTparagraphs(){
 			PRIMARY KEY (id),
 			CONSTRAINT pToState FOREIGN KEY(p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
 			CONSTRAINT pcToState FOREIGN KEY(p_c_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
-			CONSTRAINT pTotype FOREIGN KEY(p_type_code) REFERENCES '.$dataBase['dbprefix'].'types'.'(type_code) on delete cascade on update cascade
+			CONSTRAINT pTotype FOREIGN KEY(p_type_code) REFERENCES '.$dataBase['dbprefix'].'types'.'(type_code) on delete cascade on update cascade,
+			CONSTRAINT pToa FOREIGN KEY(p_a_id) REFERENCES '.$dataBase['dbprefix'].'articles'.'(a_id) on delete cascade on update cascade
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
-		echo '<p>创建'.$tableName.'表，正常......</p>';
+		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
-	// 控制段落ID不可重复
-	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`id`)";
-	$conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code) values (N'欢迎使用losehubCMS','P','C','P')";
-	try{
+	$text[1]=('LoseHubCMS系统是RSS阅读器+个人blog的内容管理程序，其中文名称为“遗失的聚合”。');
+	$text[2]=('LoseHub基于PHP技术，采用MySQL(或SQLite、PostgreSQL)作为数据库，全部源码开放。该系统满足了那些喜欢用RSS方式阅读者的需求，并提供了评论及分享功能。用户可自行在服务上搭建一个RSS阅读程序，管理者可发布相关言论等信息。');
+	for ($i=1; $i <=2 ; $i++) { 
+		$sql = "insert into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code,p_a_id,p_order) values 
+	(N'".$text[$i]."','P','C','P',1,".$i.")";
 		$conn->exec($sql);
-		echo '<p>写入段落信息成功......</p>';
-	}catch(PDOException $e){
-		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
+	echo '写入段落信息成功......</br>';
 }
 
 /**
@@ -171,7 +212,7 @@ function LH_setup_CTuser(){
 			)';
 	try{
 		$conn->exec($sql);
-		echo '<p>创建'.$tableName.'表，正常......</p>';
+		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
@@ -181,11 +222,12 @@ function LH_setup_CTuser(){
 	// 创建管理员信息
 	$sql = "insert into ".$tableName." (user_login,user_pass,user_email) values ('".$adminInf['admin']."','".$adminInf['password']."','".$adminInf['email']."')";
 	$conn->exec($sql);
-	echo '<p>插入管理员信息成功......</p>';
+	echo '插入管理员信息成功......</br>';
 }
 
 LH_setup_CTtypes();
 LH_setup_CTstates();
+LH_setup_CTarticles();
 LH_setup_CTparagraphs();
 LH_setup_CTuser();
 LH_setup_echo();
