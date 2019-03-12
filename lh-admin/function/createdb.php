@@ -75,8 +75,8 @@ function LH_setup_CTstates(){
 	$tableName = $dataBase['dbprefix'].'states';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			state_code varchar(10) NOT NULL, 
-			state_name varchar(20) NOT NULL DEFAULT "",
-			state_describe varchar(100) NOT NULL DEFAULT "",
+			state_name varchar(20) NOT NULL,
+			state_describe varchar(100) NOT NULL DEFAULT "0",
 			PRIMARY KEY (state_code)
 			)DEFAULT CHARSET=utf8';
 	try{
@@ -117,7 +117,7 @@ function LH_setup_CTarticles(){
 	$tableName = $dataBase['dbprefix'].'articles';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			a_id int(11) NOT NULL AUTO_INCREMENT,
-			a_title varchar(255) NOT NULL DEFAULT "",
+			a_title varchar(255) NOT NULL,
 			a_guid varchar(255) NOT NULL DEFAULT "0",
 			a_state_code varchar(10) NOT NULL DEFAULT "P",
 			a_c_state_code varchar(10) NOT NULL DEFAULT "C",
@@ -159,7 +159,7 @@ function LH_setup_CTtags(){
 	$tableName = $dataBase['dbprefix'].'tags';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			tag_id int(11) NOT NULL AUTO_INCREMENT,
-			tag_name varchar(20) NOT NULL DEFAULT "",
+			tag_name varchar(20) NOT NULL,
 			tag_a_id int(11) NOT NULL DEFAULT "0",
 			tag_state_code varchar(10) NOT NULL DEFAULT "P",
 			PRIMARY KEY (tag_id),
@@ -196,7 +196,7 @@ function LH_setup_CTparagraphs(){
 	$tableName = $dataBase['dbprefix'].'paragraphs';
 	$sql = 'CREATE TABLE '.$tableName.'(
 			id int(11) NOT NULL AUTO_INCREMENT,
-			p_contect text NOT NULL DEFAULT "",
+			p_contect text NOT NULL,
 			p_order int NOT NULL DEFAULT "0",
 			p_state_code varchar(10) NOT NULL DEFAULT "P",
 			p_c_state_code varchar(10) NOT NULL DEFAULT "C",
@@ -225,6 +225,47 @@ function LH_setup_CTparagraphs(){
 		$conn->exec($sql);
 	}
 	echo '写入段落信息成功......</br>';
+}
+
+/**
+ * 创建评论comments数据表
+ * @author 紫铜炉 910109610@QQ.com
+ * @var $tableName,$sql
+ * @package createdb
+ * @version 2019-3-12
+ *
+ * @return <p>
+ */
+function LH_setup_CTcomments(){
+	global $conn,$dataBase;
+	$tableName = $dataBase['dbprefix'].'comments';
+	$sql = 'CREATE TABLE '.$tableName.'(
+			c_id int(11) NOT NULL AUTO_INCREMENT,
+			c_content varchar(255) NOT NULL,
+			c_name varchar(20) NOT NULL,
+			c_url varchar(100) NOT NULL DEFAULT "0",
+			c_email varchar(100) NOT NULL DEFAULT "0",
+			c_state_code varchar(10) NOT NULL DEFAULT "U",
+			c_datetime DATETIME NOT NULL DEFAULT NOW(),
+			c_a_id int(11) NOT NULL DEFAULT "0",
+			c_p_id int(11) NOT NULL DEFAULT "0",
+			PRIMARY KEY (c_id),
+			CONSTRAINT CToState FOREIGN KEY(C_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
+	try{
+		$conn->exec($sql);
+		echo '创建'.$tableName.'表，正常......';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
+	//创建一条留言信息
+	$sql = "insert into ".$tableName." (c_name,c_content) values (N'losehubCMS',N'非常感谢您使用losehub，如需帮忙，请查阅:wiki.losehub.com')";
+	try{
+		$conn->exec($sql);
+		echo '留言创建成功......</br>';
+	}catch(PDOException $e){
+		echo '<p class="text-danger">'.$e->getMessage().'</p>';
+	}
 }
 
 /**
@@ -267,6 +308,7 @@ LH_setup_CTstates();
 LH_setup_CTarticles();
 LH_setup_CTtags();
 LH_setup_CTparagraphs();
+LH_setup_CTcomments();
 LH_setup_CTuser();
 LH_setup_echo();
 
