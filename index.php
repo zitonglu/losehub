@@ -17,9 +17,4 @@
  */
 require('lh-admin/function/base.php');
 
-if (!file('lh-content/database.php')) {
-  redirect('install.php');
-  exit;
-}
-
 ?>

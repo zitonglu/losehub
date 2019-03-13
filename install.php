@@ -24,7 +24,10 @@
  */
 header('Content-type:text/html; charset=utf-8');
 
-require('lh-admin/function/base.php');
+if (@file('lh-content/database.php')) {
+    echo('<p>请检查是否已安装，并删除database.php文件。</p>');
+    exit;
+}
 
 // 数据库全局变量
 $GLOBALS['dataBase'] = array(
@@ -107,7 +110,7 @@ function LH_setup_echo(){
 </head>
 <body id="setup">
 <div class="setupBox">
-    <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS <small>v<?PHP echo LH_VERSION; ?></small></h1>
+    <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS</h1>
     <form method="post" action="install.php?step=<?php echo $step + 1 ;?>"> 
 <?php
 switch ($step) {
