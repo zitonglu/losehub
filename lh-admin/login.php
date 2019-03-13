@@ -14,8 +14,7 @@ header('Content-type:text/html; charset=utf-8');
 if (!file('../lh-content/database.php')) {
   die('未安装成功或者安装有误!');
 }else{
-  $dataBase = require '../lh-content/database.php';
-  $tableName = $dataBase['dbprefix'].'SSH';
+  $tableName = LH_DBPREFIX.'SSH';
 }
 
 ?>
@@ -36,8 +35,8 @@ if (!file('../lh-content/database.php')) {
 
 <?php
 try {
-$dsn = 'mysql:host='.$dataBase['dbhost'].';dbname='.$dataBase['dbname'];
-$dbh = new PDO($dsn,$dataBase['dbuser'],$dataBase['dbpass']);
+$dsn = 'mysql:host='.LH_DBHOST.';dbname='.LH_DBNAME;
+$dbh = new PDO($dsn,LH_DBUSER,LH_DBPASS);
 }catch (PDOException $e) {
 echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
 echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
