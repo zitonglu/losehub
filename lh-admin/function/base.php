@@ -17,9 +17,15 @@ define('LH_VERSION',LH_VERSION_MAJOR.'.'.LH_VERSION_MODEL.LH_VERSION_VIEW.LH_VER
 //安装地址
 defined('LH_PATH') || define('LH_PATH', rtrim(str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../')), '/') . '/');
 
-//获取数据库信息
-if (@file(LH_PATH.'lh-admin/sql/database.php')){
-	$GLOBALS['LH_DATABASE'] = require LH_PATH.'lh-admin/sql/database.php';
+//获取数据库信息,定义固定量
+if (@file(LH_PATH.'lh-content/database.php')){
+	$lh_database = require LH_PATH.'lh-content/database.php';
+	define('LH_DBHOST', $lh_database['dbhost']);
+	define('LH_DBUSER', $lh_database['dbuser']);
+	define('LH_DBPASS', $lh_database['dbpass']);
+	define('LH_DBNAME', $lh_database['dbname']);
+	define('LH_DBPREFIX', $lh_database['dbprefix']); //表前缀
+	$lh_database ='';
 }
 
 //加载系统基础函数
