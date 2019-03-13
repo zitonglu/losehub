@@ -6,7 +6,7 @@
  * @global $conn
  * @version 2017-1-13
  * 
- * @return none
+ * @return databaseTable and content
  */
 global $dataBase;
 

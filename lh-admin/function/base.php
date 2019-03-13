@@ -18,8 +18,8 @@ define('LH_VERSION',LH_VERSION_MAJOR.'.'.LH_VERSION_MODEL.LH_VERSION_VIEW.LH_VER
 defined('LH_PATH') || define('LH_PATH', rtrim(str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../')), '/') . '/');
 
 //获取数据库信息
-if (@file(LH_PATH.'lh-admin/database.php')){
-	$GLOBALS['LH_dataBase'] = require LH_PATH.'lh-admin/database.php';
+if (@file(LH_PATH.'lh-admin/sql/database.php')){
+	$GLOBALS['LH_DATABASE'] = require LH_PATH.'lh-admin/sql/database.php';
 }
 
 //加载系统基础函数

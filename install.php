@@ -20,7 +20,7 @@
  * @global $dataBase,$adminInf
  * @version 2017-1-13
  * 
- * @return login.php (bataBase and LH-ADMIN\DATABASE.PHP)
+ * @return login.php (bataBase and LH-CONTENT\DATABASE.PHP)
  */
 header('Content-type:text/html; charset=utf-8');
 
@@ -83,14 +83,14 @@ if(isset($_POST['password'])){
  * @package setup
  * @version 2017-1-13
  *
- * @return LH-ADMIN\DATABASE.PHP
+ * @return LH-CONTENT\DATABASE.PHP
  */
 function LH_setup_echo(){
     global $dataBase;
     $str = "<?php return ";
     $str .= var_export($dataBase,TRUE);
     $str .= " ?>";
-    file_put_contents('lh-admin\database.php', $str);
+    file_put_contents('lh-content\database.php', $str);
 }
 ?>
 <!DOCTYPE html>
@@ -298,9 +298,5 @@ function setup4(){
 <?php } ?><!-- setp end -->
 
 </div><!-- setupBox end -->
-
-<!-- Bootstrap jQuery 
-<script src="public/js/jquery-2.2.4.min.js"></script>
-<script src="public/js/bootstrap.min.js"></script>-->
 </body>
 </html>

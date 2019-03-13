@@ -11,10 +11,10 @@ require('function/base.php');
 
 header('Content-type:text/html; charset=utf-8');
 
-if (!file('../lh-admin/database.php')) {
+if (!file('../lh-content/database.php')) {
   die('未安装成功或者安装有误!');
 }else{
-  $dataBase = require '../lh-admin/database.php';
+  $dataBase = require '../lh-content/database.php';
   $tableName = $dataBase['dbprefix'].'SSH';
 }
 
