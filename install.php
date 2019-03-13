@@ -291,7 +291,7 @@ function setup3(){
  * @return a->lh-admin/login.php
  */
 function setup4(){
-    require('lh-admin/function/createdb.php');
+    require('lh-admin/function/install-createdb.php');
 ?>
     <p><br></p>
     <a href="lh-admin/login.php" class="btn btn-default pull-right">进入网站</a>
