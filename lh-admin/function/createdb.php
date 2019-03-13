@@ -350,7 +350,7 @@ function LH_setup_CTSSH(){
 			SSH_id int NOT NULL AUTO_INCREMENT primary key, 
 			SSH_name varchar(40) NOT NULL DEFAULT "",
 			SSH_login varchar(40) NOT NULL,
-			SSH_password varchar(40) NOT NULL,
+			SSH_password char(40) NOT NULL,
 			SSH_tips varchar(100) NOT NULL DEFAULT "",
 			SSH_date DATE NOT NULL DEFAULT "2100-12-31",
 			SSH_category varchar(40) NOT NULL DEFAULT "",
@@ -367,7 +367,7 @@ function LH_setup_CTSSH(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`SSH_login`)";
 	$conn->exec($sql);
 	// 创建管理员信息
-	$sql = "insert into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name) values (N'".$adminInf['admin']."','".$adminInf['password']."','".$adminInf['email']."',N'网站管理员')";
+	$sql = "insert into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name) values (N'".$adminInf['admin']."',SHA('".$adminInf['password']."'),'".$adminInf['email']."',N'网站管理员')";
 	$conn->exec($sql);
 	echo '插入管理员信息成功......</br>';
 }

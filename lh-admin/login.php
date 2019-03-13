@@ -9,11 +9,13 @@
  */
 require('function/base.php');
 
+header('Content-type:text/html; charset=utf-8');
+
 if (!file('../lh-admin/database.php')) {
   die('未安装成功或者安装有误!');
 }else{
   $dataBase = require '../lh-admin/database.php';
-  $tableName = $dataBase['dbprefix'].'user';
+  $tableName = $dataBase['dbprefix'].'SSH';
 }
 
 try {
@@ -28,9 +30,9 @@ echo '<p class="text-danger text-center">无法链接数据库,请检查填写�
 @$userPassWord = $_GET['userPassWord'];
 
 $query = "SELECT COUNT(*) FROM `".$tableName."` WHERE ";
-$query .= "`user_login` = '".$userName."'";
+$query .= "`SSH_login` = N'".$userName."'";
 $query .= " AND ";
-$query .= "`user_pass` = '".$userPassWord."'";
+$query .= "`SSH_password` = SHA('".$userPassWord."')";
 $count = $dbh->query($query);
 if ($count->fetchColumn() > 0) {
   setcookie("LH_cookie_user",$userName,time()+3600);
@@ -45,11 +47,12 @@ if ($count->fetchColumn() > 0) {
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Zitonglu">
   <title>LoseHub CMS程序后台登录</title>
   <!-- Bootstrap core CSS -->
-  <link href="../lh-includes/syle/bootstrap.min.css" rel="stylesheet">
+  <link href="../lh-includes/style/bootstrap.min.css" rel="stylesheet">
   <!-- My CSS -->
   <link href="style/style.css" rel="stylesheet">
 </head>
