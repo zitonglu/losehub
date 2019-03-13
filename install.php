@@ -22,6 +22,8 @@
  * 
  * @return login.php (bataBase and LH-ADMIN\DATABASE.PHP)
  */
+header('Content-type:text/html; charset=utf-8');
+
 require('lh-admin/function/base.php');
 
 // 数据库全局变量
@@ -94,7 +96,7 @@ function LH_setup_echo(){
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="Zitonglu">
 	<title>LoseHub CMS程序安装</title>

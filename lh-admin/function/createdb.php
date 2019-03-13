@@ -335,7 +335,7 @@ function LH_setup_CTitems(){
 }
 
 /**
- * 创建user数据表，并写入管理员相关信息
+ * 创建SSH数据表，写入管理员相关信息
  * @author 紫铜炉 910109610@QQ.com
  * @var $tableName,$sql
  * @package createdb
@@ -343,17 +343,20 @@ function LH_setup_CTitems(){
  *
  * @return <p>
  */
-function LH_setup_CTuser(){
+function LH_setup_CTSSH(){
 	global $conn,$dataBase,$adminInf;
-	$tableName = $dataBase['dbprefix'].'user';
+	$tableName = $dataBase['dbprefix'].'SSH';
 	$sql = 'CREATE TABLE '.$tableName.'(
-			ID int NOT NULL AUTO_INCREMENT primary key, 
-			user_login varchar(40) NOT NULL,
-			user_pass varchar(30) NOT NULL,
-			user_name varchar(30) NOT NULL DEFAULT "",
-			user_email tinytext NOT NULL DEFAULT "",
-			user_tel varchar(11) NOT NULL DEFAULT ""
-			)';
+			SSH_id int NOT NULL AUTO_INCREMENT primary key, 
+			SSH_name varchar(40) NOT NULL DEFAULT "",
+			SSH_login varchar(40) NOT NULL,
+			SSH_password varchar(40) NOT NULL,
+			SSH_tips varchar(100) NOT NULL DEFAULT "",
+			SSH_date DATE NOT NULL DEFAULT "2100-12-31",
+			SSH_category varchar(40) NOT NULL DEFAULT "",
+			SSH_email varchar(100) NOT NULL DEFAULT "",
+			SSH_telephone varchar(11) NOT NULL DEFAULT ""
+			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
 		echo '创建'.$tableName.'表，正常......';
@@ -361,10 +364,10 @@ function LH_setup_CTuser(){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	// 控制登录名不可重复
-	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`user_login`)";
+	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`SSH_login`)";
 	$conn->exec($sql);
 	// 创建管理员信息
-	$sql = "insert into ".$tableName." (user_login,user_pass,user_email) values ('".$adminInf['admin']."','".$adminInf['password']."','".$adminInf['email']."')";
+	$sql = "insert into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name) values (N'".$adminInf['admin']."','".$adminInf['password']."','".$adminInf['email']."',N'网站管理员')";
 	$conn->exec($sql);
 	echo '插入管理员信息成功......</br>';
 }
@@ -415,7 +418,7 @@ LH_setup_CTparagraphs();
 LH_setup_CTcomments();
 LH_setup_CTRSS();
 LH_setup_CTitems();
-LH_setup_CTuser();
+LH_setup_CTSSH();
 LH_setup_CToptions();
 LH_setup_echo();
 
