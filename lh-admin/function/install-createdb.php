@@ -31,7 +31,7 @@ try {
 function LH_setup_CTtypes(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'types';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			type_code varchar(10) NOT NULL, 
 			type_name varchar(20) NOT NULL DEFAULT "",
 			type_describe varchar(100) NOT NULL DEFAULT "",
@@ -47,7 +47,7 @@ function LH_setup_CTtypes(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`type_code`)";
 	$conn->exec($sql);
 	// 创建内容类别信息
-	$sql = "insert into ".$tableName." (type_code,type_name,type_describe) values ('P',N'段落',N'简短文字、留言等'),
+	$sql = "insert ignore into ".$tableName." (type_code,type_name,type_describe) values ('P',N'段落',N'简短文字、留言等'),
 		('A',N'文章',N'长篇幅的文章'),
 		('pic',N'图片',N'图片类型'),
 		('V',N'视频',N'视频类型'),
@@ -73,7 +73,7 @@ function LH_setup_CTtypes(){
 function LH_setup_CTstates(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'states';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			state_code varchar(10) NOT NULL, 
 			state_name varchar(20) NOT NULL,
 			state_describe varchar(100) NOT NULL DEFAULT "0",
@@ -89,7 +89,7 @@ function LH_setup_CTstates(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`state_code`)";
 	$conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert into ".$tableName." (state_code,state_name,state_describe) values ('P',N'公开的',N'文章正常显示状态'),
+	$sql = "insert ignore into ".$tableName." (state_code,state_name,state_describe) values ('P',N'公开的',N'文章正常显示状态'),
 		('D',N'草稿',N'仅自己预览，不公开显示的'),
 		('C',N'关闭的',N'无效关闭的'),
 		('pvt',N'私有的',N'私有类型，收藏类型'),
@@ -115,7 +115,7 @@ function LH_setup_CTstates(){
 function LH_setup_CTarticles(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'articles';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			a_id int(11) NOT NULL AUTO_INCREMENT,
 			a_title varchar(255) NOT NULL,
 			a_guid varchar(255) NOT NULL DEFAULT "0",
@@ -136,7 +136,7 @@ function LH_setup_CTarticles(){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建长篇文章信息
-	$sql = "insert into ".$tableName." (a_title,a_state_code,a_c_state_code,a_type_code) values (N'欢迎使用losehubCMS','P','C','P')";
+	$sql = "insert ignore into ".$tableName." (a_title,a_state_code,a_c_state_code,a_type_code,a_id) values (N'欢迎使用losehubCMS','P','C','P',1)";
 	try{
 		$conn->exec($sql);
 		echo '长篇文章创建成功......</br>';
@@ -157,7 +157,7 @@ function LH_setup_CTarticles(){
 function LH_setup_CTtags(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'tags';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			tag_id int(11) NOT NULL AUTO_INCREMENT,
 			tag_name varchar(20) NOT NULL,
 			tag_a_id int(11) NOT NULL DEFAULT "0",
@@ -173,7 +173,7 @@ function LH_setup_CTtags(){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建标签信息
-	$sql = "insert into ".$tableName." (tag_name,tag_a_id) values (N'文章',1)";
+	$sql = "insert ignore into ".$tableName." (tag_name,tag_a_id,tag_id) values (N'文章',1,1)";
 	try{
 		$conn->exec($sql);
 		echo '标签创建成功......</br>';
@@ -194,7 +194,7 @@ function LH_setup_CTtags(){
 function LH_setup_CTparagraphs(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'paragraphs';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			id int(11) NOT NULL AUTO_INCREMENT,
 			p_contect text NOT NULL,
 			p_order int NOT NULL DEFAULT "0",
@@ -220,8 +220,8 @@ function LH_setup_CTparagraphs(){
 	$text[1]=('LoseHubCMS系统是RSS阅读器+个人blog的内容管理程序，其中文名称为“遗失的聚合”。');
 	$text[2]=('LoseHub基于PHP技术，采用MySQL(或SQLite、PostgreSQL)作为数据库，全部源码开放。该系统满足了那些喜欢用RSS方式阅读者的需求，并提供了评论及分享功能。用户可自行在服务上搭建一个RSS阅读程序，管理者可发布相关言论等信息。');
 	for ($i=1; $i <=2 ; $i++) { 
-		$sql = "insert into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code,p_a_id,p_order) values 
-	(N'".$text[$i]."','P','C','P',1,".$i.")";
+		$sql = "insert ignore into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code,p_a_id,p_order,id) values 
+	(N'".$text[$i]."','P','C','P',1,".$i.",".$i.")";
 		$conn->exec($sql);
 	}
 	echo '写入段落信息成功......</br>';
@@ -239,7 +239,7 @@ function LH_setup_CTparagraphs(){
 function LH_setup_CTcomments(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'comments';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			c_id int(11) NOT NULL AUTO_INCREMENT,
 			c_content varchar(255) NOT NULL,
 			c_name varchar(20) NOT NULL,
@@ -259,7 +259,7 @@ function LH_setup_CTcomments(){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建一条留言信息
-	$sql = "insert into ".$tableName." (c_name,c_content) values (N'losehubCMS',N'非常感谢您使用losehub，如需帮忙，请查阅:wiki.losehub.com')";
+	$sql = "insert ignore into ".$tableName." (c_name,c_content,c_id) values (N'losehubCMS',N'非常感谢您使用losehub，如需帮忙，请查阅:wiki.losehub.com',1)";
 	try{
 		$conn->exec($sql);
 		echo '留言创建成功......</br>';
@@ -280,7 +280,7 @@ function LH_setup_CTcomments(){
 function LH_setup_CTRSS(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'RSS';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			RSS_id int(11) NOT NULL AUTO_INCREMENT,
 			RSS_title varchar(255) NOT NULL,
 			RSS_url varchar(255) NOT NULL DEFAULT "0",
@@ -314,7 +314,7 @@ function LH_setup_CTRSS(){
 function LH_setup_CTitems(){
 	global $conn,$dataBase;
 	$tableName = $dataBase['dbprefix'].'items';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			item_id int(11) NOT NULL AUTO_INCREMENT,
 			item_RSS_id int(11) NOT NULL,
 			item_title varchar(255) NOT NULL,
@@ -346,7 +346,7 @@ function LH_setup_CTitems(){
 function LH_setup_CTSSH(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'SSH';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			SSH_id int NOT NULL AUTO_INCREMENT primary key, 
 			SSH_name varchar(40) NOT NULL DEFAULT "",
 			SSH_login varchar(40) NOT NULL,
@@ -367,7 +367,7 @@ function LH_setup_CTSSH(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`SSH_login`)";
 	$conn->exec($sql);
 	// 创建管理员信息
-	$sql = "insert into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name) values (N'".$adminInf['admin']."',SHA('".$adminInf['password']."'),'".$adminInf['email']."',N'网站管理员')";
+	$sql = "insert ignore into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name,SSH_id) values (N'".$adminInf['admin']."',SHA('".$adminInf['password']."'),'".$adminInf['email']."',N'网站管理员',1)";
 	$conn->exec($sql);
 	echo '插入管理员信息成功......</br>';
 }
@@ -384,7 +384,7 @@ function LH_setup_CTSSH(){
 function LH_setup_CToptions(){
 	global $conn,$dataBase,$adminInf;
 	$tableName = $dataBase['dbprefix'].'options';
-	$sql = 'CREATE TABLE '.$tableName.'(
+	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			option_code varchar(30) NOT NULL,
 			option_value varchar(255) NOT NULL,
 			option_autoload char(1) NOT NULL DEFAULT "Y",
@@ -403,12 +403,17 @@ function LH_setup_CToptions(){
 	$options['site_name']=$adminInf['title'];
 	$options['author_email']=$adminInf['email'];
 	foreach ($options as $key => $value) {
-		$sql = "insert into ".$tableName." (option_code,option_value) values (N'".$key."',N'".$value."')";
+		$sql = "insert ignore into ".$tableName." (option_code,option_value) values (N'".$key."',N'".$value."')";
 		$conn->exec($sql);
 	}
 	echo '插入相关配置信息.....</br>';
 }
 
+// $lh_setup = array('articles','paragraphs','comments');
+// foreach ($lh_setup as $setup) {
+// 	$sql="show tables like ".$dataBase['dbprefix'].$setup;
+// 	$conn->exec($sql);
+// }
 
 LH_setup_CTtypes();
 LH_setup_CTstates();
