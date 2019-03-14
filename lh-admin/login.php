@@ -5,9 +5,9 @@
  * @author 紫铜炉 910109610@QQ.com
  * @version 2017-1-15
  * 
- * @return redirect edit.php
+ * @return redirect index.php
  */
-require('function/base.php');
+require_once('function/base.php');
 
 header('Content-type:text/html; charset=utf-8');
 

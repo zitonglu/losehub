@@ -7,7 +7,8 @@
  * 
  * @return none
  */
-require('function/base.php');
+require_once('function/base.php');
+require_once('function/authorize.php');
 
 ?>
 <!DOCTYPE html>
@@ -17,6 +18,7 @@ require('function/base.php');
 	<title>Document</title>
 </head>
 <body>
-	<a href=""></a>
+	<a href=""><?php echo $_COOKIE['LH_cookie_user']; ?></a>
+	<?php echo date("h"); ?>
 </body>
 </html>
