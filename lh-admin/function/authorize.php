@@ -14,7 +14,7 @@ if(isset($_GET['act']) || isset($_COOKIE['LH_cookie_user'])){
 if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != date("h")) {
 	header('WWW-Authenticate: Basic realm="losehub"');
 	header('HTTP/1.0 401 Unauthorized');
-	echo '<p><a href="./login.php">返回登录界面</a></p>';
+	include('./login.php');
 	exit;
 }else{
 	header('Content-type:text/html; charset=utf-8');
