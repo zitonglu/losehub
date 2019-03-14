@@ -23,11 +23,11 @@ require LH_PATH.'lh-admin/function/common.php';
 //获取数据库信息,判断是否生成了文件
 if (file_exists(LH_PATH.'lh-content/database.php')){
 	$lh_database = require LH_PATH.'lh-content/database.php';
-	define('LH_DBHOST', $lh_database['dbhost']);
-	define('LH_DBUSER', $lh_database['dbuser']);
-	define('LH_DBPASS', $lh_database['dbpass']);
-	define('LH_DBNAME', $lh_database['dbname']);
-	define('LH_DBPREFIX', $lh_database['dbprefix']); //表前缀
+	define('LH_DB_HOST', $lh_database['dbhost']);
+	define('LH_DB_USER', $lh_database['dbuser']);
+	define('LH_DB_PASSWORD', $lh_database['dbpass']);
+	define('LH_DB_NAME', $lh_database['dbname']);
+	define('LH_DB_PREFIX', $lh_database['dbprefix']); //表前缀
 }else{
 	include(LH_PATH.'install.php');
 	exit();

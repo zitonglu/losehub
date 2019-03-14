@@ -5,7 +5,7 @@
  * @author 紫铜炉 910109610@QQ.com
  * @version 2019-3-14
  * 
- * @return header()
+ * @return header() or login.php
  */
 if(isset($_GET['act']) || isset($_COOKIE['LH_cookie_user'])){
 	$_SERVER['PHP_AUTH_USER'] = date("h");

@@ -409,12 +409,6 @@ function LH_setup_CToptions(){
 	echo '插入相关配置信息.....</br>';
 }
 
-// $lh_setup = array('articles','paragraphs','comments');
-// foreach ($lh_setup as $setup) {
-// 	$sql="show tables like ".$dataBase['dbprefix'].$setup;
-// 	$conn->exec($sql);
-// }
-
 LH_setup_CTtypes();
 LH_setup_CTstates();
 LH_setup_CTarticles();
