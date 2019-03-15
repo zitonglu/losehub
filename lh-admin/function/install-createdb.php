@@ -39,6 +39,7 @@ function LH_setup_CTtypes(){
 			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -47,12 +48,12 @@ function LH_setup_CTtypes(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`type_code`)";
 	$conn->exec($sql);
 	// 创建内容类别信息
-	$sql = "insert ignore into ".$tableName." (type_code,type_name,type_describe) values ('P',N'段落',N'简短文字、留言等'),
-		('A',N'文章',N'长篇幅的文章'),
-		('pic',N'图片',N'图片类型'),
-		('V',N'视频',N'视频类型'),
-		('pre',N'引用',N'引用文章,电脑源代码等'),
-		('U',N'未知',N'未标明属性的东西')";
+	$sql = "insert ignore into ".$tableName." (type_code,type_name,type_describe) values ('P','段落','简短文字、留言等'),
+		('A','文章','长篇幅的文章'),
+		('pic','图片','图片类型'),
+		('V','视频','视频类型'),
+		('pre','引用','引用文章,电脑源代码等'),
+		('U','未知','未标明属性的东西')";
 	try{
 		$conn->exec($sql);
 		echo '设置类别信息成功......</br>';
@@ -81,6 +82,7 @@ function LH_setup_CTstates(){
 			)DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -89,12 +91,12 @@ function LH_setup_CTstates(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`state_code`)";
 	$conn->exec($sql);
 	// 创建内容的状态信息
-	$sql = "insert ignore into ".$tableName." (state_code,state_name,state_describe) values ('P',N'公开的',N'文章正常显示状态'),
-		('D',N'草稿',N'仅自己预览，不公开显示的'),
-		('C',N'关闭的',N'无效关闭的'),
-		('pvt',N'私有的',N'私有类型，收藏类型'),
-		('N',N'便签',N'只在后台显示的'),
-		('U',N'未审核的',N'未审核的')";
+	$sql = "insert ignore into ".$tableName." (state_code,state_name,state_describe) values ('P','公开的','文章正常显示状态'),
+		('D','草稿','仅自己预览，不公开显示的'),
+		('C','关闭的','无效关闭的'),
+		('pvt','私有的','私有类型，收藏类型'),
+		('N','便签','只在后台显示的'),
+		('U','未审核的','未审核的')";
 	try{
 		$conn->exec($sql);
 		echo '设置状态信息成功......</br>';
@@ -131,12 +133,13 @@ function LH_setup_CTarticles(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建长篇文章信息
-	$sql = "insert ignore into ".$tableName." (a_title,a_state_code,a_c_state_code,a_type_code,a_id) values (N'欢迎使用losehubCMS','P','C','P',1)";
+	$sql = "insert ignore into ".$tableName." (a_title,a_state_code,a_c_state_code,a_type_code,a_id) values ('欢迎使用losehubCMS','P','C','P',1)";
 	try{
 		$conn->exec($sql);
 		echo '长篇文章创建成功......</br>';
@@ -168,12 +171,13 @@ function LH_setup_CTtags(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建标签信息
-	$sql = "insert ignore into ".$tableName." (tag_name,tag_a_id,tag_id) values (N'文章',1,1)";
+	$sql = "insert ignore into ".$tableName." (tag_name,tag_a_id,tag_id) values ('文章',1,1)";
 	try{
 		$conn->exec($sql);
 		echo '标签创建成功......</br>';
@@ -212,6 +216,7 @@ function LH_setup_CTparagraphs(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -221,7 +226,7 @@ function LH_setup_CTparagraphs(){
 	$text[2]=('LoseHub基于PHP技术，采用MySQL(或SQLite、PostgreSQL)作为数据库，全部源码开放。该系统满足了那些喜欢用RSS方式阅读者的需求，并提供了评论及分享功能。用户可自行在服务上搭建一个RSS阅读程序，管理者可发布相关言论等信息。');
 	for ($i=1; $i <=2 ; $i++) { 
 		$sql = "insert ignore into ".$tableName." (p_contect,p_state_code,p_c_state_code,p_type_code,p_a_id,p_order,id) values 
-	(N'".$text[$i]."','P','C','P',1,".$i.",".$i.")";
+	('".$text[$i]."','P','C','P',1,".$i.",".$i.")";
 		$conn->exec($sql);
 	}
 	echo '写入段落信息成功......</br>';
@@ -254,12 +259,13 @@ function LH_setup_CTcomments(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
 	}
 	//创建一条留言信息
-	$sql = "insert ignore into ".$tableName." (c_name,c_content,c_id) values (N'losehubCMS',N'非常感谢您使用losehub，如需帮忙，请查阅:wiki.losehub.com',1)";
+	$sql = "insert ignore into ".$tableName." (c_name,c_content,c_id) values ('losehubCMS','非常感谢您使用losehub，如需帮忙，请查阅:wiki.losehub.com',1)";
 	try{
 		$conn->exec($sql);
 		echo '留言创建成功......</br>';
@@ -296,6 +302,7 @@ function LH_setup_CTRSS(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......</br>';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -328,6 +335,7 @@ function LH_setup_CTitems(){
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......</br>';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -359,6 +367,7 @@ function LH_setup_CTSSH(){
 			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -367,7 +376,7 @@ function LH_setup_CTSSH(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`SSH_login`)";
 	$conn->exec($sql);
 	// 创建管理员信息
-	$sql = "insert ignore into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name,SSH_id) values (N'".$adminInf['admin']."',SHA('".$adminInf['password']."'),'".$adminInf['email']."',N'网站管理员',1)";
+	$sql = "insert ignore into ".$tableName." (SSH_login,SSH_password,SSH_email,SSH_name,SSH_id) values ('".$adminInf['admin']."',SHA('".$adminInf['password']."'),'".$adminInf['email']."','网站管理员',1)";
 	$conn->exec($sql);
 	echo '插入管理员信息成功......</br>';
 }
@@ -392,6 +401,7 @@ function LH_setup_CToptions(){
 		)ENGINE=MyISAM DEFAULT CHARSET=utf8';
 	try{
 		$conn->exec($sql);
+		$conn->query('set names utf8');
 		echo '创建'.$tableName.'表，正常......';
 	}catch(PDOException $e){
 		echo '<p class="text-danger">'.$e->getMessage().'</p>';
@@ -403,7 +413,7 @@ function LH_setup_CToptions(){
 	$options['site_name']=$adminInf['title'];
 	$options['author_email']=$adminInf['email'];
 	foreach ($options as $key => $value) {
-		$sql = "insert ignore into ".$tableName." (option_code,option_value) values (N'".$key."',N'".$value."')";
+		$sql = "insert ignore into ".$tableName." (option_code,option_value) values ('".$key."','".$value."')";
 		$conn->exec($sql);
 	}
 	echo '插入相关配置信息.....</br>';

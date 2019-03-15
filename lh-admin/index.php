@@ -18,7 +18,7 @@ require_once('function/authorize.php');
 	<title>Document</title>
 </head>
 <body>
-	<a href=""><?php echo $_COOKIE['LH_cookie_user']; ?></a>
+	<a href="">首页</a>
 	<?php echo date("h"); ?>
 </body>
 </html>
