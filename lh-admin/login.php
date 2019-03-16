@@ -24,6 +24,7 @@ $dbh = new PDO($dsn,LH_DB_USER,LH_DB_PASSWORD);
 $echo = '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
 $echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
 }
+
 //验证账户密码登录
 @$userName = trim($_POST['userName']);
 @$userPassWord = trim($_POST['userPassWord']);
@@ -31,6 +32,10 @@ $userName = $dbh->quote($userName);
 $query = "SELECT COUNT(*) FROM `".$tableName."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
 $count = $dbh->query($query);
 if (is_object($count) && $count->fetchColumn()>0) {
+  session_start();
+  $_SESSION['lh_session_userName'] = $userName;
+  $_SESSION['lh_session_userPassWord'] = $userPassWord;
+  // session_destroy();
   setcookie("LH_cookie_user",$userName,time()+3600);
   redirect('index.php?act='.$userName);
 }else{
@@ -38,9 +43,11 @@ if (is_object($count) && $count->fetchColumn()>0) {
   if (isset($_POST['userName'])) {
     $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
   }else{
+    setcookie("LH_cookie_user",'',time()-600);
     $echo = '';
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">

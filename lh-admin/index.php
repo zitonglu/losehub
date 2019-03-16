@@ -20,8 +20,13 @@ require_once('function/authorize.php');
 <body>
 	<a href="">首页</a>
 	<?php 
-		echo date("h");
-		echo print_f($dsn);
+		session_start();
+		if (isset($_SESSION['lh_session_userName'])) {
+			echo "string";
+		}
+		echo $_SESSION['lh_session_userName'];
+		echo $_SESSION['lh_session_userPassWord'];
+		// session_destroy();
 	 ?>
 </body>
 </html>
