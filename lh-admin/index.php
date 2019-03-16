@@ -19,6 +19,9 @@ require_once('function/authorize.php');
 </head>
 <body>
 	<a href="">首页</a>
-	<?php echo date("h"); ?>
+	<?php 
+		echo date("h");
+		echo print_f($dsn);
+	 ?>
 </body>
 </html>

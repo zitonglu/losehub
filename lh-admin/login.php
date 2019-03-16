@@ -9,7 +9,6 @@
  * @return redirect index.php
  */
 require_once('function/base.php');
-
 header('Content-type:text/html; charset=utf-8');
 
 if (!file('../lh-content/database.php')) {
@@ -17,9 +16,6 @@ if (!file('../lh-content/database.php')) {
 }else{
   $tableName = LH_DB_PREFIX.'ssh';
 }
-//验证账户密码登录
-@$userName = trim($_POST['userName']);//$dbh->quote(
-@$userPassWord = trim($_POST['userPassWord']);
 //链接数据库
 try {
 $dsn = 'mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME;
@@ -28,42 +24,23 @@ $dbh = new PDO($dsn,LH_DB_USER,LH_DB_PASSWORD);
 $echo = '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
 $echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
 }
-
+//验证账户密码登录
+@$userName = trim($_POST['userName']);
+@$userPassWord = trim($_POST['userPassWord']);
 $userName = $dbh->quote($userName);
-$query = "SELECT * FROM `".$tableName."` WHERE `SSH_login` = N".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
-echo $query.'<br/>';
-$row = $dbh->query($query);
-// print_r($SSH_id->fetchALL()).'<br/>';
-while($rows=$row->fetch()){
-   print_r($rows);echo "<br>";
+$query = "SELECT COUNT(*) FROM `".$tableName."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
+$count = $dbh->query($query);
+if (is_object($count) && $count->fetchColumn()>0) {
+  setcookie("LH_cookie_user",$userName,time()+3600);
+  redirect('index.php?act='.$userName);
+}else{
+  setcookie("LH_cookie_user");
+  if (isset($_POST['userName'])) {
+    $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
+  }else{
+    $echo = '';
+  }
 }
-
-// if ($row) {
-//   $arrays = $SSH_id->fetchALL();
-//   echo "right"."<br/>";
-//   // redirect('index.php?act='.$userName);
-//   foreach ($arrays as $row) {
-//     print($row['SSH_id']);
-//   }
-// }else{
-//   echo 'wrong';
-// }
-
-
-// $query = "SELECT COUNT(*) FROM `".$tableName."` WHERE ";
-// $query .= "`SSH_login` = N'".$userName."'";
-// $query .= " AND ";
-// $query .= "`SSH_password` = SHA('".$userPassWord."')";
-// $count = $dbh->query($query);
-// if ($count->fetchColumn() > 0) {
-//   setcookie("LH_cookie_user",$userName,time()+3600);
-//   redirect('index.php?act='.$userName);
-// }else{
-//   setcookie("LH_cookie_user");
-//   if ($userName != ''){
-//     $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
-//   }
-// }
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -92,7 +69,7 @@ while($rows=$row->fetch()){
         </label>
         <?php echo $echo;?>
         <button class="btn btn-lg btn-login btn-primary" type="submit">登录后台</button>
-        <a class="btn btn-lg btn-login btn-default" href="">返回首页</a>
+        <a class="btn btn-lg btn-login btn-default" href="#">返回首页</a>
       </div>
     </form>
   </div>
