@@ -9,6 +9,7 @@
  */
 require_once('function/base.php');
 require_once('function/authorize.php');
+require('function/loginin.php');
 
 ?>
 <!DOCTYPE html>
@@ -19,14 +20,5 @@ require_once('function/authorize.php');
 </head>
 <body>
 	<a href="">首页</a>
-	<?php 
-		session_start();
-		if (isset($_SESSION['lh_session_userName'])) {
-			echo "string";
-		}
-		echo $_SESSION['lh_session_userName'];
-		echo $_SESSION['lh_session_userPassWord'];
-		// session_destroy();
-	 ?>
 </body>
 </html>
