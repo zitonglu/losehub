@@ -3,15 +3,12 @@
  * LoseHub CMS 登录函数
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @var $dbn;$now
- * @version 2019-3-16
+ * @var $dbn;
+ * @version 2019-3-19
  * 
  * @return none
  */
 require_once('function/base.php');
-
-$foo1 = FALSE;
-$foo2 = FALSE;
 
 // 数据库连接
 try {
@@ -23,27 +20,14 @@ $echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填
 
 // 判断是否已是登录用户
 session_start();
-$now = strtotime(date('Y-m-d H:i:s'));
 
-if (isset($_SESSION['lh_session_date'])){
-	$lh_session_date = strtotime($_SESSION['lh_session_date']);
-	$now -= $lh_session_date;
-	if ($now <= 3600) {
-		$foo1 = TRUE;
-	}	
-}
-
-if (isset($_SESSION['lh_session_userName'])){
-	$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$_SESSION['lh_session_userName'];
-	$count = $dbn->query($query);
-	if (is_object($count) && $count->fetchColumn()>0) {
-		$foo2 = TRUE;
-	}
-}
-// session_destroy();
-
-if ($foo1 == FALSE || $foo2 == FALSE) {
+$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$_SESSION['lh_session_userName']." AND `SSH_password` = SHA(".$_SESSION['lh_session_userPassWord'].")";
+$count = $dbn->query($query);
+if (!(is_object($count) && $count->fetchColumn()>0)) {
+	$dbn = null;
+	session_destroy();
 	redirect('login.php');
 }
 
+// session_destroy();
 ?>

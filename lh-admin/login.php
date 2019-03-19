@@ -3,8 +3,8 @@
  * LoseHub CMS 后台登录界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @var $dsn,$dbh,$echo
- * @version 2017-1-15
+ * @var $dsn,$echo
+ * @version 2019-3-19
  * 
  * @return redirect index.php
  */
@@ -34,8 +34,7 @@ $count = $dbh->query($query);
 if (is_object($count) && $count->fetchColumn()>0) {
   session_start();
   $_SESSION['lh_session_userName'] = $userName;
-  // $_SESSION['lh_session_userPassWord'] = $userPassWord;
-  $_SESSION['lh_session_date'] = date('Y-m-d H:i:s');
+  $_SESSION['lh_session_userPassWord'] = $userPassWord;
   // session_destroy();
   setcookie("LH_cookie_user",$userName,time()+3600);
   redirect('index.php?act='.$userName);
