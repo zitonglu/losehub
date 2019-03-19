@@ -34,7 +34,8 @@ $count = $dbh->query($query);
 if (is_object($count) && $count->fetchColumn()>0) {
   session_start();
   $_SESSION['lh_session_userName'] = $userName;
-  $_SESSION['lh_session_userPassWord'] = $userPassWord;
+  // $_SESSION['lh_session_userPassWord'] = $userPassWord;
+  $_SESSION['lh_session_date'] = date('Y-m-d H:i:s');
   // session_destroy();
   setcookie("LH_cookie_user",$userName,time()+3600);
   redirect('index.php?act='.$userName);
