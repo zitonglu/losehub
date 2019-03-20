@@ -1,23 +1,37 @@
 <?php
 /**
- * LoseHub CMS 授权函数-首部授权
+ * LoseHub CMS 登录函数
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @version 2019-3-14
+ * @var $dbn;
+ * @version 2019-3-19
  * 
- * @return header() or login.php
+ * @return none
  */
-if(isset($_GET['act']) || isset($_COOKIE['LH_cookie_user'])){
-	$_SERVER['PHP_AUTH_USER'] = date("h");
-}
+// require_once('function/base.php');
+require_once('function/authorize-header.php');
 
-if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != date("h")) {
-	header('WWW-Authenticate: Basic realm="losehub"');
-	header('HTTP/1.0 401 Unauthorized');
-	include('./login.php');
-	exit;
+// 数据库连接
+try {
+$dbn = new PDO('mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME,LH_DB_USER,LH_DB_PASSWORD);
+}catch (PDOException $e) {
+$echo = '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
+$echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
+}
+// 判断是否已是登录用户
+if (isset($_COOKIE['lh_cookie_user']) && isset($_COOKIE['lh_cookie_password'])) {
+	$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$_COOKIE['lh_cookie_user']." AND `SSH_password` = SHA(".$_COOKIE['lh_cookie_password'].")";
 }else{
-	header('Content-type:text/html; charset=utf-8');
+	session_start();
+	$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$_SESSION['lh_session_userName']." AND `SSH_password` = SHA(".$_SESSION['lh_session_userPassWord'].")";
+}
+$count = $dbn->query($query);
+if (!(is_object($count) && $count->fetchColumn()>0)) {
+	$dbn = null;
+	session_destroy();
+  	setcookie("lh_cookie_password");
+	redirect('login.php');
 }
 
+// session_destroy();
 ?>

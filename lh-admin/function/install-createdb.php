@@ -410,8 +410,10 @@ function LH_setup_CToptions(){
 	$sql = "ALTER TABLE `".$tableName."` ADD UNIQUE(`option_code`)";
 	$conn->exec($sql);
 	// 插入站点名称和管理员邮箱信息
-	$options['site_name']=$adminInf['title'];
-	$options['author_email']=$adminInf['email'];
+	$options['site_name'] = $adminInf['title'];
+	$options['author_email'] = $adminInf['email'];
+	$options['site_home'] = dirname('http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]);
+	$options['wwwroot'] = 'http://'.$_SERVER['HTTP_HOST'];
 	foreach ($options as $key => $value) {
 		$sql = "insert ignore into ".$tableName." (option_code,option_value) values ('".$key."','".$value."')";
 		$conn->exec($sql);
