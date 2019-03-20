@@ -11,10 +11,10 @@
 require_once('function/base.php');
 header('Content-type:text/html; charset=utf-8');
 
+$echo = '';
+
 if (!file('../lh-content/database.php')) {
   die('未安装成功或者安装有误!');
-}else{
-  $tableName = LH_DB_PREFIX.'ssh';
 }
 //链接数据库
 try {
@@ -29,22 +29,25 @@ $echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填
 @$userName = trim($_POST['userName']);
 @$userPassWord = trim($_POST['userPassWord']);
 $userName = $dbh->quote($userName);
-$query = "SELECT COUNT(*) FROM `".$tableName."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
+$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
 $count = $dbh->query($query);
 if (is_object($count) && $count->fetchColumn()>0) {
   session_start();
   $_SESSION['lh_session_userName'] = $userName;
   $_SESSION['lh_session_userPassWord'] = $userPassWord;
-  // session_destroy();
-  setcookie("LH_cookie_user",$userName,time()+3600);
+  setcookie("lh_cookie_user",$userName,time()+3600);
+  
+  if (isset($_POST['lh_remember_me'])) {// 记住用户登录
+    setcookie("lh_cookie_password",$userPassWord,time()+3600);
+  }
+
   redirect('index.php?act='.$userName);
 }else{
-  setcookie("LH_cookie_user");
+  // session_destroy();
+  setcookie("lh_cookie_user");
+  setcookie("lh_cookie_password");
   if (isset($_POST['userName'])) {
     $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
-  }else{
-    setcookie("LH_cookie_user",'',time()-600);
-    $echo = '';
   }
 }
 
@@ -66,10 +69,10 @@ if (is_object($count) && $count->fetchColumn()>0) {
     <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
       <h2 class="form-signin-heading">LoseHub CMS后台登录</h2>
       <div class="login-wrap">
-        <input class="form-control" type="text" name="userName" required="required" placeholder="登录帐号">
+        <input class="form-control" type="text" name="userName" required="required" placeholder="登录帐号" value="<?php echo str_replace("'","", $userName); ?>">
         <input class="form-control" type="password" name="userPassWord" required="required" placeholder="登录密码">
         <label class="checkbox">
-          <input value="remember-me" type="checkbox"> 记住用户登录
+          <input name="lh_remember_me" type="checkbox"> 记住用户登录
           <span class="pull-right">
             <a data-toggle="modal" href="#"> 忘记密码?</a>
           </span>

@@ -20,5 +20,6 @@ require('function/loginin.php');
 </head>
 <body>
 	<a href="">首页</a>
+	<?php echo isset($_COOKIE['lh_cookie_user'])?$_COOKIE['lh_cookie_user']:'';?>
 </body>
 </html>
