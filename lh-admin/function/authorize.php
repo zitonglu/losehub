@@ -19,7 +19,7 @@ if (isset($_COOKIE['lh_cookie_user']) && isset($_COOKIE['lh_cookie_password'])) 
 	$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$_SESSION['lh_session_userName']." AND `SSH_password` = SHA(".$_SESSION['lh_session_userPassWord'].")";
 }
 $count = $dbn->query($query);
-if (!(is_object($count) && $count->fetchColumn()>0)) {
+if (!(is_object($count) && $count->fetchColumn()>0) || @$_GET['act'] == 'loginout'){
 	$dbn = null;
 	session_destroy();
   	setcookie("lh_cookie_password");

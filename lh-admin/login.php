@@ -24,10 +24,10 @@ if (isset($dbn)) {
     session_start();
     $_SESSION['lh_session_userName'] = $userName;
     $_SESSION['lh_session_userPassWord'] = $userPassWord;
-    setcookie("lh_cookie_user",$userName,time()+3600);
+    setcookie("lh_cookie_user",$userName,time()+14400);
 
     if (isset($_POST['lh_remember_me'])) {// 记住用户登录
-      setcookie("lh_cookie_password",$userPassWord,time()+3600);
+      setcookie("lh_cookie_password",$userPassWord,time()+14400);
     }
 
     redirect('index.php?act='.$userName);
