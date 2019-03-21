@@ -9,6 +9,7 @@
  */
 require_once('function/base.php');
 require_once('function/authorize.php');
+// require_once('function/management.php');
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +26,6 @@ require_once('function/authorize.php');
 </head>
 <body>
 	<!-- 导航条 -->
-	<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->

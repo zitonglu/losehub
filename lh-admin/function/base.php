@@ -18,7 +18,7 @@ define('LH_VERSION',LH_VERSION_MAJOR.'.'.LH_VERSION_MODEL.LH_VERSION_VIEW.LH_VER
 defined('LH_PATH') || define('LH_PATH', rtrim(str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../')), '/') . '/');
 
 //加载系统基础辅助函数
-require LH_PATH.'lh-admin/function/common.php';
+require_once LH_PATH.'lh-admin/function/common.php';
 
 //获取数据库信息,判断是否生成了文件
 if (file_exists(LH_PATH.'lh-content/database.php')){
@@ -32,5 +32,24 @@ if (file_exists(LH_PATH.'lh-content/database.php')){
 	include(LH_PATH.'install.php');
 	exit();
 }
+// 链接数据库
+try {
+	$dbn = new PDO('mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME,LH_DB_USER,LH_DB_PASSWORD);
+}catch (PDOException $e) {
+	echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
+	echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
+}
+// 获取设置参数
+$sql = "SELECT * FROM ".LH_DB_PREFIX.'options';
+$lh = array();
+foreach ($dbn->query($sql) as $row) {
+	if($row['option_autoload'] == 'Y'){
+		$add_key = array($row['option_code']=>$row['option_value']);
+		$lh = array_merge($lh,$add_key);
+	}
+}
+var_dump($lh);
+echo '<br/>'.$lh['wwwroot'];
 
+// $dbn = '';
 ?>
