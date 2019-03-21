@@ -34,7 +34,7 @@ if (file_exists(LH_PATH.'lh-content/database.php')){
 }
 // 链接数据库
 try {
-	$dbn = new PDO('mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME,LH_DB_USER,LH_DB_PASSWORD);
+	$dbn = new PDO('mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME,LH_DB_USER,LH_DB_PASSWORD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "set names utf8"));
 }catch (PDOException $e) {
 	echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
 	echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
@@ -49,7 +49,7 @@ foreach ($dbn->query($sql) as $row) {
 	}
 }
 var_dump($lh);
-echo '<br/>'.$lh['wwwroot'];
+echo '<br/>'.$lh['site_name'];
 
 // $dbn = '';
 ?>
