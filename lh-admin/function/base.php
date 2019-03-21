@@ -3,7 +3,8 @@
  * LoseHub CMS 基础设置数据
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @version 2017-1-13
+ * @var $dbn,$lh
+ * @version 2019-3-21
  * 
  * @return none or install.php?
  */
@@ -39,7 +40,7 @@ try {
 	echo '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
 	echo '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
 }
-// 获取设置参数
+// 获取设置参数:$lh
 $sql = "SELECT * FROM ".LH_DB_PREFIX.'options';
 $lh = array();
 foreach ($dbn->query($sql) as $row) {
@@ -48,8 +49,6 @@ foreach ($dbn->query($sql) as $row) {
 		$lh = array_merge($lh,$add_key);
 	}
 }
-var_dump($lh);
-echo '<br/>'.$lh['site_name'];
 
 // $dbn = '';
 ?>

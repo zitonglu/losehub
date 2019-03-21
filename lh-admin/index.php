@@ -3,13 +3,13 @@
  * LoseHub CMS 后台登录界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;),$lh
  * @version 2019-3-13
  * 
  * @return none
  */
 require_once('function/base.php');
 require_once('function/authorize.php');
-// require_once('function/management.php');
 
 ?>
 <!DOCTYPE html>
@@ -20,9 +20,9 @@ require_once('function/authorize.php');
 	<meta name="author" content="Zitonglu">
 	<title>LoseHub CMS首台程序</title>
 	<!-- Bootstrap core CSS -->
-    <link href="lh-includes/style/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $lh['site_url'] ?>/lh-includes/style/bootstrap.min.css" rel="stylesheet">
     <!-- My CSS -->
-    <link href="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>/lh-admin/style/style.css" rel="stylesheet">
+    <link href="<?php echo $lh['site_url'] ?>/lh-admin/style/style.css" rel="stylesheet">
 </head>
 <body>
 	<!-- 导航条 -->

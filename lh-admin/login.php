@@ -3,8 +3,8 @@
  * LoseHub CMS 后台登录界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
- * @var $dsn,$echo
- * @version 2019-3-19
+ * @var $echo
+ * @version 2019-3-21
  * 
  * @return redirect index.php
  */
@@ -13,41 +13,31 @@ header('Content-type:text/html; charset=utf-8');
 
 $echo = '';
 
-if (!file('../lh-content/database.php')) {
-  die('未安装成功或者安装有误!');
-}
-//链接数据库
-try {
-$dsn = 'mysql:host='.LH_DB_HOST.';dbname='.LH_DB_NAME;
-$dbh = new PDO($dsn,LH_DB_USER,LH_DB_PASSWORD);
-}catch (PDOException $e) {
-$echo = '<p class="text-danger text-center">Error!: ' . $e->getMessage() . '</p>';
-$echo .=  '<p class="text-danger text-center">无法链接数据库,请检查填写是否正确</p>';
-}
-
 //验证账户密码登录
 @$userName = trim($_POST['userName']);
 @$userPassWord = trim($_POST['userPassWord']);
-$userName = $dbh->quote($userName);
-$query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
-$count = $dbh->query($query);
-if (is_object($count) && $count->fetchColumn()>0) {
-  session_start();
-  $_SESSION['lh_session_userName'] = $userName;
-  $_SESSION['lh_session_userPassWord'] = $userPassWord;
-  setcookie("lh_cookie_user",$userName,time()+3600);
-  
-  if (isset($_POST['lh_remember_me'])) {// 记住用户登录
-    setcookie("lh_cookie_password",$userPassWord,time()+3600);
-  }
+if (isset($dbn)) {
+  $userName = $dbn->quote($userName);
+  $query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
+  $count = $dbn->query($query);
+  if (is_object($count) && $count->fetchColumn()>0) {
+    session_start();
+    $_SESSION['lh_session_userName'] = $userName;
+    $_SESSION['lh_session_userPassWord'] = $userPassWord;
+    setcookie("lh_cookie_user",$userName,time()+3600);
 
-  redirect('index.php?act='.$userName);
-}else{
-  // session_destroy();
-  setcookie("lh_cookie_user");
-  setcookie("lh_cookie_password");
-  if (isset($_POST['userName'])) {
-    $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
+    if (isset($_POST['lh_remember_me'])) {// 记住用户登录
+      setcookie("lh_cookie_password",$userPassWord,time()+3600);
+    }
+
+    redirect('index.php?act='.$userName);
+  }else{
+    // session_destroy();
+    setcookie("lh_cookie_user");
+    setcookie("lh_cookie_password");
+    if (isset($_POST['userName'])) {
+      $echo = '<p class="text-danger text-center">帐号或密码错误，请核实</p>';
+    }
   }
 }
 
