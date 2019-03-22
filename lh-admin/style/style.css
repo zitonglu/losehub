@@ -92,9 +92,6 @@ body#login .form-signin .btn-login{
 .edit{
 	max-width: 800px;
 }
-/*.edit .spinner .input-group .max-width{
-	max-width: 60px;
-}*/
 /*删除type="number"上下按钮*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
