@@ -18,6 +18,6 @@
 	<title>LoseHub CMS后台程序</title>
 	<!-- Bootstrap core CSS -->
     <link href="<?php echo $lh['site_url'] ?>/lh-includes/style/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo $lh['site_url'] ?>/lh-admin/style/style.css" rel="stylesheet">
+    <link href="<?php echo $lh['site_url'] ?>/lh-admin/style/style.css?v=1.0" rel="stylesheet">
 </head>
 <body>

@@ -92,6 +92,11 @@ body#login .form-signin .btn-login{
 .edit{
 	max-width: 800px;
 }
+.edit-list .list-group-item{
+	border:none;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 0;
+}
 /*删除type="number"上下按钮*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

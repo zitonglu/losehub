@@ -17,46 +17,52 @@ include('nav.php');
 <div class="container edit">
 	<form action="">
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字"></textarea><br>
-		<div class="panel-group" role="tablist">
-			<div class="panel panel-default">
-				<div class="btn-group btn-group-justified" role="tab" id="1collapseOne">
-					<div class="btn-group">
-						<button type="submit" class="btn btn-default btn-block"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
-					</div>
-					<div class="btn-group">
-						<button type="submit" class="btn btn-default btn-block" role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
-					</div>
-					<div class="btn-group">
-						<button type="submit" class="btn btn-block btn-default"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
-					</div>
-				</div>
-				<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
-					<ul class="list-group">
-						<li class="list-group-item">Bootply</li>
-						<li class="list-group-item spinner">
-							<div class="input-group">
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span></button>
-								</span>
-								<input type="number" class="form-control" value="42">	
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
-									<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
-								</span>
-							</div>
-						</li>
-						<!-- <li class="list-group-item">
-							<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 媒体</button>
-						</li> -->
-						<!-- <li class="list-group-item">
-							<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> <span class="hidden-xs">发布</span></button>
-						</li> -->
-					</ul>
-					<div class="panel-footer">Footer</div>
+		<div class="panel-group">
+			<div class="text-right" id="XX1">
+				<button type="submit" class="btn btn-link hidden-xs" disabled="disabled"> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?></button>
+				<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
+				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
+				<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
+			</div>
+			<div id="collapseOne" class="collapse">
+			<!-- <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1"> -->
+				<ul class="list-group edit-list">
+					<li class="list-group-item">
+						类型：
+						<?php foreach ($types as $key => $value) {
+							$echo = '<label class="radio-inline">';
+							$echo .= '<input type="radio" name="type" id="type-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '</label>';
+							echo $echo;
+						}
+						?>
+					</li>
+					<li class="list-group-item">
+						状态：
+						<?php foreach ($states as $key => $value) {
+							$echo = '<label class="radio-inline">';
+							$echo .= '<input type="radio" name="state" id="state-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '</label>';
+							echo $echo;
+						}
+						?>
+					</li>
+					<li class="list-group-item spinner">
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span></button>
+							</span>
+							<input type="number" class="form-control" value="42">	
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+							</span>
+						</div>
+					</li>
+				</ul>
 				</div>
 			</div>
-		</div>
-	</form>
+		</form>
 </div>
 
 <?php include('footer.php');?>
