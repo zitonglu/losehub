@@ -92,6 +92,7 @@ body#login .form-signin .btn-login{
 .edit{
 	max-width: 800px;
 }
+.edit .btn-link{color:#333}
 .edit-list .list-group-item{
 	border:none;
 	border-bottom: 1px solid #ddd;

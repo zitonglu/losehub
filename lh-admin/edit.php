@@ -11,11 +11,20 @@
 require_once('function/base.php');
 require_once('function/authorize.php');
 
+$type_C = 'P';
+if (isset($_POST['type'])) {
+	$type_C = $_POST['type'];
+}
+$state_C = 'P';
+if (isset($_POST['state'])) {
+	$state_C = $_POST['state'];
+}
+
 include('header.php');
 include('nav.php');
 ?>
 <div class="container edit">
-	<form action="">
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字"></textarea><br>
 		<div class="panel-group">
 			<div class="text-right" id="XX1">
@@ -25,32 +34,46 @@ include('nav.php');
 				<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
 			</div>
 			<div id="collapseOne" class="collapse">
-			<!-- <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1"> -->
 				<ul class="list-group edit-list">
-					<li class="list-group-item">
+					<li class="list-group-item text-right">
 						类型：
 						<?php foreach ($types as $key => $value) {
+							if ($key == $type_C) {
+								$checked = 'checked ';
+							}else{
+								$checked ='';
+							}
 							$echo = '<label class="radio-inline">';
-							$echo .= '<input type="radio" name="type" id="type-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '<input type="radio" '.$checked.'name="type" id="type-'.$key.'" value="'.$key.'"> '.$value;
 							$echo .= '</label>';
 							echo $echo;
 						}
 						?>
 					</li>
-					<li class="list-group-item">
+					<li class="list-group-item text-right">
 						状态：
 						<?php foreach ($states as $key => $value) {
+							if ($key == $state_C) {
+								$checked = 'checked ';
+							}else{
+								$checked ='';
+							}
 							$echo = '<label class="radio-inline">';
-							$echo .= '<input type="radio" name="state" id="state-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '<input type="radio" '.$checked.'name="state" id="state-'.$key.'" value="'.$key.'"> '.$value;
 							$echo .= '</label>';
 							echo $echo;
 						}
 						?>
 					</li>
-					<li class="list-group-item spinner">
+					<li class="list-group-item text-right">
+						<label class="checkbox-inline">
+							<input type="checkbox" id="comments" value="comments"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+						</label>
+					</li>
+					<!-- <li class="list-group-item spinner text-right">//段落序号，用于长文章
 						<div class="input-group">
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span></button>
+								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落号</button>
 							</span>
 							<input type="number" class="form-control" value="42">	
 							<span class="input-group-btn">
@@ -58,7 +81,7 @@ include('nav.php');
 								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
 							</span>
 						</div>
-					</li>
+					</li> -->
 				</ul>
 				</div>
 			</div>
