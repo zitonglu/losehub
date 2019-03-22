@@ -6,23 +6,31 @@ $(document).ready(function() {
 			return false;
 		}
 	});
-	jQuery('.sidebar').theiaStickySidebar({ additionalMarginTop:60}); 
 });
+// 数字增减
+(function ($) {
+	$('.spinner .input-group span:last-of-type #plus').on('click', function() {
+		$('.spinner input').val( parseInt($('.spinner input').val(), 10) + 1);
+	});
+	$('.spinner .input-group span:last-of-type #minus').on('click', function() {
+		$('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
+	});
+})(jQuery);
 // 返回顶部时影藏
-$(function(){
-    $(window).scroll(function() {
-        var scrollY = $(document).scrollTop();
-        if (scrollY <= 0){
-        	$('#backTop').addClass('hiddened');
-        } 
-        else {
-            $('#backTop').removeClass('hiddened');
-        }
-     });
-});
-// 返回顶部
-$("#returnTop").click(function () {
-    var speed = 500;
-    $('body,html').animate({scrollTop:0}, speed);
-    return false;
-});
+// $(function(){
+//     $(window).scroll(function() {
+//         var scrollY = $(document).scrollTop();
+//         if (scrollY <= 0){
+//         	$('#backTop').addClass('hiddened');
+//         } 
+//         else {
+//             $('#backTop').removeClass('hiddened');
+//         }
+//      });
+// });
+// // 返回顶部
+// $("#returnTop").click(function () {
+//     var speed = 500;
+//     $('body,html').animate({scrollTop:0}, speed);
+//     return false;
+// });

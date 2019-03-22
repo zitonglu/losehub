@@ -7,7 +7,7 @@
  * 
  * @return header() or login.php
  */
-if(isset($_GET['act']) || isset($_COOKIE['LH_cookie_user'])){
+if(isset($_GET['act']) || isset($_COOKIE['lh_cookie_user'])){
 	$_SERVER['PHP_AUTH_USER'] = date("h");
 }
 
