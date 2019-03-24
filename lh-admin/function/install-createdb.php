@@ -206,7 +206,7 @@ function LH_setup_CTparagraphs(){
 			p_c_state_code varchar(10) NOT NULL DEFAULT "C",
 			p_type_code varchar(10) NOT NULL DEFAULT "P",
 			p_datetime DATETIME NOT NULL DEFAULT NOW(),
-			p_a_id int NOT NULL DEFAULT "0",
+			p_a_id int NOT NULL DEFAULT "1",
 			p_item_id int NOT NULL DEFAULT "0",
 			PRIMARY KEY (id),
 			CONSTRAINT pToState FOREIGN KEY(p_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade,
