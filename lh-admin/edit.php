@@ -39,7 +39,7 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 }
 
 if (@$_GET['return'] == true) {
-	$return = '<p class="alert alert-success return">提交成功</p>';
+	$return = '<p class="alert alert-success return"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 提交成功</p>';
 }else{
 	$return = null;
 }
@@ -49,14 +49,13 @@ include('nav.php');
 ?>
 <div class="container edit">
 	<?php echo $return;?>
-	<form action="function/edit-p.php" method="post">
-		<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post"> -->
-		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea"><?php echo $textarea;?></textarea><br>
+	<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
+		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea><br>
 		<div class="panel-group">
 			<div class="text-right">
 				<input type="hidden" name="id"<?php echo $id_value;?>>
 				<button type="submit" class="btn btn-link hidden-xs" disabled="disabled"> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?></button>
-				<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
+				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 				<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
 			</div>
@@ -110,9 +109,12 @@ include('nav.php');
 						</div>
 					</li> -->
 				</ul>
-				</div>
 			</div>
-		</form>
+			<div id="collapseTwo" class="collapse text-right">
+				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- 最大上传2MB文件 -->
+				<input type="file" name="screenshot" class="file-input">
+			</div>
+		</div>
+	</form>
 </div>
-
 <?php include('footer.php');?>

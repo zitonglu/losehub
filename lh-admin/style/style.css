@@ -98,6 +98,10 @@ body#login .form-signin .btn-login{
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 0;
 }
+.edit .file-input{
+	display:inline-block;
+	margin-top:1em;
+}
 /*删除type="number"上下按钮*/
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
