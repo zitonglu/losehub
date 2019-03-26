@@ -15,12 +15,34 @@ $type_C = 'P';
 $state_C = 'P';
 $checkbox = '';
 $textarea = '';
+$id_value = '';
 
+// 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
-		$id_value = ' value="'.$_GET['id'].'"';
-	}else{
-		$id_value = '';
+	$id_value = ' value="'.$_GET['id'].'"';
+	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`";
+	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
+	$query .= " WHERE `id`=".$_GET['id'];
+	// echo $query;
+	$result = $dbn->prepare($query);
+	$result->execute();
+	while ($lh_paragraphs = $result->fetch(PDO::FETCH_ASSOC)){
+		$textarea = $lh_paragraphs['p_contect'];
+		$type_C = $lh_paragraphs['p_type_code'];
+		$state_C = $lh_paragraphs['p_state_code'];
+		if ($lh_paragraphs['p_c_state_code'] == 'P') {
+			$checkbox = 'checked';
+		}else{
+			$checkbox = '';
+		}
 	}
+}
+
+if (@$_GET['return'] == true) {
+	$return = '<p class="alert alert-success">提交成功</p>';
+}else{
+	$return = '';
+}
 
 include('header.php');
 include('nav.php');
@@ -90,6 +112,7 @@ include('nav.php');
 				</div>
 			</div>
 		</form>
+		<?php echo $return;?>
 </div>
 
 <?php include('footer.php');?>

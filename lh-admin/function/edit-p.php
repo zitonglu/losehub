@@ -32,7 +32,7 @@ if (isset($_POST['send'])) {
 	}
 	// echo $query;
 	$dbn->exec($query);
-	redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId());
+	redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId().'&&return=true');
 }else{
 	redirect($lh['site_url'].'/lh-admin/index.php');
 }
