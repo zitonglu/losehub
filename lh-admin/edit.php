@@ -13,43 +13,25 @@ require_once('function/authorize.php');
 
 $type_C = 'P';
 $state_C = 'P';
-$p_c_state_code = 'C';
 $checkbox = '';
 $textarea = '';
-$id_value = '';
 
-if (isset($_POST['send'])) {
-	if (isset($_POST['id']) && $_POST['id']!='') {
-		# 有ID的
+if (isset($_GET['id']) && $_GET['id'] != ''){
+		$id_value = ' value="'.$_GET['id'].'"';
 	}else{
-		# 新增项...
-		$type_C = $_POST['type'];
-		$state_C = $_POST['state'];
-		$textarea = $_POST['textarea'];
-		if (isset($_POST['comments'])) {
-			$checkbox = 'checked';
-			$p_c_state_code = 'P';
-		}
-		$query = "insert into ".LH_DB_PREFIX.'paragraphs'." (";
-		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`";
-		$query .= ") values (";
-		$query .= "'".$textarea."','".$state_C."','".$type_C."','".$p_c_state_code."'";
-		$query .= ")";
-		$dbn->exec($query);
-		$id_value = ' value="'.$dbn->lastInsertId().'"';
+		$id_value = '';
 	}
-	// $query = "SELECT COUNT(*) FROM ".LH_DB_PREFIX.'paragraphs'." WHERE `id`=".$id;
-}
 
 include('header.php');
 include('nav.php');
 ?>
 <div class="container edit">
-	<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+	<form action="function/edit-p.php" method="post">
+		<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post"> -->
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea"><?php echo $textarea;?></textarea><br>
 		<div class="panel-group">
 			<div class="text-right">
-				<input type="hidden" name="id"<?php echo $id_value;?>><!-- 隐藏的ID -->
+				<input type="hidden" name="id"<?php echo $id_value;?>>
 				<button type="submit" class="btn btn-link hidden-xs" disabled="disabled"> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?></button>
 				<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>

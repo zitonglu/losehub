@@ -9,7 +9,7 @@
  * @return none or login.php
  */
 // require_once('function/base.php');
-require_once('function/authorize-header.php');
+require_once('authorize-header.php');
 
 // 判断是否已是登录用户
 if (isset($_COOKIE['lh_cookie_user']) && isset($_COOKIE['lh_cookie_password'])) {
