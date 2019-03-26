@@ -13,9 +13,9 @@ require_once('function/authorize.php');
 
 $type_C = 'P';
 $state_C = 'P';
-$checkbox = '';
-$textarea = '';
-$id_value = '';
+$checkbox = null;
+$textarea = null;
+$id_value = null;
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
@@ -33,21 +33,22 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 		if ($lh_paragraphs['p_c_state_code'] == 'P') {
 			$checkbox = 'checked';
 		}else{
-			$checkbox = '';
+			$checkbox = null;
 		}
 	}
 }
 
 if (@$_GET['return'] == true) {
-	$return = '<p class="alert alert-success">提交成功</p>';
+	$return = '<p class="alert alert-success return">提交成功</p>';
 }else{
-	$return = '';
+	$return = null;
 }
 
 include('header.php');
 include('nav.php');
 ?>
 <div class="container edit">
+	<?php echo $return;?>
 	<form action="function/edit-p.php" method="post">
 		<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post"> -->
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea"><?php echo $textarea;?></textarea><br>
@@ -112,7 +113,6 @@ include('nav.php');
 				</div>
 			</div>
 		</form>
-		<?php echo $return;?>
 </div>
 
 <?php include('footer.php');?>

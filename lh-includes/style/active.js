@@ -7,6 +7,7 @@ $(document).ready(function() {
 		}
 	});
 });
+
 // 数字增减
 (function ($) {
 	$('.spinner .input-group span:last-of-type #plus').on('click', function() {
@@ -16,6 +17,14 @@ $(document).ready(function() {
 		$('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
 	});
 })(jQuery);
+
+//定时显示、关闭
+setTimeout(function(){
+    $('.return').show(); //将return标签显示出来。
+    setTimeout(function(){
+        $('.return').hide(); //将return标签隐藏。
+    }, 1200);
+}, 1200);
 // 返回顶部时影藏
 // $(function(){
 //     $(window).scroll(function() {
