@@ -16,6 +16,7 @@ $state_C = 'P';
 $checkbox = null;
 $textarea = null;
 $id_value = null;
+$send = '<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
@@ -23,6 +24,7 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`";
 	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
 	$query .= " WHERE `id`=".$_GET['id'];
+	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
 	// echo $query;
 	$result = $dbn->prepare($query);
 	$result->execute();
@@ -57,7 +59,7 @@ include('nav.php');
 				<button type="submit" class="btn btn-link hidden-xs" disabled="disabled"> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?></button>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
-				<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
+				<?php echo $send;?>
 			</div>
 			<div id="collapseOne" class="collapse">
 				<ul class="list-group edit-list">
