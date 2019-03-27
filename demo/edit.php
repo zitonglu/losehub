@@ -75,43 +75,62 @@ include('nav.php');
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 				<?php echo $send;?>
 			</div>
-			<div id="collapseOne" class="collapse text-right">
-				<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型和状态：<select class="form-control selectbox" name="type" required>
-				<?php foreach ($types as $key => $value) {
-					if ($key == $type_C) {
-						$checked = ' selected = "selected"';
-					}else{
-						$checked ='';
-					}
-					$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-					echo $echo;
-				}
-				?>
-				</select> <select class="form-control selectbox" name="state" required>
-				<?php foreach ($states as $key => $value) {
-					if ($key == $state_C) {
-						$checked = ' selected = "selected"';
-					}else{
-						$checked ='';
-					}
-					$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-					echo $echo;
-				}
-				?>
-				</select><br />
-				<label class="checkbox-inline">
-					<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
-				</label>
-				<!-- <div class="input-group">//段落序号，用于长文章
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落号</button>
-					</span>
-					<input type="number" class="form-control" value="42">	
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
-						<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
-					</span>
-				</div> -->
+			<div id="collapseOne" class="collapse">
+				<ul class="list-group edit-list">
+					<li class="list-group-item text-right">
+						类型：
+						<?php foreach ($types as $key => $value) {
+							if ($key == $type_C) {
+								$checked = 'checked ';
+							}else{
+								$checked ='';
+							}
+							$echo = '<label class="radio-inline">';
+							$echo .= '<input type="radio" '.$checked.'name="type" id="type-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '</label>';
+							echo $echo;
+						}
+						?>
+					</li>
+					<li class="list-group-item text-right">
+						状态：<select class="form-control selectbox" name="state">
+						<?php foreach ($states as $key => $value) {
+							if ($key == $state_C) {
+								$checked = 'checked ';
+							}else{
+								$checked ='';
+							}
+							$echo = '<label class="radio-inline">';
+							$echo .= '<input type="radio" '.$checked.'name="state" id="state-'.$key.'" value="'.$key.'"> '.$value;
+							$echo .= '</label>';
+							echo $echo;
+						}
+						?>
+						  <option>1</option>
+						  <option value="zhi">2</option>
+						
+						  <option>4</option>
+						  <option>5</option>
+						</select>
+					</li>
+					<li class="list-group-item text-right">
+						<label class="checkbox-inline">
+							<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+						</label>
+					</li>
+					<!-- <li class="list-group-item spinner text-right">//段落序号，用于长文章
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落号</button>
+							</span>
+							<input type="number" class="form-control" value="42">	
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+							</span>
+						</div>
+					</li> -->
+				</ul>
 			</div>
 			<div id="collapseTwo" class="collapse text-right">
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- 最大上传2MB文件 -->

@@ -92,6 +92,13 @@ body#login .form-signin .btn-login{
 .edit{
 	max-width: 800px;
 }
+.edit .selectbox{
+	display: inline-block;
+	max-width: 90px;
+}
+.edit #collapseOne{
+	margin-top:1em;
+}
 .edit .btn-link{color:#333}
 .edit-list .list-group-item{
 	border:none;
