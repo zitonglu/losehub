@@ -13,7 +13,7 @@ require_once('function/authorize.php');
 
 $echo = '';
 
-$query = "SELECT `id`,`p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`,`p_datetime`,`p_a_id`";
+$query = "SELECT `id`,`p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`,`p_datetime`,`p_a_id`,`p_order`";
 $query .= " FROM ".LH_DB_PREFIX.'paragraphs';
 // echo $query;
 $result = $dbn->prepare($query);
@@ -31,7 +31,7 @@ foreach ($p_list as $p_lists) {
 	if ($p_lists['p_a_id'] == 1) {
 		$echo .= '<td>无</td>';
 	}else{
-		$echo .= '<td>'.$p_lists['p_a_id'].'</td>';
+		$echo .= '<td>'.$p_lists['p_a_id'].'- <span class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span> '.$p_lists['p_order'].'</td>';
 	}
 	$echo .= '<td><a href="edit.php?id='.$p_lists['id'].'&&return=plist" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
 	$echo .= '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
@@ -42,7 +42,7 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container p-list">
-	<table class="table">
+	<table class="table table-striped table-hover">
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表</caption>
 		<thead>
 			<tr>

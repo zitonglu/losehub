@@ -63,8 +63,8 @@ switch (@$_GET['return']) {
 		$return_value = ' value="edit"';
 		break;
 	case 'plist':
-		$return_value = ' value="plist"';
 		$return = null;
+		$return_value = ' value="plist"';
 		break;
 	default:
 		$return = null;
