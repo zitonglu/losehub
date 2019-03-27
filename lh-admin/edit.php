@@ -16,15 +16,16 @@ $state_C = 'P';
 $checkbox = null;
 $textarea = null;
 $id_value = null;
+$picDiv = null;
 $send = '<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
 	$id_value = ' value="'.$_GET['id'].'"';
+	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
 	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`";
 	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
 	$query .= " WHERE `id`=".$_GET['id'];
-	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
 	// echo $query;
 	$result = $dbn->prepare($query);
 	$result->execute();
@@ -38,6 +39,17 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 			$checkbox = null;
 		}
 	}
+	// 返回内容里附加的图片
+	$picUrlArray = get_http_img($textarea);
+	if (!empty($picUrlArray) && $type_C == 'pic') {
+		$picDiv = '<div>';
+		foreach ($picUrlArray as $key => $value) {
+			$picDiv .= '<div class="col-xs-6 col-sm-3 thumbnail">';
+			$picDiv .= '<img src="'.$value.'" class="img-responsive">';
+			$picDiv .= '</div>';
+		}
+		$picDiv .= '</div>';
+	}
 }
 
 if (@$_GET['return'] == true) {
@@ -50,7 +62,7 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container edit">
-	<?php echo $return;?>
+	<?php echo $return;echo $picDiv;?>
 	<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea><br>
 		<div class="panel-group">
@@ -118,5 +130,6 @@ include('nav.php');
 			</div>
 		</div>
 	</form>
+	<?php get_http_img($textarea);?>
 </div>
 <?php include('footer.php');?>
