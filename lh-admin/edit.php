@@ -17,7 +17,7 @@ $checkbox = null;
 $textarea = null;
 $id_value = null;
 $picDiv = null;
-$send = '<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
+$send = '<button type="submit" class="btn btn btn-primary" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
@@ -67,16 +67,8 @@ include('nav.php');
 	<?php echo $return;echo $picDiv;?>
 	<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea><br>
-		<div class="panel-group">
-			<div class="text-right">
-				<input type="hidden" name="id"<?php echo $id_value;?>>
-				<button type="submit" class="btn btn-link hidden-xs" disabled="disabled"> <span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?></button>
-				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
-				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
-				<?php echo $send;?>
-			</div>
-			<div id="collapseOne" class="collapse text-right">
-				<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型和状态：<select class="form-control selectbox" name="type" required>
+		<div class="col-sm-6 option">
+			<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
 				<?php foreach ($types as $key => $value) {
 					if ($key == $type_C) {
 						$checked = ' selected = "selected"';
@@ -87,7 +79,7 @@ include('nav.php');
 					echo $echo;
 				}
 				?>
-				</select> <select class="form-control selectbox" name="state" required>
+			</select> <select class="form-control selectbox" name="state" required>
 				<?php foreach ($states as $key => $value) {
 					if ($key == $state_C) {
 						$checked = ' selected = "selected"';
@@ -98,7 +90,17 @@ include('nav.php');
 					echo $echo;
 				}
 				?>
-				</select><br />
+			</select>
+<!-- 			<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?> -->
+		</div>
+		<div class="col-sm-6 panel-group">
+			<div class="text-right">
+				<input type="hidden" name="id"<?php echo $id_value;?>>
+				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
+				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
+				<?php echo $send;?>
+			</div>
+			<div id="collapseOne" class="collapse text-right">
 				<label class="checkbox-inline">
 					<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
 				</label>

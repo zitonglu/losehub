@@ -92,6 +92,9 @@ body#login .form-signin .btn-login{
 .edit{
 	max-width: 800px;
 }
+.edit .option{
+	margin-bottom:1em;
+}
 .edit .selectbox{
 	display: inline-block;
 	max-width: 90px;
