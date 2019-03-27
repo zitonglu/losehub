@@ -42,10 +42,12 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 	// 返回内容里附加的图片
 	$picUrlArray = get_http_img($textarea);
 	if (!empty($picUrlArray) && $type_C == 'pic') {
-		$picDiv = '<div>';
+		$picDiv = '<div class="row">';
 		foreach ($picUrlArray as $key => $value) {
-			$picDiv .= '<div class="col-xs-6 col-sm-3 thumbnail">';
+			$picDiv .= '<div class="col-sm-4">';
+			$picDiv .= '<a href="'.$value.'" class="thumbnail" target="_blank">';
 			$picDiv .= '<img src="'.$value.'" class="img-responsive">';
+			$picDiv .= '</a>';
 			$picDiv .= '</div>';
 		}
 		$picDiv .= '</div>';

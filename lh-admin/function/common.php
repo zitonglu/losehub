@@ -29,7 +29,7 @@ function redirect($url){
  * @return picUrlArray
  */
 function get_http_img($str){
-    $reg = '/((http|https):\/\/)+[\w\/\.\-]*(\w+\/)+(\w+)[\w\/\.\-]*(jpg|gif|png)/';
+    $reg = '/((http|https):\/\/)+[\w\/\.\-]*(\w+\/)+(\w+)[\w\/\.\-]*(jpg|jpeg|gif|png)/';
     // $reg = '/((http|https):\/\/)+(\w+\/)+(\w+)[\w\/\.\-]*(jpg|gif|png)/';
     preg_match_all($reg, $str, $matches);
     foreach ($matches['0'] as $key => $value) {
