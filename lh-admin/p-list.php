@@ -23,9 +23,9 @@ $p_list = $result->fetchAll();
 foreach ($p_list as $p_lists) {
 	$echo .= '<tbody><tr>';
 	$echo .= '<th scope="row">'.$p_lists['id'].'</th>';
-	$echo .= '<td>'.$p_lists['p_type_code'].'</td>';
+	$echo .= '<td>'.get_type_name($p_lists['p_type_code']).'</td>';
 	$echo .= '<td>'.$p_lists['p_contect'].'</td>';
-	$echo .= '<td>'.$p_lists['p_state_code'].'</td>';
+	$echo .= '<td>'.get_state_name($p_lists['p_state_code']).'</td>';
 	if ($p_lists['p_c_state_code'] == 'P') {
 		$echo .= '<td>可以评论</td>';
 	}else{

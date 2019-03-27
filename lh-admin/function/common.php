@@ -41,5 +41,37 @@ function get_http_img($str){
     	return $picUrlArray;
     }
 }
+/**
+ * 获取段落名称
+ * @global $types
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-27
+ * 
+ * @return $value(type_name)
+ */
+function get_type_name($code){
+    global $types;
+    foreach ($types as $key => $value) {
+         if ($code == $key) {
+            return $value;
+        }
+    }
+}
+/**
+ * 获取状态名称
+ * @global $types
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-27
+ * 
+ * @return $value(states_name)
+ */
+function get_state_name($code){
+    global $states;
+    foreach ($states as $key => $value) {
+         if ($code == $key) {
+            return $value;
+        }
+    }
+}
 
 ?>
