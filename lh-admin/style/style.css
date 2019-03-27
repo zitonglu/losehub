@@ -121,3 +121,5 @@ input::-webkit-inner-spin-button {
 input[type="number"]{
 	-moz-appearance: textfield;
 }
+/*p-list*/
+.p-list .p-contect{width:50%}

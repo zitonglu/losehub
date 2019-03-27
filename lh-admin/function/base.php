@@ -18,9 +18,6 @@ define('LH_VERSION',LH_VERSION_MAJOR.'.'.LH_VERSION_MODEL.LH_VERSION_VIEW.LH_VER
 //安装地址
 defined('LH_PATH') || define('LH_PATH', rtrim(str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../')), '/') . '/');
 
-//加载系统基础辅助函数
-require_once LH_PATH.'lh-admin/function/common.php';
-
 //获取数据库信息,判断是否生成了文件
 if (file_exists(LH_PATH.'lh-content/database.php')){
 	$lh_database = require LH_PATH.'lh-content/database.php';
@@ -66,5 +63,8 @@ foreach ($dbn->query($sql) as $row) {
 		$types = array_merge($types,$add_key);
 }
 
+
+//加载系统基础辅助函数
+require_once LH_PATH.'lh-admin/function/common.php';
 // $dbn = '';
 ?>

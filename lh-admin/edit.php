@@ -1,10 +1,10 @@
 <?php
 /**
- * LoseHub CMS 后台登录界面-发文界面
+ * LoseHub CMS 后台登录界面-段落发文和编辑界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global base.php($dbn;),$lh
- * @version 2019-3-21
+ * @version 2019-3-27
  * 
  * @return none
  */
