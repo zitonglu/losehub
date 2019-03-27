@@ -49,15 +49,15 @@ if (isset($_POST['send'])) {
 	// 判断是否有ID，传递
 	if (isset($_POST['id']) && $_POST['id'] != '') {
 		$query = "replace into ".LH_DB_PREFIX.'paragraphs'." (";
-		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`id`";
+		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`id`,`p_order`";
 		$query .= ") values (";
-		$query .= "'".$textarea."','".$_POST['state']."','".$p_type_code."','".$p_c_state_code."'".",".$_POST['id'];
+		$query .= "'".$textarea."','".$_POST['state']."','".$p_type_code."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'];
 		$query .= ")";
 	}else{
 		$query = "insert into ".LH_DB_PREFIX.'paragraphs'." (";
-		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`";
+		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`p_order`";
 		$query .= ") values (";
-		$query .= "'".$textarea."','".$_POST['state']."','".$p_type_code."','".$p_c_state_code."'";
+		$query .= "'".$textarea."','".$_POST['state']."','".$p_type_code."','".$p_c_state_code."',".$_POST['p_order'];
 		$query .= ")";
 	}
 	// echo $query;

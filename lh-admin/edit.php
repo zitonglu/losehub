@@ -17,13 +17,14 @@ $checkbox = null;
 $textarea = null;
 $id_value = null;
 $picDiv = null;
+$p_order =' value="'.date('s').'"';
 $send = '<button type="submit" class="btn btn btn-primary" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
 	$id_value = ' value="'.$_GET['id'].'"';
 	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
-	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`";
+	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`,`p_order`";
 	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
 	$query .= " WHERE `id`=".$_GET['id'];
 	// echo $query;
@@ -33,6 +34,7 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 		$textarea = $lh_paragraphs['p_contect'];
 		$type_C = $lh_paragraphs['p_type_code'];
 		$state_C = $lh_paragraphs['p_state_code'];
+		$p_order = ' value="'.$lh_paragraphs['p_order'].'"';
 		if ($lh_paragraphs['p_c_state_code'] == 'P') {
 			$checkbox = 'checked';
 		}else{
@@ -67,7 +69,7 @@ include('nav.php');
 	<?php echo $return;echo $picDiv;?>
 	<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea><br>
-		<div class="col-sm-6 option">
+		<div class="col-sm-7 option">
 			<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
 				<?php foreach ($types as $key => $value) {
 					if ($key == $type_C) {
@@ -93,7 +95,7 @@ include('nav.php');
 			</select>
 <!-- 			<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?> -->
 		</div>
-		<div class="col-sm-6 panel-group">
+		<div class="col-sm-5 panel-group">
 			<div class="text-right">
 				<input type="hidden" name="id"<?php echo $id_value;?>>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
@@ -101,19 +103,20 @@ include('nav.php');
 				<?php echo $send;?>
 			</div>
 			<div id="collapseOne" class="collapse text-right">
-				<label class="checkbox-inline">
-					<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
-				</label>
-				<!-- <div class="input-group">//段落序号，用于长文章
+				<!-- 段落序号，用于长文章 -->
+				<div class="input-group" id="p-order">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落号</button>
+						<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
 					</span>
-					<input type="number" class="form-control" value="42">	
+					<input type="number" class="form-control"<?php echo $p_order;?> name="p_order">	
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
 						<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
 					</span>
-				</div> -->
+				</div>
+				<label class="checkbox-inline">
+					<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+				</label>
 			</div>
 			<div id="collapseTwo" class="collapse text-right">
 				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- 最大上传2MB文件 -->

@@ -10,11 +10,11 @@ $(document).ready(function() {
 
 // 数字增减
 (function ($) {
-	$('.spinner .input-group span:last-of-type #plus').on('click', function() {
-		$('.spinner input').val( parseInt($('.spinner input').val(), 10) + 1);
+	$('#p-order span:last-of-type #plus').on('click', function() {
+		$('#p-order input').val( parseInt($('#p-order input').val(), 10) + 1);
 	});
-	$('.spinner .input-group span:last-of-type #minus').on('click', function() {
-		$('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
+	$('#p-order span:last-of-type #minus').on('click', function() {
+		$('#p-order input').val( parseInt($('#p-order input').val(), 10) - 1);
 	});
 })(jQuery);
 
