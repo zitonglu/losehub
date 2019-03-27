@@ -18,6 +18,7 @@ $textarea = null;
 $id_value = null;
 $picDiv = null;
 $p_order =' value="'.date('s').'"';
+$return_value ='';
 $send = '<button type="submit" class="btn btn btn-primary" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
 
 // 判断是否是回写的
@@ -55,11 +56,19 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 		$picDiv .= '</div>';
 	}
 }
-
-if (@$_GET['return'] == true) {
-	$return = '<p class="alert alert-success return"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 提交成功</p>';
-}else{
-	$return = null;
+// 判断判断
+switch (@$_GET['return']) {
+	case 'OK':
+		$return = '<p class="alert alert-success return"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 提交成功</p>';
+		$return_value = ' value="edit"';
+		break;
+	case 'plist':
+		$return_value = ' value="plist"';
+		$return = null;
+		break;
+	default:
+		$return = null;
+		break;
 }
 
 include('header.php');
@@ -98,6 +107,7 @@ include('nav.php');
 		<div class="col-sm-5 panel-group">
 			<div class="text-right">
 				<input type="hidden" name="id"<?php echo $id_value;?>>
+				<input type="hidden" name="return"<?php echo $return_value;?>>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
 				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 				<?php echo $send;?>

@@ -62,7 +62,16 @@ if (isset($_POST['send'])) {
 	}
 	// echo $query;
 	$dbn->exec($query);
-	redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId().'&&return=true');
+	// 返回判断
+	switch ($_POST['return']) {
+		case 'plist':
+			redirect($lh['site_url'].'/lh-admin/p-list.php');
+			break;
+		
+		default:
+			redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId().'&&return=OK');
+			break;
+	}
 }else{
 	redirect($lh['site_url'].'/lh-admin/index.php');
 }

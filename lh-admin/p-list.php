@@ -26,14 +26,15 @@ foreach ($p_list as $p_lists) {
 	$echo .= '<td>'.get_type_name($p_lists['p_type_code']).'</td>';
 	$echo .= '<td>'.$p_lists['p_contect'].'</td>';
 	$echo .= '<td>'.get_state_name($p_lists['p_state_code']).'</td>';
-	if ($p_lists['p_c_state_code'] == 'P') {
-		$echo .= '<td>可以评论</td>';
-	}else{
-		$echo .= '<td>不可评论</td>';
-	}
+	$echo .= '<td>'.get_state_name($p_lists['p_c_state_code']).'</td>';
 	$echo .= '<td>'.substr($p_lists['p_datetime'],0,10).'</td>';
-	$echo .= '<td>'.$p_lists['p_a_id'].'</td>';
-	$echo .= '<td><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
+	if ($p_lists['p_a_id'] == 1) {
+		$echo .= '<td>无</td>';
+	}else{
+		$echo .= '<td>'.$p_lists['p_a_id'].'</td>';
+	}
+	$echo .= '<td><a href="edit.php?id='.$p_lists['id'].'&&return=plist" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
+	$echo .= '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
 	$echo .= '</tr></tbody>';
 }
 
