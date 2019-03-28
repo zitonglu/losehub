@@ -69,7 +69,7 @@ if (isset($_POST['send'])) {
 			break;
 		
 		default:
-			redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId().'&&return=OK');
+			redirect($lh['site_url'].'/lh-admin/edit.php?id='.$dbn->lastInsertId().'&return=OK');
 			break;
 	}
 }else{
