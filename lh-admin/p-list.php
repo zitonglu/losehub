@@ -86,7 +86,7 @@ include('nav.php');
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
 		<thead>
 			<tr>
-				<th><a href="?orderby=id<?php echo $addorder;?>">#</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','id','claer').$addorder;?>">#</a></th>
 				<th><a href="?orderby=type<?php echo $addorder;?>">类别</a></th>
 				<th class="p-contect text-center">内容</th>
 				<th><a href="?orderby=state<?php echo $addorder;?>">状态</a></th>

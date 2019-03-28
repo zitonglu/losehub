@@ -130,7 +130,7 @@ function getNoGetURL(){
  * 
  * @return $pageURL
  */
-function changeURLGet($getName,$getValue){
+function changeURLGet($getName,$getValue,$clearGet=''){
     $pageURL = 'http'; 
     $getsArray = array();
 
@@ -167,7 +167,7 @@ function changeURLGet($getName,$getValue){
         $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
     }
 
-    if (empty($getsArray)) {
+    if (empty($getsArray) || !empty($clearGet)) {
         $pageURL .= '?'.$getName.'='.$getValue;
     }else{
         if (array_key_exists($getName, $getsArray)) {
