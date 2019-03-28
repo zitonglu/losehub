@@ -34,7 +34,7 @@ foreach ($p_list as $p_lists) {
 		$echo .= '<td class="text-right">'.$p_lists['p_a_id'].'- <span class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span> '.$p_lists['p_order'].'</td>';
 	}
 	$echo .= '<td><a href="edit.php?id='.$p_lists['id'].'&&return=plist" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
-	$echo .= '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>';
+	$echo .= '<a href="deletedb.php?delid='.$p_lists['id'].'&&return=plist" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a></td>';
 	$echo .= '</tr></tbody>';
 }
 

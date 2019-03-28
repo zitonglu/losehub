@@ -25,6 +25,10 @@ setTimeout(function(){
         $('.return').hide(); //将return标签隐藏。
     }, 1200);
 }, 1200);
+
+// //警告框
+// $('#myAlert').alert('close');
+
 // 返回顶部时影藏
 // $(function(){
 //     $(window).scroll(function() {

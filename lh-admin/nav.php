@@ -35,7 +35,7 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 文章 <span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 列表 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/p-list.php">段落</a><li>
 						<li><a href="#">长文</a></li>

@@ -51,16 +51,16 @@ foreach ($dbn->query($sql) as $row) {
 $sql = "SELECT * FROM ".LH_DB_PREFIX.'states';
 $states = array();
 foreach ($dbn->query($sql) as $row) {
-		$add_key = array($row['state_code']=>$row['state_name']);
-		$states = array_merge($states,$add_key);
+	$add_key = array($row['state_code']=>$row['state_name']);
+	$states = array_merge($states,$add_key);
 }
 
 // 获取设置参数:$states
 $sql = "SELECT * FROM ".LH_DB_PREFIX.'types';
 $types = array();
 foreach ($dbn->query($sql) as $row) {
-		$add_key = array($row['type_code']=>$row['type_name']);
-		$types = array_merge($types,$add_key);
+	$add_key = array($row['type_code']=>$row['type_name']);
+	$types = array_merge($types,$add_key);
 }
 
 
