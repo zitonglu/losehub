@@ -87,11 +87,11 @@ include('nav.php');
 		<thead>
 			<tr>
 				<th><a href="<?php echo changeURLGet('orderby','id','claer').$addorder;?>">#</a></th>
-				<th><a href="?orderby=type<?php echo $addorder;?>">类别</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','type','claer').$addorder;?>">类别</a></th>
 				<th class="p-contect text-center">内容</th>
-				<th><a href="?orderby=state<?php echo $addorder;?>">状态</a></th>
-				<th><a href="?orderby=cstate<?php echo $addorder;?>">评论</a></th>
-				<th><a href="?orderby=time<?php echo $addorder;?>">时间</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','state','claer').$addorder;?>">状态</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','cstate','claer').$addorder;?>">评论</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','time','claer').$addorder;?>">时间</a></th>
 				<th class="text-right">归属</th>
 				<th></th>
 			</tr>
