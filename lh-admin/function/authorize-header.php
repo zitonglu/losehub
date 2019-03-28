@@ -8,10 +8,10 @@
  * @return header() or login.php
  */
 if(isset($_GET['act']) || isset($_COOKIE['lh_cookie_user'])){
-	$_SERVER['PHP_AUTH_USER'] = date("h");
+	$_SERVER['PHP_AUTH_USER'] = date("d");
 }
 
-if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != date("h")) {
+if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] != date("d")) {
 	header('WWW-Authenticate: Basic realm="losehub"');
 	header('HTTP/1.0 401 Unauthorized');
 	include('./login.php');

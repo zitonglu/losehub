@@ -74,4 +74,53 @@ function get_state_name($code){
     }
 }
 
+/**
+ * 获取当前网址函数
+ * @var $pageURL
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-28
+ * 
+ * @return $pageURL
+ */
+function getPageURL(){
+    $pageURL = 'http'; 
+    if (@$_SERVER["HTTPS"] == "on"){
+        $pageURL .= "s";
+    }
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80"){
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+    }else{
+        $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
+}
+
+/**
+ * 获取当前网址函数-不含get值
+ * @var $pageURL
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-28
+ * 
+ * @return $pageURL
+ */
+function getNoGetURL(){
+    $pageURL = 'http'; 
+    if (@$_SERVER["HTTPS"] == "on"){
+        $pageURL .= "s";
+    }
+    $pageURL .= "://"; 
+    $this_page = $_SERVER["REQUEST_URI"];   
+// 只取 ? 前面的内容
+    if (strpos($this_page, "?") !== false){
+        $this_pages = explode("?", $this_page);
+        $this_page = reset($this_pages);
+    }
+    if ($_SERVER["SERVER_PORT"] != "80"){
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page;
+    }else{
+        $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
+    }
+    return $pageURL;
+}
 ?>

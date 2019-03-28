@@ -96,7 +96,8 @@ body#login .form-signin .btn-login{
 .edit .option{
 	margin-bottom:1em;
 }
-.edit .selectbox{
+.edit .selectbox,
+.p-list .selectbox{
 	display: inline-block;
 	max-width: 90px;
 }
@@ -143,3 +144,7 @@ input[type="number"]{
 .p-list .list-table .p-contect a:visited{
 	color:#aaa;
 }
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+.p-list .table-responsive{min-width:800px;}
