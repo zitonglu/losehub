@@ -12,28 +12,39 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
+$addorder = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
-// 查询排序
-switch (@$_GET['orderby']) {
-	case 'id':
-		$search_query .= ' ORDER BY id DESC';
+// 查询排序，生降序调整
+if (isset($_GET['orderby'])) {
+	switch ($_GET['orderby']) {
+		case 'id':
+		$search_query .= ' ORDER BY id ';
 		break;
-	case 'type':
-		$search_query .= ' ORDER BY `p_type_code` DESC';
+		case 'type':
+		$search_query .= ' ORDER BY `p_type_code` ';
 		break;
-	case 'state':
-		$search_query .= ' ORDER BY `p_state_code` DESC';
+		case 'state':
+		$search_query .= ' ORDER BY `p_state_code` ';
 		break;
-	case 'cstate':
-		$search_query .= ' ORDER BY `p_c_state_code` DESC';
+		case 'cstate':
+		$search_query .= ' ORDER BY `p_c_state_code` ';
 		break;
-	case 'time':
-		$search_query .= ' ORDER BY `p_datetime` DESC';
+		case 'time':
+		$search_query .= ' ORDER BY `p_datetime` ';
 		break;
-	default:
+		default:
 		break;
+	}
+	if (isset($_GET['by'])){
+		$addorder = '';
+		$search_query .= 'ASC';
+	}else{
+		$addorder = '&by=DESC';
+		$search_query .= 'DESC';
+	}
 }
+
 // echo $search_query;
 $result = $dbn->prepare($search_query);
 $result->execute();
@@ -65,12 +76,12 @@ include('nav.php');
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
 		<thead>
 			<tr>
-				<th><a href="?orderby=id">#</a></th>
-				<th><a href="?orderby=type">类别</a></th>
+				<th><a href="?orderby=id<?php echo $addorder;?>">#</a></th>
+				<th><a href="?orderby=type<?php echo $addorder;?>">类别</a></th>
 				<th class="p-contect text-center">内容</th>
-				<th><a href="?orderby=state">状态</a></th>
-				<th><a href="?orderby=cstate">评论</a></th>
-				<th><a href="?orderby=time">时间</a></th>
+				<th><a href="?orderby=state<?php echo $addorder;?>">状态</a></th>
+				<th><a href="?orderby=cstate<?php echo $addorder;?>">评论</a></th>
+				<th><a href="?orderby=time<?php echo $addorder;?>">时间</a></th>
 				<th class="text-right">归属</th>
 				<th></th>
 			</tr>
