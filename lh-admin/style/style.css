@@ -122,4 +122,24 @@ input[type="number"]{
 	-moz-appearance: textfield;
 }
 /*p-list*/
-.p-list .p-contect{width:50%}
+.p-list .list-table{table-layout: fixed;}
+.p-list .list-table .p-contect{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis; 
+	width:50%;
+}
+.p-list .list-table .p-contect a{
+	color:#555;
+	text-decoration:none;
+}
+.p-list .list-table .p-contect .ico,
+.p-list .list-table .p-contect .ico:hover,
+.p-list .list-table .p-contect .ico:visited,
+.p-list .list-table .p-contect .ico:active{
+	color:#23527c;
+}
+.p-list .list-table .p-contect a:hover,
+.p-list .list-table .p-contect a:visited{
+	color:#aaa;
+}
