@@ -79,6 +79,7 @@ $num_page = ceil($total/$results_per_page);
 include('header.php');
 include('nav.php');
 ?>
+<?php echo changeURLGet('orderby','sgd');?>
 <div class="container p-list">
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
@@ -128,7 +129,7 @@ include('nav.php');
 			
 		</ul>
 	</nav>
-	<?php echo getPageURL().'<br/>';echo getNoGetURL();?>
+	
 	<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
 		每页显示条数:
 		<select class="form-control selectbox" name="state">

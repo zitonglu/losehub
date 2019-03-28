@@ -76,7 +76,6 @@ function get_state_name($code){
 
 /**
  * 获取当前网址函数
- * @var $pageURL
  * @author 紫铜炉 910109610@QQ.com
  * @version 2019-3-28
  * 
@@ -98,7 +97,6 @@ function getPageURL(){
 
 /**
  * 获取当前网址函数-不含get值
- * @var $pageURL
  * @author 紫铜炉 910109610@QQ.com
  * @version 2019-3-28
  * 
@@ -111,7 +109,7 @@ function getNoGetURL(){
     }
     $pageURL .= "://"; 
     $this_page = $_SERVER["REQUEST_URI"];   
-// 只取 ? 前面的内容
+    // 只取 ? 前面的内容
     if (strpos($this_page, "?") !== false){
         $this_pages = explode("?", $this_page);
         $this_page = reset($this_pages);
@@ -120,6 +118,78 @@ function getNoGetURL(){
         $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page;
     }else{
         $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
+    }
+    return $pageURL;
+}
+
+/**
+ * 增加网址的get值函数
+ * @var $getName,$getValue
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-28
+ * 
+ * @return $pageURL
+ */
+function changeURLGet($getName,$getValue){
+    $pageURL = 'http'; 
+    $getsArray = array();
+
+    if (@$_SERVER["HTTPS"] == "on"){
+        $pageURL .= "s";
+    }
+    $pageURL .= "://";
+    $pageURL_old = $pageURL;
+    $this_page = $_SERVER["REQUEST_URI"];
+    $this_page_old = $this_page;
+    // 如果有get,拆分它
+    if (strpos($this_page, "?") !== false){
+        $this_pages = explode("?", $this_page);
+        $this_page = reset($this_pages);
+        $gets = next($this_pages);
+        if (strpos($gets, "&") !== false) {
+           $getArray = explode("&", $gets);
+           foreach ($getArray as $getArrays) {
+                $row = explode("=", $getArrays);
+                $key = reset($row);
+                $value = next($row);
+                $add_key = array($key=>$value);
+                $getsArray = array_merge($getsArray,$add_key);
+           }
+        }else{
+            $getArray = explode("=", $gets);
+            $getsArray = array($getArray[0] => $getArray[1]);
+        }
+    }
+
+    if ($_SERVER["SERVER_PORT"] != "80"){
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page;
+    }else{
+        $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
+    }
+
+    if (empty($getsArray)) {
+        $pageURL .= '?'.$getName.'='.$getValue;
+    }else{
+        if (array_key_exists($getName, $getsArray)) {
+            $pageURL .= '?';
+            foreach ($getsArray as $key => $value) {
+                if ($getName == $key) {
+                    $changeValue = $getValue;
+                }else{
+                    $changeValue = $value;
+                }
+                $changeGetRow[] = $key.'='.$changeValue;
+            }
+            $changeGets = implode('&',$changeGetRow);
+            $pageURL .= $changeGets;
+        }else{
+            if ($_SERVER["SERVER_PORT"] != "80"){
+                $pageURL_old .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page_old;
+            }else{
+                $pageURL_old .= $_SERVER["SERVER_NAME"] . $this_page_old;
+            }
+            $pageURL = $pageURL_old.'&'.$getName.'='.$getValue;
+        }
     }
     return $pageURL;
 }
