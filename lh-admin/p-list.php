@@ -49,12 +49,12 @@ if (isset($_GET['orderby'])) {
 		default:
 		break;
 	}
-	if (isset($_GET['by'])){
-		$addorder = '';
+	if (!isset($_GET['by']) || $_GET['by'] == 'ASC'){
 		$search_query .= 'ASC';
+		$addorder = 'DESC';
 	}else{
-		$addorder = '&by=DESC';
 		$search_query .= 'DESC';
+		$addorder = 'ASC';
 	}
 }
 
@@ -92,13 +92,33 @@ include('nav.php');
 	<table class="table table-striped table-hover list-table">
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
 		<thead>
-			<tr>
-				<th><a href="<?php echo changeURLGet('orderby','id',TRUE).$addorder;?>">#</a></th>
+			<tr><?php
+				$ths = array(
+					'id' => '#',
+					'type' => '类别',
+					'1' => '内容',
+					'state' => '状态',
+					'cstate' => '评论',
+					'time' => '时间'
+				);
+				foreach ($ths as $key => $value) {
+					if ($key == '1') {
+						echo '<th class="p-contect text-center">内容</th>';
+					}else{
+						if (is_null($addorder) || $addorder == 'ASC') {
+							echo '<th><a href="'.changeURLGet('by','DESC').'">'.$value.'</a></th>';
+						}else{
+							echo '<th><a href="'.changeURLGet('orderby',$key).'">'.$value.'</a></th>';
+						}
+					}
+				}
+			?>
+<!-- 				<th><a href="<?php echo changeURLGet('orderby','id').$addorder;?>">#</a></th>
 				<th><a href="<?php echo changeURLGet('orderby','type',TRUE).$addorder;?>">类别</a></th>
 				<th class="p-contect text-center">内容</th>
 				<th><a href="<?php echo changeURLGet('orderby','state',TRUE).$addorder;?>">状态</a></th>
 				<th><a href="<?php echo changeURLGet('orderby','cstate',TRUE).$addorder;?>">评论</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','time',TRUE).$addorder;?>">时间</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','time',TRUE).$addorder;?>">时间</a></th> -->
 				<th class="text-right">归属</th>
 				<th></th>
 			</tr>
