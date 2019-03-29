@@ -86,8 +86,7 @@ include('nav.php');
 					}else{
 						$checked ='';
 					}
-					$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-					echo $echo;
+					echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 				}
 				?>
 			</select> <select class="form-control selectbox" name="state" required>
@@ -97,8 +96,7 @@ include('nav.php');
 					}else{
 						$checked ='';
 					}
-					$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-					echo $echo;
+					echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 				}
 				?>
 			</select>

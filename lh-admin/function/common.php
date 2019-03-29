@@ -130,7 +130,7 @@ function getNoGetURL(){
  * 
  * @return $pageURL
  */
-function changeURLGet($getName,$getValue,$clearGet=''){
+function changeURLGet($getName,$getValue,$clearGet=FALSE){
     $pageURL = 'http'; 
     $getsArray = array();
 
@@ -167,7 +167,7 @@ function changeURLGet($getName,$getValue,$clearGet=''){
         $pageURL .= $_SERVER["SERVER_NAME"] . $this_page;
     }
 
-    if (empty($getsArray) || !empty($clearGet)) {
+    if (empty($getsArray) || $clearGet == True) {
         $pageURL .= '?'.$getName.'='.$getValue;
     }else{
         if (array_key_exists($getName, $getsArray)) {
@@ -192,5 +192,21 @@ function changeURLGet($getName,$getValue,$clearGet=''){
         }
     }
     return $pageURL;
+}
+
+/**
+ * 新增或替换option的MYSQL函数
+ * @var $key,$value,$tableName
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-3-28
+ * 
+ * @return $returnSQL
+ */
+function MySQL_options_change($code,$value,$tableName ='lh_options',$optionCode='option_code',$optionValue='option_value'){
+    $returnSQL = 'insert into '.$tableName.'(`'.$optionCode.'`,`'.$optionValue.'`) ';
+    $returnSQL .= 'value(\''.$code.'\',\''.$value.'\')';
+    $returnSQL .= 'ON DUPLICATE KEY UPDATE';
+    $returnSQL .= '`'.$optionValue.'` = \''.$value.'\'';
+    return $returnSQL;
 }
 ?>

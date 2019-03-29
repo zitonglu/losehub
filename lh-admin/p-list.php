@@ -14,8 +14,16 @@ require_once('function/authorize.php');
 $echo = '';
 $addorder = '';
 $total = 1;
+// 获取总行数
+if (isset($_GET['listselect'])) {
+	$results_per_page = (int)$_GET['listselect'];// 翻页行数
+	$query = MySQL_options_change('row_number',$results_per_page,LH_DB_PREFIX.'options');
+	$dbn->query($query);
+}else{
+	$results_per_page = $lh['row_number'];
+}
+
 $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;// 当前页面数
-$results_per_page = 5;// 翻页行数
 $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
@@ -79,19 +87,18 @@ $num_page = ceil($total/$results_per_page);
 include('header.php');
 include('nav.php');
 ?>
-<?php echo changeURLGet('orderby','sgd');?>
 <div class="container p-list">
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
 		<thead>
 			<tr>
-				<th><a href="<?php echo changeURLGet('orderby','id','claer').$addorder;?>">#</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','type','claer').$addorder;?>">类别</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','id',TRUE).$addorder;?>">#</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','type',TRUE).$addorder;?>">类别</a></th>
 				<th class="p-contect text-center">内容</th>
-				<th><a href="<?php echo changeURLGet('orderby','state','claer').$addorder;?>">状态</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','cstate','claer').$addorder;?>">评论</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','time','claer').$addorder;?>">时间</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','state',TRUE).$addorder;?>">状态</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','cstate',TRUE).$addorder;?>">评论</a></th>
+				<th><a href="<?php echo changeURLGet('orderby','time',TRUE).$addorder;?>">时间</a></th>
 				<th class="text-right">归属</th>
 				<th></th>
 			</tr>
@@ -101,6 +108,7 @@ include('nav.php');
 		</tbody>
 	</table>
 	</div>
+	<div class="col-sm-5">
 	<nav aria-label="Page navigation">
 		<ul class="pagination">
 			<?php 
@@ -129,34 +137,52 @@ include('nav.php');
 			
 		</ul>
 	</nav>
-	
-	<!-- <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
-		每页显示条数:
-		<select class="form-control selectbox" name="state">
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="20">20</option>
-			<option value="50">50</option>
-		</select>
-		状态：
-		<select class="form-control selectbox" name="state">
-			<option value="all">所有</option>
-			<?php foreach ($states as $key => $value) {
-				$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-				echo $echo;
-			}
-			?>
-		</select>
-		类别：
-		<select class="form-control selectbox" name="type">
-			<option value="all">所有</option>
-			<?php foreach ($types as $key => $value) {
-				$echo = '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-				echo $echo;
-			}
-			?>
-		</select>
-		<button type="submit" class="btn btn-default">提交</button>
-	</form> -->
+	</div>
+	<div class="col-sm-7">
+		<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
+			显示条数:
+			<select class="form-control selectbox" name="list" onchange="window.location=this.value;" title="显示条数">
+				<option value="<?php echo getPageURL();?>">显示行</option>
+				<?php
+					$listArray =array('5','10','15','20','30','50');
+					foreach ($listArray as $key => $value) {
+						if (@$value == $_GET['listselect']) {
+							$checked = ' selected = "selected"';
+						}else{
+							$checked ='';
+						}
+						echo '<option value="'.changeURLGet('listselect',$value).'"'.$checked.'>'.$value.'</option>';
+					}
+				?>
+			</select>
+			状态：
+			<select class="form-control selectbox" name="state" onchange="window.location=this.value;">
+				<option value="<?php echo getPageURL();?>">状态</option>
+				<?php foreach ($states as $key => $value) {
+					if (@$key == $_GET['stateselect']) {
+						$checked = ' selected = "selected"';
+					}else{
+						$checked ='';
+					}
+					echo '<option value="'.changeURLGet('stateselect',$key).'"'.$checked.'>'.$value.'</option>';
+				}
+				?>
+			</select>
+			类别：
+			<select class="form-control selectbox" name="type">
+				<option value="<?php echo getPageURL();?>">类别</option>
+				<?php foreach ($types as $key => $value) {
+					if (@$key == $_GET['typeselect']) {
+						$checked = ' selected = "selected"';
+					}else{
+						$checked ='';
+					}
+					echo '<option value="'.changeURLGet('typeselect',$key).'"'.$checked.'>'.$value.'</option>';
+				}
+				?>
+			</select>
+			<!-- <button type="submit" class="btn btn-default">提交</button> -->
+		</form>
+	</div>
 </div>
 <?php include('footer.php');?>

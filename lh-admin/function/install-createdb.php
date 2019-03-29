@@ -414,6 +414,7 @@ function LH_setup_CToptions(){
 	$options['author_email'] = $adminInf['email'];
 	$options['site_url'] = dirname('http://'.$_SERVER['SERVER_NAME'].$_SERVER["REQUEST_URI"]);
 	$options['wwwroot'] = 'http://'.$_SERVER['HTTP_HOST'];
+	$options['row_number'] = '30';
 	foreach ($options as $key => $value) {
 		$sql = "insert ignore into ".$tableName." (option_code,option_value) values ('".$key."','".$value."')";
 		$conn->exec($sql);
