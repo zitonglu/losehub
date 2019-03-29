@@ -12,7 +12,6 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
-$addorder = '';
 $total = 1;
 // 获取总行数
 if (isset($_GET['listselect'])) {
@@ -30,7 +29,16 @@ $page_link = '';
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 // 查询排序，生降序调整
 if (isset($_GET['orderby'])) {
-	switch ($_GET['orderby']) {
+	$orderbys = explode("-", $_GET['orderby']);
+	$orderby = reset($orderbys);
+	if (next($orderbys) == 'ASC') {
+		$order = 'DESC';
+	}else{
+		$order = 'ASC';
+	}
+
+    // 增加SQL的ORDER BY
+	switch ($orderby) {
 		case 'id':
 		$search_query .= ' ORDER BY id ';
 		break;
@@ -49,13 +57,7 @@ if (isset($_GET['orderby'])) {
 		default:
 		break;
 	}
-	if (!isset($_GET['by']) || $_GET['by'] == 'ASC'){
-		$search_query .= 'ASC';
-		$addorder = 'DESC';
-	}else{
-		$search_query .= 'DESC';
-		$addorder = 'ASC';
-	}
+	$search_query .= $order;
 }
 
 // echo $search_query;
@@ -80,7 +82,7 @@ foreach ($p_list as $p_lists) {
 	$echo .= '<a href="deletedb.php?delid='.$p_lists['id'].'&return=plist" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a></td>';
 	$echo .= '</tr>';
 
-	$total ++;// 获取总行数
+	$total ++;// 获取总行数-这是错的哦，要更换！
 }
 $num_page = ceil($total/$results_per_page);
 
@@ -93,32 +95,26 @@ include('nav.php');
 		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
 		<thead>
 			<tr><?php
-				$ths = array(
-					'id' => '#',
-					'type' => '类别',
-					'1' => '内容',
-					'state' => '状态',
-					'cstate' => '评论',
-					'time' => '时间'
-				);
-				foreach ($ths as $key => $value) {
-					if ($key == '1') {
-						echo '<th class="p-contect text-center">内容</th>';
+			$ths = array(
+				'id' => '#',
+				'type' => '类别',
+				'1' => '内容',
+				'state' => '状态',
+				'cstate' => '评论',
+				'time' => '时间'
+			);
+			foreach ($ths as $key => $value) {
+				if ($key == '1') {
+					echo '<th class="p-contect text-center">内容</th>';
+				}else{
+					if (isset($order) && $order == 'DESC') {
+						echo '<th><a href="'.changeURLGet('orderby',$key.'-DESC').'">'.$value.'</a></th>';
 					}else{
-						if (is_null($addorder) || $addorder == 'ASC') {
-							echo '<th><a href="'.changeURLGet('by','DESC').'">'.$value.'</a></th>';
-						}else{
-							echo '<th><a href="'.changeURLGet('orderby',$key).'">'.$value.'</a></th>';
-						}
+						echo '<th><a href="'.changeURLGet('orderby',$key.'-ASC').'">'.$value.'</a></th>';
 					}
 				}
+			}
 			?>
-<!-- 				<th><a href="<?php echo changeURLGet('orderby','id').$addorder;?>">#</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','type',TRUE).$addorder;?>">类别</a></th>
-				<th class="p-contect text-center">内容</th>
-				<th><a href="<?php echo changeURLGet('orderby','state',TRUE).$addorder;?>">状态</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','cstate',TRUE).$addorder;?>">评论</a></th>
-				<th><a href="<?php echo changeURLGet('orderby','time',TRUE).$addorder;?>">时间</a></th> -->
 				<th class="text-right">归属</th>
 				<th></th>
 			</tr>
@@ -189,7 +185,7 @@ include('nav.php');
 				?>
 			</select>
 			类别：
-			<select class="form-control selectbox" name="type">
+			<select class="form-control selectbox" name="type" onchange="window.location=this.value;">
 				<option value="<?php echo getPageURL();?>">类别</option>
 				<?php foreach ($types as $key => $value) {
 					if (@$key == $_GET['typeselect']) {
