@@ -27,7 +27,11 @@ $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
-// 查询排序，生降序调整
+// WHERE 条件
+if(isset($_GET['state']) || isset($_GET['type'])){
+	
+}
+// 查询排序，生降序调整 ORDER BY
 if (isset($_GET['orderby'])) {
 	$orderbys = explode("-", $_GET['orderby']);
 	$orderby = reset($orderbys);
