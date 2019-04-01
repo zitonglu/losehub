@@ -28,8 +28,11 @@ $page_link = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 // WHERE 条件
-if(isset($_GET['state']) || isset($_GET['type'])){
-	
+if(isset($_GET['state']) && isset($_GET['type'])){
+	$search_query .= ' WHERE `state_code`='.$_GET['state'];
+	echo $search_query;
+}elseif (isset($_GET['state'])) {
+	# code...
 }
 // 查询排序，生降序调整 ORDER BY
 if (isset($_GET['orderby'])) {
@@ -177,27 +180,27 @@ include('nav.php');
 			</select>
 			状态：
 			<select class="form-control selectbox" name="state" onchange="window.location=this.value;">
-				<option value="<?php echo getPageURL();?>">状态</option>
+				<option value="<?php echo changeURLGet('state','0');?>">状态</option>
 				<?php foreach ($states as $key => $value) {
-					if (@$key == $_GET['stateselect']) {
+					if (@$key == $_GET['state']) {
 						$checked = ' selected = "selected"';
 					}else{
 						$checked ='';
 					}
-					echo '<option value="'.changeURLGet('stateselect',$key).'"'.$checked.'>'.$value.'</option>';
+					echo '<option value="'.changeURLGet('state',$key).'"'.$checked.'>'.$value.'</option>';
 				}
 				?>
 			</select>
 			类别：
 			<select class="form-control selectbox" name="type" onchange="window.location=this.value;">
-				<option value="<?php echo getPageURL();?>">类别</option>
+				<option value="<?php echo changeURLGet('type','0');?>">类别</option>
 				<?php foreach ($types as $key => $value) {
-					if (@$key == $_GET['typeselect']) {
+					if (@$key == $_GET['type']) {
 						$checked = ' selected = "selected"';
 					}else{
 						$checked ='';
 					}
-					echo '<option value="'.changeURLGet('typeselect',$key).'"'.$checked.'>'.$value.'</option>';
+					echo '<option value="'.changeURLGet('type',$key).'"'.$checked.'>'.$value.'</option>';
 				}
 				?>
 			</select>
