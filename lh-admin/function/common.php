@@ -160,6 +160,7 @@ function changeURLGet($getName,$getValue,$clearGet=FALSE){
             $getsArray = array($getArray[0] => $getArray[1]);
         }
     }
+    
 
     if ($_SERVER["SERVER_PORT"] != "80"){
         $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $this_page;
@@ -179,7 +180,7 @@ function changeURLGet($getName,$getValue,$clearGet=FALSE){
                     $changeValue = $value;
                 }
                 $changeGetRow[] = $key.'='.$changeValue;
-            }
+            } 
             $changeGets = implode('&',$changeGetRow);
             $pageURL .= $changeGets;
         }else{

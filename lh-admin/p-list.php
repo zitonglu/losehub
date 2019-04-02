@@ -27,12 +27,16 @@ $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
-// WHERE 条件
-if(isset($_GET['state']) && isset($_GET['type'])){
-	$search_query .= ' WHERE `state_code`='.$_GET['state'];
-	echo $search_query;
-}elseif (isset($_GET['state'])) {
-	# code...
+//WHERE 条件
+if(empty($_GET['state']) === false || empty($_GET['type']) === false){
+	$search_query .= ' WHERE ';
+	if (empty($_GET['state']) === false && empty($_GET['type']) === false) {
+		$search_query .= '`p_state_code`=\''.$_GET['state'].'\' AND `p_type_code`=\''.$_GET['type'].'\'';
+	}elseif(empty($_GET['state']) === false){
+		$search_query .= '`p_state_code`=\''.$_GET['state'].'\'';
+	}else{
+		$search_query .= '`p_type_code`=\''.$_GET['type'].'\'';
+	}
 }
 // 查询排序，生降序调整 ORDER BY
 if (isset($_GET['orderby'])) {
@@ -67,7 +71,7 @@ if (isset($_GET['orderby'])) {
 	$search_query .= $order;
 }
 
-// echo $search_query;
+echo $search_query;
 $result = $dbn->prepare($search_query);
 $result->execute();
 $p_list = $result->fetchAll();
