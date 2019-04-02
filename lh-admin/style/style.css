@@ -148,3 +148,4 @@ input[type="number"]{
   fieldset { display: table-cell; }
 }
 .p-list .table-responsive{min-width:800px;}
+.p-list .pagination{margin:0;}
