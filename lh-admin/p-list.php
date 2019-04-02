@@ -112,7 +112,8 @@ include('nav.php');
 <div class="container p-list">
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
-		<caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption>
+		<caption><h4><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表</h4></caption>
+		<!-- <caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption> -->
 		<thead>
 			<tr><?php
 			$ths = array(
