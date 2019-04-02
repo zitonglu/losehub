@@ -15,18 +15,26 @@ $type_C = 'A';
 $state_C = 'P';
 $title_value = null;
 
+if (isset($_GET['Aid']) === TRUE) {
+	$Aid_value = $_GET['Aid'];
+}else{
+	$Aid_value = null;
+}
+
 include('header.php');
 include('nav.php');
 ?>
 <div class="container edit-article">
 	<div class="col-sm-1 text-right">#</div>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
-		<div class="col-sm-10"><textarea class="form-control text-justify text-center" rows="1" placeholder="文章标题" name="title" required></textarea></div>
+		<div class="col-sm-10"><textarea class="form-control text-justify text-center" rows="2" placeholder="文章标题" name="title" required></textarea></div>
 		<div class="col-sm-1">
+			<input type="hidden" name="id"<?php echo $Aid_value;?>>
 			<!-- <button type="button" class="btn btn-link"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button> -->
 			<button type="submit" class="btn btn-link" name="new"><span class="glyphicon glyphicon-ok" aria-hidden="true" name="new"></span></button>
 		</div>
 	</form>
+	<hr>
 	<!-- <form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 	<div class="col-md-offset-1 col-sm-5 option">
 		<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
