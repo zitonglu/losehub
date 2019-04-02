@@ -1,6 +1,6 @@
 <?php
 /**
- * LoseHub CMS 后台登录界面-首页
+ * LoseHub CMS 后台界面-首页
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global $lh

@@ -96,6 +96,7 @@ body#login .form-signin .btn-login{
 .edit .option{
 	margin-bottom:1em;
 }
+.edit-article .selectbox,
 .edit .selectbox,
 .p-list .selectbox{
 	display: inline-block;
@@ -149,3 +150,7 @@ input[type="number"]{
 }
 .p-list .table-responsive{min-width:800px;}
 .p-list .pagination{margin:0;}
+/* edit-article */
+.edit-article .option{
+	/*margin-top: 1em;*/
+}

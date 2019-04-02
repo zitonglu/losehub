@@ -1,6 +1,6 @@
 <?php
 /**
- * LoseHub CMS 后台登录界面-段落列表界面
+ * LoseHub CMS 后台界面-段落列表界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global base.php($dbn;),$lh
@@ -113,7 +113,6 @@ include('nav.php');
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
 		<caption><h4><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表</h4></caption>
-		<!-- <caption><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表 <a href="edit.php" title="新建"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</a></caption> -->
 		<thead>
 			<tr><?php
 			$ths = array(
