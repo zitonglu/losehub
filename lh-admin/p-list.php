@@ -12,7 +12,7 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
-// $total = 1;
+
 // 获取翻页相关信息
 if (isset($_GET['listselect'])) {
 	$results_per_page = (int)$_GET['listselect'];// 翻页行数
@@ -144,7 +144,7 @@ include('nav.php');
 		</tbody>
 	</table>
 	</div>
-	<div class="col-sm-5">
+	<div class="col-sm-6">
 	<nav aria-label="Page navigation">
 		<ul class="pagination">
 			<?php
@@ -174,9 +174,9 @@ include('nav.php');
 		</ul>
 	</nav>
 	</div>
-	<div class="col-sm-7">
+	<div class="col-sm-6">
 		<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
-			显示条数:
+			<span class="hidden-sm hidden-xs">显示条数:</span>
 			<select class="form-control selectbox" name="list" onchange="window.location=this.value;" title="显示条数">
 				<option value="<?php echo getPageURL();?>">显示行</option>
 				<?php
@@ -191,7 +191,7 @@ include('nav.php');
 					}
 				?>
 			</select>
-			状态：
+			<span class="hidden-sm hidden-xs">状态：</span>
 			<select class="form-control selectbox" name="state" onchange="window.location=this.value;">
 				<option value="<?php echo changeURLGet('state','0');?>">状态</option>
 				<?php foreach ($states as $key => $value) {
@@ -204,7 +204,7 @@ include('nav.php');
 				}
 				?>
 			</select>
-			类别：
+			<span class="hidden-sm hidden-xs">类别：</span>
 			<select class="form-control selectbox" name="type" onchange="window.location=this.value;">
 				<option value="<?php echo changeURLGet('type','0');?>">类别</option>
 				<?php foreach ($types as $key => $value) {
