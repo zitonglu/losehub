@@ -25,7 +25,8 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container edit-article">
-	<div class="col-sm-1 text-right">#</div>
+	<div class="row">
+	<div class="col-sm-1 hidden-xs text-right">#</div>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 		<div class="col-sm-10"><textarea class="form-control text-justify text-center" rows="2" placeholder="文章标题" name="title" required></textarea></div>
 		<div class="col-sm-1">
@@ -35,6 +36,15 @@ include('nav.php');
 		</div>
 	</form>
 	<hr>
+	<form method="post">
+	<div class="col-sm-offset-1 col-sm-10">
+  		<textarea id="summernote"><p>这是一个什么<a href="">玩意</a>？</p><p>1</p>
+  		<p>2</p>
+  		<p>3</p>
+  		<p>4</p></textarea>
+	</div>
+	<div class="col-sm-1">1</div>
+	</form>
 	<!-- <form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 	<div class="col-md-offset-1 col-sm-5 option">
 		<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
@@ -89,5 +99,6 @@ include('nav.php');
 		</div>
 	</div>
 	</form> -->
+	</div>
 </div>
 <?php include('footer.php');?>
