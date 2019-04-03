@@ -75,63 +75,71 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container edit">
-	<?php echo $return;echo $picDiv;?>
-	<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-		<textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea><br>
-		<div class="col-sm-7 option">
-			<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
-				<?php foreach ($types as $key => $value) {
-					if ($key == $type_C) {
-						$checked = ' selected = "selected"';
-					}else{
-						$checked ='';
-					}
-					echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-				}
-				?>
-			</select> <select class="form-control selectbox" name="state" required>
-				<?php foreach ($states as $key => $value) {
-					if ($key == $state_C) {
-						$checked = ' selected = "selected"';
-					}else{
-						$checked ='';
-					}
-					echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-				}
-				?>
-			</select>
-<!-- 			<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?> -->
-		</div>
-		<div class="col-sm-5 panel-group">
-			<div class="text-right">
-				<input type="hidden" name="id"<?php echo $id_value;?>>
-				<input type="hidden" name="return"<?php echo $return_value;?>>
-				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
-				<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
-				<?php echo $send;?>
-			</div>
-			<div id="collapseOne" class="collapse text-right">
-				<!-- 段落序号，用于长文章 -->
-				<div class="input-group" id="p-order">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
-					</span>
-					<input type="number" class="form-control"<?php echo $p_order;?> name="p_order">	
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
-						<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
-					</span>
+	<div class="row">
+		<div class="col-sm-1 hidden-xs text-right">#</div>
+		<div class="col-sm-10">
+			<?php echo $return;echo $picDiv;?>
+			<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
+				<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
+				<!-- <textarea class="form-control" rows="8" placeholder="请输入段落文字" name="textarea" required><?php echo $textarea;?></textarea> -->
+				<br>
+				<div class="col-sm-7 option">
+					<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
+						<?php foreach ($types as $key => $value) {
+							if ($key == $type_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select> <select class="form-control selectbox" name="state" required>
+						<?php foreach ($states as $key => $value) {
+							if ($key == $state_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select>
+					<!-- 			<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <?php echo date('Y-m-d h:i:s');?> -->
 				</div>
-				<label class="checkbox-inline">
-					<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
-				</label>
-			</div>
-			<div id="collapseTwo" class="collapse text-right">
-				<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- 最大上传2MB文件 -->
-				<input type="file" name="screenshot" class="file-input">
-			</div>
+				<div class="col-sm-5 panel-group">
+					<div class="text-right">
+						<input type="hidden" name="id"<?php echo $id_value;?>>
+						<input type="hidden" name="return"<?php echo $return_value;?>>
+						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传</button>
+						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
+						<?php echo $send;?>
+					</div>
+					<div id="collapseOne" class="collapse text-right">
+						<!-- 段落序号，用于长文章 -->
+						<div class="input-group" id="p-order">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
+							</span>
+							<input type="number" class="form-control"<?php echo $p_order;?> name="p_order">	
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+							</span>
+						</div>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+						</label>
+					</div>
+					<div id="collapseTwo" class="collapse text-right">
+						<input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- 最大上传2MB文件 -->
+						<input type="file" name="screenshot" class="file-input">
+					</div>
+				</div>
+			</form>
+			<?php get_http_img($textarea);?>
 		</div>
-	</form>
-	<?php get_http_img($textarea);?>
+		<div class="col-sm-1 hidden-xs">#</div>
+	</div>
 </div>
 <?php include('footer.php');?>

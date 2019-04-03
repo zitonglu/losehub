@@ -89,9 +89,6 @@ body#login .form-signin .btn-login{
 	margin-bottom:10px;
 }
 /*edit*/
-.edit{
-	max-width: 800px;
-}
 .edit #p-order,
 .edit .option{
 	margin-bottom:1em;

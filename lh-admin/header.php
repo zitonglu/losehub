@@ -20,7 +20,7 @@
     <link href="<?php echo $lh['site_url'] ?>/lh-includes/style/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo $lh['site_url'] ?>/lh-admin/style/style.css?v=1.0" rel="stylesheet">
     <?php
-    if (strstr($_SERVER['PHP_SELF'],'article')) {
+    if (strstr($_SERVER['PHP_SELF'],'edit')) {
     	echo '<link href="'.$lh['site_url'].'/lh-admin/style/summernote.css" rel="stylesheet">';
     }
     ?>
