@@ -89,10 +89,11 @@ $total = $counts[0];// 获取总行数
 $num_page = ceil($total/$results_per_page);// 分页数
 
 foreach ($p_list as $p_lists) {
+	$p_contect = preg_replace('/<\/?[^>]+>/i','',$p_lists['p_contect']);
 	$echo .= '<tr>';
 	$echo .= '<th scope="row">'.$p_lists['id'].'</th>';
 	$echo .= '<td>'.get_type_name($p_lists['p_type_code']).'</td>';
-	$echo .= '<td class="p-contect"><a href="#" class="ico"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a><a href="edit.php?id='.$p_lists['id'].'&return=plist" title="'.$p_lists['p_contect'].'"> '.$p_lists['p_contect'].'</a></td>';
+	$echo .= '<td class="p-contect"><a href="#" class="ico"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a><a href="edit.php?id='.$p_lists['id'].'&return=plist" title="'.$p_contect.'"> '.$p_contect.'</a></td>';
 	$echo .= '<td>'.get_state_name($p_lists['p_state_code']).'</td>';
 	$echo .= '<td>'.get_state_name($p_lists['p_c_state_code']).'</td>';
 	$echo .= '<td>'.substr($p_lists['p_datetime'],0,10).'</td>';
