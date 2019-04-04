@@ -19,10 +19,12 @@ $id_value = null;
 $p_order =' value="'.date('s').'"';
 $return_value ='';
 $send = '<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>';
+$echoID = '#';
 
 // 判断是否是回写的
 if (isset($_GET['id']) && $_GET['id'] != ''){
 	$id_value = ' value="'.$_GET['id'].'"';
+	$echoID = $_GET['id'];
 	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
 	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`,`p_order`";
 	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
@@ -63,7 +65,7 @@ include('nav.php');
 
 <div class="container edit">
 	<div class="row">
-		<div class="col-lg-1 hidden-xs text-right">#</div>
+		<div class="col-lg-1 hidden-xs text-right"><h4><i><?php echo $echoID;?></i></h4></div>
 		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 			<div class="col-lg-8">
 				<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
