@@ -1,7 +1,7 @@
 //调用富文本编辑
 $(document).ready(function() {
  var $summernote = $('#summernote').summernote({
-  height: 240,
+  height: 350,
   minHeight: null,
   maxHeight: null,
   focus: true,

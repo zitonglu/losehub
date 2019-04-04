@@ -63,16 +63,13 @@ include('nav.php');
 
 <div class="container edit">
 	<div class="row">
-		<div class="col-lg-1 hidden-xs text-right">#</div>
-		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-			<div class="col-lg-8">
+		<div class="col-sm-1 hidden-xs text-right">#</div>
+		<div class="col-sm-10">
+			<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 				<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
-			</div>
-			<div class="col-lg-3">
-				<div class="option">
-					<h4><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 段落相关：</h4>
-					<hr>
-					<select class="form-control selectbox" name="type" required>
+				<br>
+				<div class="col-sm-7 option">
+					<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 类型|状态：<select class="form-control selectbox" name="type" required>
 						<?php foreach ($types as $key => $value) {
 							if ($key == $type_C) {
 								$checked = ' selected = "selected"';
@@ -94,8 +91,9 @@ include('nav.php');
 						?>
 					</select>
 				</div>
-				<div class="panel-group">
-					<div>
+			<div class="row">
+				<div class="col-sm-5 panel-group">
+					<div class="text-right">
 						<input type="hidden" name="id"<?php echo $id_value;?>>
 						<input type="hidden" name="return"<?php echo $return_value;?>>
 						<a class="btn btn-default" href="edit-article.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写长文</a>
@@ -120,9 +118,9 @@ include('nav.php');
 					</div>
 				</div>
 			</div>
+			</form>
 		</div>
-	</form>
+		<div class="col-sm-1 hidden-xs">#</div>
 	</div>
 </div>
-<p class="thanks"><br></p>
 <?php include('footer.php');?>

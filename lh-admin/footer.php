@@ -9,6 +9,8 @@
  * @return none
  */
 ?>
+
+<!-- <p class="text-center">感谢使用<a href="losehub.com" target="_blank" title="losehub">LoseHub CMS</a>进行创作</p> -->
 	<script src="<?php echo $lh['site_url'] ?>/lh-includes/style/jquery-3.3.1.min.js" type="text/javascript"></script>
 	<script src="<?php echo $lh['site_url'] ?>/lh-includes/style/bootstrap.min.js" type="text/javascript"></script>
 	<script src="<?php echo $lh['site_url'] ?>/lh-admin/style/active.js" type="text/javascript"></script>

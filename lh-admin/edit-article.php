@@ -13,8 +13,6 @@ require_once('function/authorize.php');
 
 $type_C = 'A';
 $state_C = 'P';
-$title_value = null;
-
 if (isset($_GET['Aid']) === TRUE) {
 	$Aid_value = $_GET['Aid'];
 }else{
