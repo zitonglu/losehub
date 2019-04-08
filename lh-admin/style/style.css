@@ -147,9 +147,11 @@ input[type="number"]{
 }
 .p-list .table-responsive{min-width:800px;}
 .p-list .pagination{margin:0;}
+
 /* edit-article */
-.edit-article .option{
-	/*margin-top: 1em;*/
+.edit-article .textarea{
+	margin-bottom: 1em;
 }
+
 /*footer*/
 .thanks{padding-top:220px}
