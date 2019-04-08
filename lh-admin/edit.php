@@ -26,8 +26,7 @@ if (isset($_GET['id']) && $_GET['id'] != ''){
 	$id_value = ' value="'.$_GET['id'].'"';
 	$echoID = $_GET['id'];
 	$send = '<button type="submit" class="btn btn-success" name="send"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编辑</button>';
-	$query = "SELECT `p_contect`,`p_state_code`,`p_c_state_code`,`p_type_code`,`p_order`";
-	$query .= " FROM ".LH_DB_PREFIX.'paragraphs';
+	$query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 	$query .= " WHERE `id`=".$_GET['id'];
 	// echo $query;
 	$result = $dbn->prepare($query);

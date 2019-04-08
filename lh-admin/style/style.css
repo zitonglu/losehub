@@ -149,8 +149,10 @@ input[type="number"]{
 .p-list .pagination{margin:0;}
 
 /* edit-article */
-.edit-article .textarea{
+.edit-article .paragraph{
 	margin-bottom: 1em;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }
 
 /*footer*/
