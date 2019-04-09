@@ -24,7 +24,7 @@ if (isset($_POST['new'])) {
 		case 'alist':
 			redirect($lh['site_url'].'/lh-admin/p-list.php');
 			break;
-		
+
 		default:
 			redirect($lh['site_url'].'/lh-admin/edit-article.php?Aid='.$dbn->lastInsertId().'&return=view');
 			break;

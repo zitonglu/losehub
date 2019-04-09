@@ -149,10 +149,11 @@ input[type="number"]{
 .p-list .pagination{margin:0;}
 
 /* edit-article */
-.edit-article .paragraph{
-	margin-bottom: 1em;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+.edit-article .top-1em{
+	padding-top: 1em;
+}
+.edit-article .option button{
+	margin-bottom: 4px;
 }
 
 /*footer*/

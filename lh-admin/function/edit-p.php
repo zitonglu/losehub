@@ -4,7 +4,7 @@
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @var $dbn,$lh
- * @version 2019-4-4
+ * @version 2019-4-9
  * 
  * @return edit.php?id=
  */
@@ -28,8 +28,13 @@ if (isset($_POST['send'])) {
 	}else{
 		$query = "insert into ".LH_DB_PREFIX.'paragraphs'." (";
 		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`p_order`";
-		$query .= ") values (";
-		$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'];
+			if (isset($_POST['Aid'])) {//传递归属长文
+				$query .= ",`p_a_id`) values (";
+				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'].",".$_POST['Aid'];
+			}else{
+				$query .= ") values (";
+				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'];
+		}
 		$query .= ")";
 	}
 	// echo $query;
@@ -38,6 +43,9 @@ if (isset($_POST['send'])) {
 	switch ($_POST['return']) {
 		case 'plist':
 			redirect($lh['site_url'].'/lh-admin/p-list.php');
+			break;
+		case 'article':
+			redirect($lh['site_url'].'/lh-admin/edit-article.php?return=view&id='.$dbn->lastInsertId()."&Aid=".$_POST['Aid']);
 			break;
 		
 		default:
