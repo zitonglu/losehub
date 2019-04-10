@@ -36,13 +36,13 @@ include('nav.php');
 	while ($lh_articles = $result->fetch(PDO::FETCH_ASSOC)){
 		$id = $lh_articles['a_id'];
 		$title = $lh_articles['a_title'];
-		$type = $lh_articles['a_type_code'];
-		$state = $lh_articles['a_state_code'];
+		$type_c = $lh_articles['a_type_code'];
+		$state_C = $lh_articles['a_state_code'];
 		if ($lh_articles['a_c_state_code'] == 'P') {
 			$checkbox = 'checked';
 		}else{
 			$checkbox = null;
-		}
+		}//根据AID查询对应文章，结束
 	}?>
 	<?php if (@$_GET['return'] == 'view'){//如果是直接跳转，就用只读模式 ?>
 		<div class="col-sm-1 text-right hidden-xs"><h4>#</h4></div>
@@ -52,10 +52,61 @@ include('nav.php');
 		<div class="col-sm-1 col-xs-1">
 			<a href="<?php echo changeURLGet('return','edit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 		</div>
-		<div class="clearfix"></div><!-- 清理格式 -->
+		<div class="clearfix"></div><!-- 只读文章页面 -->
 	<?php }else{ ?>
-		<p>1</p>
-	<?php }//编辑文章的结尾部分，没有return值都可显示 ?>
+		<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
+			<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><?php echo $id; ?></h4></div>
+			<div class="col-sm-8">
+				<textarea name="title" required class="form-control" rows="3"><?php echo $title;?></textarea>
+			</div>
+			<div class="col-sm-3">
+				<div class="option">
+					<select class="form-control selectbox" name="type" required>
+						<?php foreach ($types as $key => $value) {
+							if ($key == $type_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select> <select class="form-control selectbox" name="state" required>
+						<?php foreach ($states as $key => $value) {
+							if ($key == $state_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select>
+				</div>
+				<div class="panel-group">
+					<div>
+						<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
+						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
+						<button type="submit" class="btn btn-default" name="edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>
+					</div>
+					<div id="collapseThree" class="collapse text-right">
+						<label class="checkbox-inline">
+							<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="clearfix"></div><!-- 编辑文章页面 -->
+	<?php }//编辑首部标题部分
+		$query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
+		$query .= " WHERE `P_a_id`=".$_GET['Aid'];
+		//echo $query;
+		$result = $dbn->prepare($query);
+		$result->execute();
+		$p_list = $result->fetchAll();
+		//根据AID查询所有对应的段落，结束
+	 ?>
 		<hr>
 		<div class="col-sm-11 col-md-offset-1 col-xs-12">
 			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</button>
