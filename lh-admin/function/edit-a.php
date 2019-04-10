@@ -6,7 +6,7 @@
  * @var $dbn,$lh
  * @version 2019-4-8
  * 
- * @return edit.php?id=
+ * @return edit-article.php?id=
  */
 require_once('base.php');
 require_once('authorize.php');

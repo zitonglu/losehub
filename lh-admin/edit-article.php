@@ -44,16 +44,7 @@ include('nav.php');
 			$checkbox = null;
 		}//根据AID查询对应文章，结束
 	}?>
-	<?php if (@$_GET['return'] == 'view'){//如果是直接跳转，就用只读模式 ?>
-		<div class="col-sm-1 text-right hidden-xs"><h4>#</h4></div>
-		<div class="col-sm-10 col-xs-11 text-center">
-			<h2><?php echo $title; ?></h2>
-		</div>
-		<div class="col-sm-1 col-xs-1">
-			<a href="<?php echo changeURLGet('return','edit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-		</div>
-		<div class="clearfix"></div><!-- 只读文章页面 -->
-	<?php }else{ ?>
+	<?php if (@$_GET['return'] == 'Aedit'){//如果是直接跳转，就用只读模式 ?>
 		<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 			<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><?php echo $id; ?></h4></div>
 			<div class="col-sm-8">
@@ -96,8 +87,15 @@ include('nav.php');
 					</div>
 				</div>
 			</div>
-		</form>
-		<div class="clearfix"></div><!-- 编辑文章页面 -->
+		</form><!-- 编辑文章页面 -->
+	<?php }else{ ?>
+		<div class="col-sm-1 text-right hidden-xs"><h4>#</h4></div>
+		<div class="col-sm-10 col-xs-11 text-center">
+			<h2><?php echo $title; ?></h2>
+		</div>
+		<div class="col-sm-1 col-xs-1">
+			<a href="<?php echo changeURLGet('return','Aedit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+		</div><!-- 只读文章页面 -->
 	<?php }//编辑首部标题部分
 		$query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 		$query .= " WHERE `P_a_id`=".$_GET['Aid'];
@@ -107,6 +105,7 @@ include('nav.php');
 		$p_list = $result->fetchAll();
 		//根据AID查询所有对应的段落，结束
 	 ?>
+	 	<div class="clearfix"></div>
 		<hr>
 		<div class="col-sm-11 col-md-offset-1 col-xs-12">
 			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</button>
@@ -144,7 +143,7 @@ include('nav.php');
 				</form>
 			</div>
 		</div>
-	<?php }else{ ?>
+	<?php }else{ //没有生产文章ID的情况?>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>#</i></h4></div>
 		<div class="col-sm-8">
