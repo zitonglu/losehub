@@ -78,7 +78,7 @@ include('nav.php');
 					<div>
 						<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
 						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
-						<button type="submit" class="btn btn-default" name="edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>
+						<button type="submit" class="btn btn-success" name="edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>
 					</div>
 					<div id="collapseThree" class="collapse text-right">
 						<label class="checkbox-inline">
@@ -99,12 +99,34 @@ include('nav.php');
 	<?php }//编辑首部标题部分
 		$query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 		$query .= " WHERE `P_a_id`=".$_GET['Aid'];
-		//echo $query;
+		$query .= " ORDER BY `p_order` ASC";
+		// echo $query;
 		$result = $dbn->prepare($query);
 		$result->execute();
 		$p_list = $result->fetchAll();
 		//根据AID查询所有对应的段落，结束
-	 ?>
+		foreach ($p_list as $p) { 
+			if (@$_GET['return'] == 'Pedit') {
+				# 输出编辑页面
+				echo "编辑页面";
+			}else{
+				$Purl = changeURLGet('Pid',$p['id'],true).'&return=Pedit&Aid='.$_GET['Aid'];
+			?>
+		<div class="clearfix"></div>
+		<div class="col-sm-1 text-right hidden-xs"><small><a href="<?php echo $Purl ?>" title="编辑"><kbd><?php echo $p['p_order']; ?></kbd></a></small></div>
+		<div class="col-sm-10 col-xs-11">
+			<?php if(substr($p['p_contect'],0,1) == '<'){
+				echo $p['p_contect'];
+			}else{
+				echo '<p>'.$p['p_contect'].'</p>';
+			}?>
+		</div>
+		<div class="col-sm-1 col-xs-1">
+			<a href="<?php echo $Purl ?>" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+		</div><!-- 只读段落页面 -->
+		<div class="clearfix"></div>
+		<?php }
+		} ?>
 	 	<div class="clearfix"></div>
 		<hr>
 		<div class="col-sm-11 col-md-offset-1 col-xs-12">
