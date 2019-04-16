@@ -138,30 +138,17 @@ include('nav.php');
 					<input type="hidden" name="return" value="article">
 					<input type="hidden" name="p_order" value="<?php echo $p_order;?>">
 					<textarea name="textarea" required id="summernote"></textarea>
-					<p class="text-right option">
-						<select class="form-control selectbox" name="type" required>
-						<?php foreach ($types as $key => $value) {
-							if ($key == 'P') {
-								$checked = ' selected = "selected"';
-							}else{
-								$checked ='';
-							}
-							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-						}
-						?>
-						</select> <select class="form-control selectbox" name="state" required>
-							<?php foreach ($states as $key => $value) {
-								if ($key == 'P') {
-									$checked = ' selected = "selected"';
-								}else{
-									$checked ='';
-								}
-								echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
-							}
-							?>
-						</select>
-						<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
-					</p>
+						<div class="input-group" id="p-order">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
+							</span>
+							<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+								<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
+							</span>
+						</div>
 				</form>
 			</div>
 		</div>
