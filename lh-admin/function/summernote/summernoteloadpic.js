@@ -40,6 +40,7 @@ $(document).ready(function() {
       processData: false,
       success: function (dataUrl) {
         $('#summernote').summernote('insertImage',dataUrl);
+        $('#summernote2').summernote('insertImage',dataUrl);
         console.log(dataUrl);
       },
       error:function(){

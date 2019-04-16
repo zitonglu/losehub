@@ -4,7 +4,7 @@
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global base.php($dbn;),$lh
- * @version 2019-4-9
+ * @version 2019-4-16
  * 
  * @return none
  */
@@ -132,8 +132,7 @@ include('nav.php');
 		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 			<div class="col-sm-1 hidden-xs text-right">#</div>
 			<div class="col-lg-8 col-sm-7">
-				<textarea name="textarea" required id="summernote2">
-					<?php echo $textarea;?></textarea>
+				<textarea name="textarea" required id="summernote2"><?php echo ltrim($textarea);?></textarea>
 			</div>
 			<div class="col-lg-3 col-sm-4">
 				<div class="option">
@@ -177,6 +176,7 @@ include('nav.php');
 						<input type="hidden" name="id" value="<?php echo $p['id'];?>">
 						<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
 						<input type="hidden" name="return" value="<?php echo $_GET['return'];?>">
+						<button type="submit" class="btn btn-default" name="remove"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 断开</button>
 						<a class="btn btn-default" href="<?php echo changeURLGet('return','view') ?>" role="button"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 返回</a>
 						<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</button>
 					</div>
@@ -211,9 +211,6 @@ include('nav.php');
 
 			<div id="collapseTWO" class="collapse top-1em"><!-- 直接增加段落 -->
 				<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
-					<input type="hidden" name="return" value="article">
-					<input type="hidden" name="p_order" value="<?php echo $p_order;?>">
 					<textarea name="textarea" required id="summernote"></textarea>
 						<div class="col-sm-7">
 							<select class="form-control selectbox" name="type" required>
@@ -244,6 +241,9 @@ include('nav.php');
 							</span>
 							<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
 							<span class="input-group-btn">
+								<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
+								<input type="hidden" name="return" value="article">
+								<input type="hidden" name="p_order" value="<?php echo $p_order;?>">
 								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
 								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
 								<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>

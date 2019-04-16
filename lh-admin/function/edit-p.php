@@ -24,7 +24,7 @@ if (isset($_POST['send'])) {
 		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`id`,`p_order`";
 		if (isset($_POST['Aid'])) {//传递归属长文
 				$query .= ",`p_a_id`) values (";
-				$query .= "'".$_POST['textarea']."','P','P','P',".$_POST['id'].",".$_POST['p_order'].",".$_POST['Aid'];
+				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'].",".$_POST['Aid'];
 			}else{
 			$query .= ") values (";
 			$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'];
@@ -33,8 +33,13 @@ if (isset($_POST['send'])) {
 	}else{
 		$query = "insert into ".LH_DB_PREFIX.'paragraphs'." (";
 		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`p_order`";
+		if (isset($_POST['Aid'])) {//传递归属长文
+				$query .= ",`p_a_id`) values (";
+				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['p_order'].",".$_POST['Aid'];
+			}else{
 		$query .= ") values (";
 		$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'];
+		}
 		$query .= ")";
 	}
 	// echo $query;
@@ -46,6 +51,7 @@ if (isset($_POST['send'])) {
 			break;
 		case 'Pedit':
 		case 'article':
+		case 'view':
 			redirect($lh['site_url'].'/lh-admin/edit-article.php?return=view&id='.$dbn->lastInsertId()."&Aid=".$_POST['Aid']);
 			break;
 		
@@ -55,4 +61,13 @@ if (isset($_POST['send'])) {
 	}
 }
 
+//断开段落与文章关系
+if (isset($_POST['remove'])) {
+	$query = "UPDATE ".LH_DB_PREFIX.'paragraphs'." SET ";
+	$query .= "`p_a_id` = '1'";
+	$query .= " WHERE `id` = ".$_POST['id'];
+	//echo $query;
+	$dbn->exec($query);
+	redirect($lh['site_url'].'/lh-admin/edit-article.php?Aid='.$_POST['Aid'].'&return=view');
+}
 ?>

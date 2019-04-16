@@ -64,5 +64,4 @@ if (@$_GET['return'] == 'addP') {
 	redirect($lh['site_url'].'/lh-admin/edit-article.php?Aid='.$_GET['Aid'].'&return=view');
 }
 
-
 ?>
