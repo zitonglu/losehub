@@ -206,7 +206,7 @@ include('nav.php');
 		} ?>
 	 	<div class="clearfix"></div>
 		<hr>
-			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</button>
+			<a href="p-list.php?return=addP&Aid=<?php echo $_GET['Aid'];?>" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</a>
 			<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTWO" aria-expanded="false" aria-controls="collapseListGroup1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 增加段落</button>
 
 			<div id="collapseTWO" class="collapse top-1em"><!-- 直接增加段落 -->

@@ -54,4 +54,15 @@ if (isset($_POST['edit'])) {
 	}
 }
 
+//增加文章判断
+if (@$_GET['return'] == 'addP') {
+	$query = "UPDATE ".LH_DB_PREFIX.'paragraphs'." SET ";
+	$query .= "`p_a_id` = '".$_GET['Aid']."'";
+	$query .= " WHERE `id` = ".$_GET['id'];
+	//echo $query;
+	$dbn->exec($query);
+	redirect($lh['site_url'].'/lh-admin/edit-article.php?Aid='.$_GET['Aid'].'&return=view');
+}
+
+
 ?>
