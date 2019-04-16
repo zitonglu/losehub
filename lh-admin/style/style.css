@@ -7,6 +7,9 @@ body{
 	background-color:#f8f8f8;
     color:#555;
 }
+.lingheight3em{
+	line-height:3em;
+}
 /*setup*/
 body#setup .setupBox{
 	width:40vw;

@@ -66,10 +66,10 @@ include('nav.php');
 	<div class="row">
 		<div class="col-sm-1 hidden-xs text-right"><h4><i><?php echo $echoID;?></i></h4></div>
 		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-			<div class="col-sm-8">
+			<div class="col-lg-8 col-sm-7">
 				<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-lg-3 col-sm-4">
 				<div class="option">
 					<h4><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 段落相关：</h4>
 					<hr>
@@ -96,7 +96,7 @@ include('nav.php');
 					</select>
 				</div>
 				<div class="panel-group">
-					<div>
+					<div class="lingheight3em">
 						<input type="hidden" name="id"<?php echo $id_value;?>>
 						<input type="hidden" name="return"<?php echo $return_value;?>>
 						<a class="btn btn-default" href="edit-article.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写长文</a>

@@ -110,7 +110,7 @@ include('nav.php');
 
 			<?php if (@$_GET['return'] == 'Pedit' && @$_GET['Pid'] == $p['id']) {
 			//输出段落编辑页面 ?>
-		<hr>
+		<hr id="editP">
 		<div class="col-sm-1 text-right hidden-xs">#</div>
 		<div class="col-sm-8">
 			<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
@@ -120,7 +120,7 @@ include('nav.php');
 		<hr>
 			<?php }else{
 			//输出正常页面
-				$Purl = changeURLGet('Pid',$p['id'],true).'&return=Pedit&Aid='.$_GET['Aid'];
+			$Purl = changeURLGet('Pid',$p['id'],true).'&return=Pedit&Aid='.$_GET['Aid'].'#editP';
 			?>
 		
 		<div class="col-sm-1 text-right hidden-xs"><small><a href="<?php echo $Purl ?>" title="编辑"><kbd><?php echo $p['p_order']; ?></kbd></a></small></div>
@@ -165,10 +165,10 @@ include('nav.php');
 	<?php }else{ //没有生产文章ID的情况?>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>#</i></h4></div>
-		<div class="col-sm-8">
+		<div class="col-lg-8 col-sm-7">
 			<textarea name="title" required class="form-control" rows="3" placeholder="文章标题"><?php echo $title;?></textarea>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-lg-3 col-sm-4">
 			<div class="option">
 				<select class="form-control selectbox" name="type" required>
 					<?php foreach ($types as $key => $value) {
@@ -193,7 +193,7 @@ include('nav.php');
 				</select>
 			</div>
 			<div class="panel-group">
-				<div>
+				<div class="lingheight3em">
 					<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
 					<a class="btn btn-default" href="edit.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写短文</a>
 					<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
