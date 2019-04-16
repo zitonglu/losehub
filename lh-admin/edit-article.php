@@ -15,10 +15,18 @@ $type = 'A';
 $state = 'P';
 $title = null;
 $checkbox = null;
-$p_order ='10';//这个东西后期做加强判断
+
 if (isset($_GET['Aid']) === TRUE) {
 	$Aid_value = ' value="'. $_GET['Aid'].'"';
+	$query = "SELECT MAX(p_order) FROM ".LH_DB_PREFIX.'paragraphs';
+	$query .= " WHERE `p_a_id`=".$_GET['Aid'];
+	$result = $dbn->query($query);
+	while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+		$p_order = $row['MAX(p_order)'];
+		$p_order += 1;
+	}
 }else{
+	$p_order ='10';
 	$Aid_value = null;
 }
 
