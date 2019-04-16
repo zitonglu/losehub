@@ -26,7 +26,7 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container edit edit-article">
-	<div class="container"><div class="row">
+	<div class="container"><div class="row" id="editbox">
 	<?php if(is_numeric(@$_GET['Aid'])){ 
 		$query = "SELECT * FROM ".LH_DB_PREFIX.'articles';
 		$query .= " WHERE `a_id`=".$_GET['Aid'];
@@ -92,10 +92,15 @@ include('nav.php');
 		<div class="col-sm-1 text-right hidden-xs"><h4>#</h4></div>
 		<div class="col-sm-10 col-xs-11 text-center">
 			<h2><?php echo $title; ?></h2>
+			<p class="text-right">
+				<a class="btn btn-default" id="Btn1" title="加大字体" type="submit"><span class="glyphicon glyphicon-text-size" aria-hidden="true"></span>+</a>
+				<a class="btn btn-default" id="Btn2" title="缩小字体" type="submit"><span class="glyphicon glyphicon-text-size" aria-hidden="true"></span>-</a>
+			</p><!-- 变更字体大小 -->
 		</div>
 		<div class="col-sm-1 col-xs-1">
-			<a href="<?php echo changeURLGet('return','Aedit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+			<a href="<?php echo changeURLGet('return','Aedit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br>
 		</div><!-- 只读文章页面 -->
+		<div class="clearfix"></div>
 	<?php }//编辑首部标题部分
 		$query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
 		$query .= " WHERE `P_a_id`=".$_GET['Aid'];
@@ -106,8 +111,6 @@ include('nav.php');
 		$p_list = $result->fetchAll();
 		//根据AID查询所有对应的段落，结束
 		foreach ($p_list as $p) { ?>
-		<div class="clearfix"></div>
-
 			<?php if (@$_GET['return'] == 'Pedit' && @$_GET['Pid'] == $p['id']) {
 				$query = 'SELECT * FROM '.LH_DB_PREFIX.'paragraphs'.' WHERE `id`='.$_GET['Pid'];
 				//echo $query;
@@ -203,9 +206,9 @@ include('nav.php');
 		} ?>
 	 	<div class="clearfix"></div>
 		<hr>
-		<div class="col-sm-11 col-md-offset-1 col-xs-12">
 			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</button>
 			<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTWO" aria-expanded="false" aria-controls="collapseListGroup1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 增加段落</button>
+
 			<div id="collapseTWO" class="collapse top-1em"><!-- 直接增加段落 -->
 				<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="Aid"<?php echo $Aid_value;?>>

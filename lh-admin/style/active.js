@@ -26,6 +26,21 @@ setTimeout(function(){
     }, 1200);
 }, 1200);
 
+//改变字体大小
+window.onload= function(){
+    var oPtxt=document.getElementById("editbox");
+    var oBtn1=document.getElementById("Btn1");
+    var oBtn2=document.getElementById("Btn2");
+    var num = 14; /*定义一个初始变量*/
+    oBtn1.onclick = function(){
+        num++;
+        oPtxt.style.fontSize=num+'px';
+    };
+    oBtn2.onclick = function(){
+        num--;
+        oPtxt.style.fontSize=num+'px';
+    }
+}
 // //警告框
 // $('#myAlert').alert('close');
 
