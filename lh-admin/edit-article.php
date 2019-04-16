@@ -105,14 +105,24 @@ include('nav.php');
 		$result->execute();
 		$p_list = $result->fetchAll();
 		//根据AID查询所有对应的段落，结束
-		foreach ($p_list as $p) { 
-			if (@$_GET['return'] == 'Pedit') {
-				# 输出编辑页面
-				echo "编辑页面";
-			}else{
+		foreach ($p_list as $p) { ?>
+		<div class="clearfix"></div>
+
+			<?php if (@$_GET['return'] == 'Pedit' && @$_GET['Pid'] == $p['id']) {
+			//输出段落编辑页面 ?>
+		<hr>
+		<div class="col-sm-1 text-right hidden-xs">#</div>
+		<div class="col-sm-8">
+			<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
+		</div>
+		<div class="col-sm-3">2</div>
+		<div class="clearfix"></div>
+		<hr>
+			<?php }else{
+			//输出正常页面
 				$Purl = changeURLGet('Pid',$p['id'],true).'&return=Pedit&Aid='.$_GET['Aid'];
 			?>
-		<div class="clearfix"></div>
+		
 		<div class="col-sm-1 text-right hidden-xs"><small><a href="<?php echo $Purl ?>" title="编辑"><kbd><?php echo $p['p_order']; ?></kbd></a></small></div>
 		<div class="col-sm-10 col-xs-11">
 			<?php if(substr($p['p_contect'],0,1) == '<'){

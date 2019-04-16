@@ -64,12 +64,12 @@ include('nav.php');
 
 <div class="container edit">
 	<div class="row">
-		<div class="col-lg-1 hidden-xs text-right"><h4><i><?php echo $echoID;?></i></h4></div>
+		<div class="col-sm-1 hidden-xs text-right"><h4><i><?php echo $echoID;?></i></h4></div>
 		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-			<div class="col-lg-8">
+			<div class="col-sm-8">
 				<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-sm-3">
 				<div class="option">
 					<h4><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 段落相关：</h4>
 					<hr>
