@@ -14,6 +14,19 @@ $(document).ready(function() {
       },
     }
   });
+ var $summernote = $('#summernote2').summernote({
+  height: 150,
+  minHeight: null,
+  maxHeight: null,
+  focus: true,
+  lang: 'zh-CN', 
+    //调用图片上传
+    callbacks: {
+      onImageUpload: function (files) {
+        sendFile(files);
+      },
+    }
+  });
   //ajax上传图片
   function sendFile(file) {
     var formData = new FormData();

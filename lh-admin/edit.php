@@ -119,7 +119,7 @@ include('nav.php');
 							<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
 						</label>
 					</div>
-				</div>
+				</div><!-- end panel-group -->
 			</div>
 		</div>
 	</form>

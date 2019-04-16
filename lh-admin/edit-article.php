@@ -109,14 +109,78 @@ include('nav.php');
 		<div class="clearfix"></div>
 
 			<?php if (@$_GET['return'] == 'Pedit' && @$_GET['Pid'] == $p['id']) {
+				$query = 'SELECT * FROM '.LH_DB_PREFIX.'paragraphs'.' WHERE `id`='.$_GET['Pid'];
+				//echo $query;
+				$result = $dbn->prepare($query);
+				$result->execute();
+				while ($lh_paragraphs = $result->fetch(PDO::FETCH_ASSOC)){
+					$textarea = $lh_paragraphs['p_contect'];
+					$type_C = $lh_paragraphs['p_type_code'];
+					$state_C = $lh_paragraphs['p_state_code'];
+					$p_order = $lh_paragraphs['p_order'];
+					if ($lh_paragraphs['p_c_state_code'] == 'P') {
+						$checkbox = 'checked';
+					}else{
+						$checkbox = null;
+					}
+				}
 			//输出段落编辑页面 ?>
 		<hr id="editP">
-		<div class="col-sm-1 text-right hidden-xs">#</div>
-		<div class="col-sm-8">
-			<textarea name="textarea" required id="summernote"><?php echo $textarea;?></textarea>
-		</div>
-		<div class="col-sm-3">2</div>
-		<div class="clearfix"></div>
+		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
+			<div class="col-sm-1 hidden-xs text-right">#</div>
+			<div class="col-lg-8 col-sm-7">
+				<textarea name="textarea" required id="summernote2">
+					<?php echo $textarea;?></textarea>
+			</div>
+			<div class="col-lg-3 col-sm-4">
+				<div class="option">
+					<select class="form-control selectbox" name="type" required>
+						<?php foreach ($types as $key => $value) {
+							if ($key == $type_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select> <select class="form-control selectbox" name="state" required>
+						<?php foreach ($states as $key => $value) {
+							if ($key == $state_C) {
+								$checked = ' selected = "selected"';
+							}else{
+								$checked ='';
+							}
+							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+						}
+						?>
+					</select>
+				</div>
+				<div class="panel-group">
+					<div class="input-group" id="p-order">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
+						</span>
+						<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+							<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+						</span>
+					</div>
+					<label class="checkbox-inline">
+						<input type="checkbox" name="comments" <?php echo $checkbox;?>><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 可评论
+					</label>
+					<div class="lingheight3em text-right">
+						<input type="hidden" name="id" value="<?php echo $p['id'];?>">
+						<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
+						<input type="hidden" name="return" value="<?php echo $_GET['return'];?>">
+						<a class="btn btn-default" href="<?php echo changeURLGet('return','view') ?>" role="button"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 返回</a>
+						<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</button>
+					</div>
+				</div><!-- end panel-group -->
+			</div>
+			<div class="clearfix"></div>
+		</form>
 		<hr>
 			<?php }else{
 			//输出正常页面
@@ -148,7 +212,30 @@ include('nav.php');
 					<input type="hidden" name="return" value="article">
 					<input type="hidden" name="p_order" value="<?php echo $p_order;?>">
 					<textarea name="textarea" required id="summernote"></textarea>
-						<div class="input-group" id="p-order">
+						<div class="col-sm-7">
+							<select class="form-control selectbox" name="type" required>
+								<?php foreach ($types as $key => $value) {
+									if ($key == $type_C) {
+										$checked = ' selected = "selected"';
+									}else{
+										$checked ='';
+									}
+									echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+								}
+								?>
+							</select> <select class="form-control selectbox" name="state" required>
+								<?php foreach ($states as $key => $value) {
+									if ($key == $state_C) {
+										$checked = ' selected = "selected"';
+									}else{
+										$checked ='';
+									}
+									echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+								}
+								?>
+							</select>
+						</div>
+						<div class="input-group col-sm-5" id="p-order">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
 							</span>
@@ -211,4 +298,5 @@ include('nav.php');
 	</div><!-- end row -->
 	</div>
 </div>
+<hr>
 <?php include('footer.php');?>

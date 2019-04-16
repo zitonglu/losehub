@@ -44,6 +44,7 @@ if (isset($_POST['send'])) {
 		case 'plist':
 			redirect($lh['site_url'].'/lh-admin/p-list.php');
 			break;
+		case 'Pedit':
 		case 'article':
 			redirect($lh['site_url'].'/lh-admin/edit-article.php?return=view&id='.$dbn->lastInsertId()."&Aid=".$_POST['Aid']);
 			break;
