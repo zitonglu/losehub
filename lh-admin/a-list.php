@@ -1,10 +1,10 @@
 <?php
 /**
- * LoseHub CMS 后台界面-段落列表界面
+ * LoseHub CMS 后台界面-文章列表界面
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global base.php($dbn;),$lh
- * @version 2019-4-2
+ * @version 2019-4-17
  * 
  * @return none
  */
@@ -26,16 +26,16 @@ $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;// 当前页面数
 $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
-$search_query = "SELECT * FROM ".LH_DB_PREFIX.'paragraphs';
+$search_query = "SELECT * FROM ".LH_DB_PREFIX.'articles';
 //WHERE 条件
 if(empty($_GET['state']) === false || empty($_GET['type']) === false){
 	$search_query .= ' WHERE ';
 	if (empty($_GET['state']) === false && empty($_GET['type']) === false) {
-		$search_query .= '`p_state_code`=\''.$_GET['state'].'\' AND `p_type_code`=\''.$_GET['type'].'\'';
+		$search_query .= '`a_state_code`=\''.$_GET['state'].'\' AND `a_type_code`=\''.$_GET['type'].'\'';
 	}elseif(empty($_GET['state']) === false){
-		$search_query .= '`p_state_code`=\''.$_GET['state'].'\'';
+		$search_query .= '`a_state_code`=\''.$_GET['state'].'\'';
 	}else{
-		$search_query .= '`p_type_code`=\''.$_GET['type'].'\'';
+		$search_query .= '`a_type_code`=\''.$_GET['type'].'\'';
 	}
 }
 // 查询排序，生降序调整 ORDER BY
@@ -51,19 +51,19 @@ if (isset($_GET['orderby'])) {
     // 增加SQL的ORDER BY
 	switch ($orderby) {
 		case 'id':
-		$search_query .= ' ORDER BY id ';
+		$search_query .= ' ORDER BY a_id ';
 		break;
 		case 'type':
-		$search_query .= ' ORDER BY `p_type_code` ';
+		$search_query .= ' ORDER BY `a_type_code` ';
 		break;
 		case 'state':
-		$search_query .= ' ORDER BY `p_state_code` ';
+		$search_query .= ' ORDER BY `a_state_code` ';
 		break;
 		case 'cstate':
-		$search_query .= ' ORDER BY `p_c_state_code` ';
+		$search_query .= ' ORDER BY `a_c_state_code` ';
 		break;
 		case 'time':
-		$search_query .= ' ORDER BY `p_datetime` ';
+		$search_query .= ' ORDER BY `a_datetime` ';
 		break;
 		default:
 		break;
@@ -81,35 +81,37 @@ $search_query .= $results_per_page;
 // echo $search_query;
 $result = $dbn->prepare($search_query);
 $result->execute();
-$p_list = $result->fetchAll();
+$a_list = $result->fetchAll();
 
 $count = $dbn->query($count_query);
 $counts = $count->fetch();
 $total = $counts[0];// 获取总行数
 $num_page = ceil($total/$results_per_page);// 分页数
 
-foreach ($p_list as $p_lists) {
-	$p_contect = preg_replace('/<\/?[^>]+>/i','',$p_lists['p_contect']);
+foreach ($a_list as $a_lists) {
+	$countSQL = "SELECT COUNT(*) FROM ".LH_DB_PREFIX.'paragraphs';
+	$countSQL .= " WHERE `p_a_id`=".$a_lists['a_id'];
+	//echo $countSQL;
+	$result = $dbn->query($countSQL);
+	while ($row = $result->fetch(PDO::FETCH_ASSOC)){
+		$count = $row['COUNT(*)'];
+	}
+	$a_title = preg_replace('/<\/?[^>]+>/i','',$a_lists['a_title']);
 	$echo .= '<tr>';
-	$echo .= '<th scope="row">'.$p_lists['id'].'</th>';
-	$echo .= '<td>'.get_type_name($p_lists['p_type_code']).'</td>';
-	$echo .= '<td class="p-contect"><a href="#" class="ico"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a><a href="edit.php?id='.$p_lists['id'].'&return=plist" title="'.$p_contect.'"> '.$p_contect.'</a></td>';
-	$echo .= '<td>'.get_state_name($p_lists['p_state_code']).'</td>';
-	$echo .= '<td>'.get_state_name($p_lists['p_c_state_code']).'</td>';
-	$echo .= '<td>'.substr($p_lists['p_datetime'],0,10).'</td>';
-	if ($p_lists['p_a_id'] == 1) {
+	$echo .= '<th scope="row">'.$a_lists['a_id'].'</th>';
+	$echo .= '<td>'.get_type_name($a_lists['a_type_code']).'</td>';
+	$echo .= '<td class="p-contect"><a href="#" class="ico"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a><a href="edit-article.php?Aid='.$a_lists['a_id'].'&return=alist" title="'.$a_title.'"> '.$a_title.'</a></td>';
+	$echo .= '<td>'.get_state_name($a_lists['a_state_code']).'</td>';
+	$echo .= '<td>'.get_state_name($a_lists['a_c_state_code']).'</td>';
+	$echo .= '<td>'.substr($a_lists['a_datetime'],0,10).'</td>';
+	if ($count == 0) {
 		$echo .= '<td class="text-right">无</td>';
 	}else{
-		$echo .= '<td class="text-right">'.$p_lists['p_a_id'].'</td>';
+		$echo .= '<td class="text-right">'.$count.'</td>';
 	}
-	$echo .= '<td>';
-	if(isset($_GET['Aid'])){
-		$echo .= '<a href="function/edit-a.php?id='.$p_lists['id'].'&return=addP&Aid='.$_GET['Aid'].'" title="选择"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>';
-	}else{
-		$echo .= '<a href="edit.php?id='.$p_lists['id'].'&return=plist" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
-		$echo .= '<a href="deletedb.php?delid='.$p_lists['id'].'&return=plist" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
-	}
-	$echo .= '</td></tr>';
+	$echo .= '<td><a href="edit-article.php?Aid='.$a_lists['a_id'].'&return=alist" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
+	$echo .= '<a href="deletedb.php?delAid='.$a_lists['a_id'].'&return=alist" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a></td>';
+	$echo .= '</tr>';
 }
 
 include('header.php');
@@ -118,20 +120,20 @@ include('nav.php');
 <div class="container p-list">
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
-		<caption><h4><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表</h4></caption>
+		<caption><h4><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 长文列表</h4></caption>
 		<thead>
 			<tr><?php
 			$ths = array(
 				'id' => '#',
 				'type' => '类别',
-				'1' => '内容',
+				'1' => '标题',
 				'state' => '状态',
 				'cstate' => '评论',
 				'time' => '时间'
 			);
 			foreach ($ths as $key => $value) {
 				if ($key == '1') {
-					echo '<th class="p-contect text-center">内容</th>';
+					echo '<th class="p-contect text-center">标题</th>';
 				}else{
 					if (isset($order) && $order == 'DESC') {
 						echo '<th><a href="'.changeURLGet('orderby',$key.'-DESC').'">'.$value.'</a></th>';
@@ -141,7 +143,7 @@ include('nav.php');
 				}
 			}
 			?>
-				<th class="text-right">归属</th>
+				<th class="text-right">段落数</th>
 				<th></th>
 			</tr>
 		</thead>

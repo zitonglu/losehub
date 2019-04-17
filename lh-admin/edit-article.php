@@ -103,6 +103,7 @@ include('nav.php');
 			<p class="text-right">
 				<a class="btn btn-default" id="Btn1" title="加大字体" type="submit"><span class="glyphicon glyphicon-text-size" aria-hidden="true"></span>+</a>
 				<a class="btn btn-default" id="Btn2" title="缩小字体" type="submit"><span class="glyphicon glyphicon-text-size" aria-hidden="true"></span>-</a>
+				<a class="btn btn-default" title="长文列表" type="submit" href="a-list.php"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
 			</p><!-- 变更字体大小 -->
 		</div>
 		<div class="col-sm-1 col-xs-1">
@@ -214,51 +215,52 @@ include('nav.php');
 		} ?>
 	 	<div class="clearfix"></div>
 		<hr>
+		<p>
 			<a href="p-list.php?return=addP&Aid=<?php echo $_GET['Aid'];?>" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 选取段落</a>
 			<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseTWO" aria-expanded="false" aria-controls="collapseListGroup1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> 增加段落</button>
-
 			<div id="collapseTWO" class="collapse top-1em"><!-- 直接增加段落 -->
 				<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 					<textarea name="textarea" required id="summernote"></textarea>
-						<div class="col-sm-7">
-							<select class="form-control selectbox" name="type" required autocomplete="off">
-								<?php foreach ($types as $key => $value) {
-									if ($key == $type_C) {
-										$checked = ' selected = "selected"';
-									}else{
-										$checked ='';
-									}
-									echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+					<div class="col-sm-7">
+						<select class="form-control selectbox" name="type" required autocomplete="off">
+							<?php foreach ($types as $key => $value) {
+								if ($key == $type_C) {
+									$checked = ' selected = "selected"';
+								}else{
+									$checked ='';
 								}
-								?>
-							</select> <select class="form-control selectbox" name="state" required autocomplete="off">
-								<?php foreach ($states as $key => $value) {
-									if ($key == $state_C) {
-										$checked = ' selected = "selected"';
-									}else{
-										$checked ='';
-									}
-									echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+								echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+							}
+							?>
+						</select> <select class="form-control selectbox" name="state" required autocomplete="off">
+							<?php foreach ($states as $key => $value) {
+								if ($key == $state_C) {
+									$checked = ' selected = "selected"';
+								}else{
+									$checked ='';
 								}
-								?>
-							</select>
-						</div>
-						<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
-						<input type="hidden" name="return" value="article">
-						<div class="input-group col-sm-5" id="p-order">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
-							</span>
-							<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
-								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
-								<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
-							</span>
-						</div>
+								echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
+							}
+							?>
+						</select>
+					</div>
+					<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
+					<input type="hidden" name="return" value="article">
+					<div class="input-group col-sm-5" id="p-order">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
+						</span>
+						<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
+							<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
+							<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
+						</span>
+					</div>
 				</form>
 			</div>
-		</div>
+		</p>
+		<p class="text-right"><a href="a-list.php" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</a></p>
 	<?php }else{ //没有生产文章ID的情况?>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>#</i></h4></div>
@@ -308,5 +310,4 @@ include('nav.php');
 	</div><!-- end row -->
 	</div>
 </div>
-<hr>
 <?php include('footer.php');?>
