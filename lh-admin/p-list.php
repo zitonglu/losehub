@@ -100,7 +100,7 @@ foreach ($p_list as $p_lists) {
 	if ($p_lists['p_a_id'] == 1) {
 		$echo .= '<td class="text-right">无</td>';
 	}else{
-		$echo .= '<td class="text-right">'.$p_lists['p_a_id'].'- <span class="glyphicon glyphicon-sort-by-order" aria-hidden="true"></span> '.$p_lists['p_order'].'</td>';
+		$echo .= '<td class="text-right">'.$p_lists['p_a_id'].'</td>';
 	}
 	$echo .= '<td>';
 	if(isset($_GET['Aid'])){
