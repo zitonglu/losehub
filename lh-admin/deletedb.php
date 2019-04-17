@@ -1,6 +1,6 @@
 <?php
 /**
- * LoseHub CMS 删除数据段落及文章函数
+ * LoseHub CMS 删除段落及文章数据的函数
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @var $dbn,$lh

@@ -42,17 +42,7 @@
 					</ul>
 				</li>
 				<li><a href="#"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> 评论</a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 配置 <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">信息</a></li>
-						<li><a href="#">参数</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a href="#">主题</a></li>
-						<li><a href="#">插件</a></li>
-					</ul>
-				</li>
-				<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/SSH.php"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> 密匙</a></li>
+				<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/option-database.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 配置</a></li>
 				<li><a href="#"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> 社区</a></li>
 			</ul>
 			<!-- <form class="navbar-form navbar-left">
