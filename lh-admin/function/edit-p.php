@@ -24,10 +24,10 @@ if (isset($_POST['send'])) {
 		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`id`,`p_order`";
 		if (isset($_POST['Aid'])) {//传递归属长文
 				$query .= ",`p_a_id`) values (";
-				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'].",".$_POST['Aid'];
+				$query .= "'".ltrim($_POST['textarea'])."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'].",".$_POST['Aid'];
 			}else{
 			$query .= ") values (";
-			$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'];
+			$query .= "'".ltrim($_POST['textarea'])."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['id'].",".$_POST['p_order'];
 		}
 		$query .= ")";
 	}else{
@@ -35,16 +35,16 @@ if (isset($_POST['send'])) {
 		$query .= "`p_contect`,`p_state_code`,`p_type_code`,`p_c_state_code`,`p_order`";
 		if (isset($_POST['Aid'])) {//传递归属长文
 				$query .= ",`p_a_id`) values (";
-				$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['p_order'].",".$_POST['Aid'];
+				$query .= "'".ltrim($_POST['textarea'])."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."'".",".$_POST['p_order'].",".$_POST['Aid'];
 			}else{
 		$query .= ") values (";
-		$query .= "'".$_POST['textarea']."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'];
+		$query .= "'".ltrim($_POST['textarea'])."','".$_POST['state']."','".$_POST['type']."','".$p_c_state_code."',".$_POST['p_order'];
 		}
 		$query .= ")";
 	}
-	// echo $query;
+	//echo $query;
 	$dbn->exec($query);
-	// 返回判断
+	//返回判断
 	switch ($_POST['return']) {
 		case 'plist':
 			redirect($lh['site_url'].'/lh-admin/p-list.php');
@@ -52,7 +52,7 @@ if (isset($_POST['send'])) {
 		case 'Pedit':
 		case 'article':
 		case 'view':
-			redirect($lh['site_url'].'/lh-admin/edit-article.php?return=view&id='.$dbn->lastInsertId()."&Aid=".$_POST['Aid']);
+			redirect($lh['site_url'].'/lh-admin/edit-article.php?return=view&id='.$dbn->lastInsertId().'&Aid='.$_POST['Aid']);
 			break;
 		
 		default:

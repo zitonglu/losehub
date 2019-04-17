@@ -11,8 +11,8 @@
 require_once('function/base.php');
 require_once('function/authorize.php');
 
-$type = 'A';
-$state = 'P';
+$type_C = 'A';
+$state_C = 'P';
 $title = null;
 $checkbox = null;
 
@@ -60,7 +60,7 @@ include('nav.php');
 			</div>
 			<div class="col-sm-3">
 				<div class="option">
-					<select class="form-control selectbox" name="type" required>
+					<select class="form-control selectbox" name="type" required autocomplete="off">
 						<?php foreach ($types as $key => $value) {
 							if ($key == $type_C) {
 								$checked = ' selected = "selected"';
@@ -70,7 +70,7 @@ include('nav.php');
 							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 						}
 						?>
-					</select> <select class="form-control selectbox" name="state" required>
+					</select> <select class="form-control selectbox" name="state" required autocomplete="off">
 						<?php foreach ($states as $key => $value) {
 							if ($key == $state_C) {
 								$checked = ' selected = "selected"';
@@ -144,7 +144,7 @@ include('nav.php');
 			</div>
 			<div class="col-lg-3 col-sm-4">
 				<div class="option">
-					<select class="form-control selectbox" name="type" required>
+					<select class="form-control selectbox" name="type" required autocomplete="off">
 						<?php foreach ($types as $key => $value) {
 							if ($key == $type_C) {
 								$checked = ' selected = "selected"';
@@ -154,7 +154,7 @@ include('nav.php');
 							echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 						}
 						?>
-					</select> <select class="form-control selectbox" name="state" required>
+					</select> <select class="form-control selectbox" name="state" required autocomplete="off">
 						<?php foreach ($states as $key => $value) {
 							if ($key == $state_C) {
 								$checked = ' selected = "selected"';
@@ -183,7 +183,7 @@ include('nav.php');
 					<div class="lingheight3em text-right">
 						<input type="hidden" name="id" value="<?php echo $p['id'];?>">
 						<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
-						<input type="hidden" name="return" value="<?php echo $_GET['return'];?>">
+						<input type="hidden" name="return" value="view">
 						<button type="submit" class="btn btn-default" name="remove"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 断开</button>
 						<a class="btn btn-default" href="<?php echo changeURLGet('return','view') ?>" role="button"><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> 返回</a>
 						<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</button>
@@ -221,7 +221,7 @@ include('nav.php');
 				<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
 					<textarea name="textarea" required id="summernote"></textarea>
 						<div class="col-sm-7">
-							<select class="form-control selectbox" name="type" required>
+							<select class="form-control selectbox" name="type" required autocomplete="off">
 								<?php foreach ($types as $key => $value) {
 									if ($key == $type_C) {
 										$checked = ' selected = "selected"';
@@ -231,7 +231,7 @@ include('nav.php');
 									echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 								}
 								?>
-							</select> <select class="form-control selectbox" name="state" required>
+							</select> <select class="form-control selectbox" name="state" required autocomplete="off">
 								<?php foreach ($states as $key => $value) {
 									if ($key == $state_C) {
 										$checked = ' selected = "selected"';
@@ -243,15 +243,14 @@ include('nav.php');
 								?>
 							</select>
 						</div>
+						<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
+						<input type="hidden" name="return" value="article">
 						<div class="input-group col-sm-5" id="p-order">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" disabled="disabled"><span class="glyphicon glyphicon-sort-by-order"></span> 段落序号</button>
 							</span>
 							<input type="number" class="form-control" value="<?php echo $p_order;?>" name="p_order">	
 							<span class="input-group-btn">
-								<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
-								<input type="hidden" name="return" value="article">
-								<input type="hidden" name="p_order" value="<?php echo $p_order;?>">
 								<button class="btn btn-default" type="button" id="plus"><span class="glyphicon glyphicon-plus"></span></button>
 								<button class="btn btn-default" type="button" id="minus"><span class="glyphicon glyphicon-minus"></span></button>
 								<button type="submit" class="btn btn-default" name="send"> <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 发布</button>
@@ -268,7 +267,7 @@ include('nav.php');
 		</div>
 		<div class="col-lg-3 col-sm-4">
 			<div class="option">
-				<select class="form-control selectbox" name="type" required>
+				<select class="form-control selectbox" name="type" required autocomplete="off">
 					<?php foreach ($types as $key => $value) {
 						if ($key == $type_C) {
 							$checked = ' selected = "selected"';
@@ -278,7 +277,7 @@ include('nav.php');
 						echo '<option value="'.$key.'"'.$checked.'>'.$value.'</option>';
 					}
 					?>
-				</select> <select class="form-control selectbox" name="state" required>
+				</select> <select class="form-control selectbox" name="state" required autocomplete="off">
 					<?php foreach ($states as $key => $value) {
 						if ($key == $state_C) {
 							$checked = ' selected = "selected"';
