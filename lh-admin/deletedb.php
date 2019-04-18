@@ -38,7 +38,7 @@ switch ($_GET['return']) {
 	if ($sth == 1) {
 		redirect($lh['site_url'].'/lh-admin/p-list.php?return=OK');
 	}else{
-		$return_value = 'error';;
+		$echo = '<p>删除执行错误</p>';;
 	}
 	break;
 
@@ -77,7 +77,35 @@ switch ($_GET['return']) {
 	if ($sth == 1) {
 		redirect($lh['site_url'].'/lh-admin/a-list.php?return=OK');
 	}else{
-		$return_value = 'error';;
+		$echo = '<p>删除执行错误</p>';
+	}
+	break;
+
+	case 'optionDatabase':// 返回查询的预加载项信息，改变return值
+	$query = 'SELECT * FROM '.LH_DB_PREFIX.'options';
+	$query .= ' WHERE `option_code`=\''.$_GET['delOption'].'\'';
+	$sth = $dbn->prepare($query);
+	$sth->execute();
+	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$echo .= '<br><p>准备删除'.LH_DB_PREFIX.'options'.'表中如下信息：</p>';
+		$echo .= '<p class="lead"><code>option_code</code>：'.$row['option_code'];
+		$echo .= ' = <code>option_value</code>：'.$row['option_value'];
+		$echo .= '</p><br>';
+	}
+
+	$return_value = 'delOption';
+	$id_value = $_GET['delOption'];
+	break;
+
+	case 'delOption':// 确认删除预选项表的相应值
+	$query = 'DELETE FROM '.LH_DB_PREFIX.'options';
+	$query .= ' WHERE `option_code`=\''.$_GET['id'].'\'';
+	$sth = $dbn->query($query);
+	//echo $query;
+	if ($sth == 1) {
+		redirect($lh['site_url'].'/lh-admin/option-database.php?return=OK');
+	}else{
+		$echo = '<p>删除执行错误</p>';
 	}
 	break;
 

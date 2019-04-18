@@ -13,7 +13,7 @@ require_once('function/authorize.php');
 
 $echo = '';
 /**
- * editOption提交本页面编辑函数
+ * editOption修改预选项值
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @global base.php($dbn;)
@@ -25,6 +25,24 @@ if (isset($_POST['editOption'])) {
 	$query = 'UPDATE '.LH_DB_PREFIX.'options'.' SET ';
 	$query .= '`option_value`=\''.$_POST['optionValue'].'\'';
 	$query .= ' WHERE `option_code`=\''.$_POST['optionCode'].'\'';
+	//echo $query;
+	$dbn->query($query);
+	redirect('option-database.php');
+}
+
+/**
+ * addOption增加预选项值
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)
+ * @version 2019-4-18
+ * 
+ * @return option-database.php
+ */
+if (isset($_POST['addOption'])) {
+	$query = 'INSERT IGNORE INTO '.LH_DB_PREFIX.'options';
+	$query .= ' (`option_code`,`option_value`) values ';
+	$query .= '(\''.$_POST['optionCode'].'\',\''.$_POST['optionValue'].'\')';
 	//echo $query;
 	$dbn->query($query);
 	redirect('option-database.php');
@@ -116,7 +134,7 @@ foreach ($option as $options) {
 	$echo .= '<td>';
 	$echo .= '<a href="option-database.php?code='.$options['option_code'].'&return=optionDatabase" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> ';
 	if (empty($explain[$options['option_code']])) {//默认选项不可删除
-		$echo .= '<a href="deletedb.php?delid='.$options['option_code'].'&return=optionDatabase" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
+		$echo .= '<a href="deletedb.php?delOption='.$options['option_code'].'&return=optionDatabase" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
 	}
 	$echo .= '</td></tr>';
 }
@@ -146,14 +164,20 @@ include('nav.php');
 			<?php echo $echo;?>
 			<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
 				<input type="hidden" name="code" value="<?php echo $_GET['code'];?>">
-				<input type="hidden" name="code" value="<?php echo $_GET['return'];?>">
 				<tr>
-					<th scope="row"><input class="form-control" type="text" name="code" required placeholder="option-code"></th>
-					<td><input class="form-control" type="text" name="value" required placeholder="option-value"></td>
-					<td><input type="checkbox" checked="checked"></td>
+					<th scope="row"><input class="form-control" type="text" name="optionCode" required placeholder="option-code"></th>
+					<td>
+						<div class="input-group">
+							<input class="form-control" type="text" name="optionValue" required placeholder="option-value">
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-default" name="addOption"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+							</span>
+						</div>
+					</td>
 					<td></td>
 					<td></td>
-					<td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>
+					<td></td>
+					<td><button type="submit" class="btn btn-link" name="addOption"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span></button></td>
 				</tr>
 			</form>
 		</tbody>
