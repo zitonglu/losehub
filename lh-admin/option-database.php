@@ -12,8 +12,33 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
+/**
+ * editOption提交本页面编辑函数
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)
+ * @version 2019-4-18
+ * 
+ * @return option-database.php
+ */
+if (isset($_POST['editOption'])) {
+	$query = 'UPDATE '.LH_DB_PREFIX.'options'.' SET ';
+	$query .= '`option_value`=\''.$_POST['optionValue'].'\'';
+	$query .= ' WHERE `option_code`=\''.$_POST['optionCode'].'\'';
+	//echo $query;
+	$dbn->query($query);
+	redirect('option-database.php');
+}
 
-// 获取翻页相关信息
+/**
+ * 获取翻页相关信息
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)，$lh
+ * @version 2019-4-18
+ * 
+ * @return $num_page等变量
+ */
 if (isset($_GET['listselect'])) {
 	$results_per_page = (int)$_GET['listselect'];// 翻页行数
 	$query = MySQL_options_change('row_number',$results_per_page,LH_DB_PREFIX.'options');
@@ -36,7 +61,6 @@ if($cur_page > 1){
 	$search_query .= $i.',';
 }
 $search_query .= $results_per_page;
-// echo $search_query;
 $result = $dbn->prepare($search_query);
 $result->execute();
 $option = $result->fetchAll();
@@ -45,19 +69,39 @@ $count = $dbn->query($count_query);
 $counts = $count->fetch();
 $total = $counts[0];// 获取总行数
 $num_page = ceil($total/$results_per_page);// 分页数
+// 获取翻页相关信息 end
 
 $explain = array(
 	'site_name' => '站点名称',
 	'author_email' => '作者邮箱',
 	'site_url' => '网站网址',
-	'wwwroot' => '网站放置根目录',
+	'wwwroot' => '网站根目录',
 	'row_number' => '显示行数'
 );
 
+/**
+ * 列表输出
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-4-18
+ * 
+ * @return $echo
+ */
 foreach ($option as $options) {
 	$echo .= '<tr>';
 	$echo .= '<th scope="row">'.$options['option_code'].'</th>';
-	$echo .= '<td class="p-contect"><a href="1"><small><kbd><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></kbd></small> '.$options['option_value'].'</a></td>';
+	if (@$_GET['return'] == 'optionDatabase' && @$_GET['code'] == $options['option_code']) {
+		//编辑code
+		$echo .= '<td><form action="'.$_SERVER['PHP_SELF'].'" method="post">';
+		$echo .= '<input type="hidden" name="optionCode" value="'.$options['option_code'].'">';
+		$echo .= '<div class="input-group">';
+		$echo .= '<input type="text" class="form-control" name="optionValue" value="'.$options['option_value'].'">';
+      	$echo .= '<span class="input-group-btn">';
+        $echo .= '<button class="btn btn-default" type="submit" name="editOption"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>';
+		$echo .= '</span></div></form></td>';
+	}else{
+		$echo .= '<td class="p-contect"><a href="option-database.php?code='.$options['option_code'].'&return=optionDatabase"> '.$options['option_value'].'</a></td>';
+	}
 	if ($options['option_autoload'] == 'Y') {
 		$echo .= '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
 	}else{
@@ -86,20 +130,32 @@ include('nav.php');
 	<table class="table table-striped table-hover list-table text-center">
 		<caption>
 			<h4><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> 预配置项</h4>
-			<p class="text-2em">预配置项主要设置网站常用选项，方便二次开发者使用。</p>
+			<p class="text-2em">预配置项主要设置网站常用选项，方便二次开发者使用。部分默认数据修改请慎重。</p>
 		</caption>
 		<thead>
 			<tr>
-				<th class="col-sm-1">代码</th>
+				<th class="col-sm-2">代码</th>
 				<th class="text-center col-sm-3">值</th>
 				<th class="text-center col-sm-1">自动加载</th>
-				<th class="text-center col-sm-2">说明</th>
+				<th class="text-center col-sm-1">说明</th>
 				<th class="text-center col-sm-4">使用方法</th>
 				<th class="text-center col-sm-1">编辑</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php echo $echo;?>
+			<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+				<input type="hidden" name="code" value="<?php echo $_GET['code'];?>">
+				<input type="hidden" name="code" value="<?php echo $_GET['return'];?>">
+				<tr>
+					<th scope="row"><input class="form-control" type="text" name="code" required placeholder="option-code"></th>
+					<td><input class="form-control" type="text" name="value" required placeholder="option-value"></td>
+					<td><input type="checkbox" checked="checked"></td>
+					<td></td>
+					<td></td>
+					<td><button type="button" class="btn btn-link"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></td>
+				</tr>
+			</form>
 		</tbody>
 	</table>
 	</div>
