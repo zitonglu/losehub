@@ -99,6 +99,23 @@ if (isset($_POST['editAuthor'])) {
 	}
 }
 
+/**
+ * 修改个人头像页面
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-4-18
+ * 
+ * @return $echo
+ */
+
+if (@$_GET['return'] == 'loadpic') {
+	$echo = '<h3 class="media-heading"><span class="glyphicon glyphicon-picture hidden-xs" aria-hidden="true"></span> 头像编辑</h3><br>';
+	$echo .= '<form action="'.getNoGetURL().'"  method="post" enctype="multipart/form-data">';
+	$echo .= '<br><p><label class="sr-only" for="loadpic">上传头像</label>';
+	$echo .= '<input type="file" name="loadpic"></p>';
+	$echo .= '<br><br><p class="text-right col-sm-4 col-xs-8"><button type="submit" class="btn btn-default" name="load"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</button></p>';
+	$echo .= '</form>';
+}
+
 
 include('header.php');
 include('nav.php');
@@ -110,7 +127,7 @@ include('nav.php');
 	<hr>
 	<div class="media">
 		<div class="media-left">
-			<a href="#">
+			<a href="<?php echo changeURLGet('return','loadpic');?>">
 				<img class="media-object authorjpg" src="images/author.jpg" alt="picture">
 			</a>
 		</div>
