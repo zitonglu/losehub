@@ -158,8 +158,42 @@ input[type="number"]{
 .edit-article .top-1em{
 	padding-top: 1em;
 }
-.edit-article .option button{
+.edit-article .option button,
+.option-author .send-button{
 	margin-bottom: 4px;
 }
+/* option-author */
+.option-author .authorjpg{
+	max-width:36px;
+	max-height:36px;
+	border-radius: 50%;
+	transition: all .3s;
+}
+.option-author .authorjpg:hover{
+	border-radius:0;
+	transition:all .3s ease-in-out;
+}
+@media (min-width:610px) {
+	.option-author .authorjpg{
+		max-width:100px;
+		max-height:100px;
+		padding: 4px;
+		line-height: 1.42857143;
+		background-color: #fff;
+		border: 1px solid #ddd;
+	}
+}
+@media (min-width:767px) {
+	.option-author .authorjpg{
+		max-width:200px;
+		max-height:200px;
+		margin-right:2em;
+	}
+}
+.option-author .editInput{
+	display:inline;
+	max-width:160px;
+}
+.option-author .inputTime{padding:0 6px;}
 /*footer*/
 .thanks{padding-top:220px}

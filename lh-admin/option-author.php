@@ -1,0 +1,79 @@
+<?php
+/**
+ * LoseHub CMS 后台界面-参数设置-个人信息设置界面
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;),$lh
+ * @version 2019-4-17
+ * 
+ * @return none
+ */
+require_once('function/base.php');
+require_once('function/authorize.php');
+
+$echo = '';
+/**
+ * 个人信息预设项目
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)
+ * @version 2019-4-18
+ * 
+ * @return $echo
+ */
+$query = 'SELECT * FROM '.LH_DB_PREFIX.'ssh';
+$query.= ' WHERE `SSH_id`= 1';
+//echo $query;
+$sth = $dbn->query($query);
+while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+	$echo .= '<h3 class="media-heading"><span class="glyphicon glyphicon-education hidden-xs" aria-hidden="true"></span> '.$row['SSH_name'].'</h3><br>';
+	$echo .= '<p>登录帐号：'.$row['SSH_login'].'</p>';
+	$echo .= '<p>用户密码：**********</p>';
+	$echo .= '<p>有效日期：'.$row['SSH_date'].'</p>';
+	$echo .= '<p>个人邮箱：'.$row['SSH_email'].'</p>';
+	$echo .= '<p>联系电话：'.$row['SSH_telephone'].'</p>';
+	$echo .= '<p>备注说明：'.$row['SSH_tips'].'</p>';
+	$echo .= '<p class="text-right col-sm-5"><a href="'.changeURLGet('return','edit').'" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 更改</a></p>';
+	// 编辑个人信息项
+	if(@$_GET['return'] == 'edit'){
+		$echo = '<h3 class="media-heading"><span class="glyphicon glyphicon-list-alt hidden-xs" aria-hidden="true"></span> 编辑个人信息项</h3><br>';
+		$echo .= '<form action="'.getNoGetURL().'"  method="post">';
+		$echo .= '<p><label for="SSH_name">用户名称：</label>
+		<input required tabindex="1" type="text" class="form-control editInput" id="SSH_name" placeholder="用户名称" value="'.$row['SSH_name'].'"> *</p>';
+		$echo .= '<p><label for="SSH_login">登录帐号：</label>
+		<input required tabindex="2" type="text" class="form-control editInput" id="SSH_login" placeholder="登录帐号" value="'.$row['SSH_login'].'"> *</p>';
+		$echo .= '<p><label for="SSH_password1">修改密码：</label>
+		<input tabindex="3" type="password" class="form-control editInput" id="SSH_password1" placeholder="不修改可不填写"></p>';
+		$echo .= '<p><label for="SSH_password2">重复密码：</label>
+		<input tabindex="4" type="password" class="form-control editInput" id="SSH_password2" placeholder="再次输入修改的密码"></p>';
+		$echo .= '<p><label for="SSH_date">有效日期：</label>
+		<input required tabindex="5" type="date" class="form-control editInput inputTime" id="SSH_date" placeholder="有效日期" value="'.$row['SSH_date'].'"> *</p>';
+		$echo .= '<p><label for="SSH_email">个人邮箱：</label>
+		<input required tabindex="6" type="email" class="form-control editInput" id="SSH_email" placeholder="个人邮箱" value="'.$row['SSH_email'].'"> *</p>';
+		$echo .= '<p><label for="SSH_telephone">联系电话：</label>
+		<input tabindex="7" type="number" class="form-control editInput" id="SSH_telephone" placeholder="联系电话" value="'.$row['SSH_telephone'].'"></p>';
+		$echo .= '<p><textarea tabindex="8" class="form-control" rows="3" id="SSH_tips" placeholder="备注说明，可输入密码相关提示信息"></textarea></p>';
+		$echo .= '<p><label for="SSH_old_password">确认修改：</label>
+		<input required tabindex="98" type="password" class="form-control editInput" id="SSH_old_password" placeholder="请输入原始密码"> <button tabindex="99" type="submit" class="btn btn-default send-button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 提交</button></p>';
+		$echo .= '</form>';
+	}
+}
+
+include('header.php');
+include('nav.php');
+?>
+<div class="container option-author">
+	<div class="lingheight3em"><?php include('option-nav.php');?></div><hr>
+	<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人信息</h4>
+	<p class="text-2em">LoseHub建议个人用户使用，默认个人信息为密匙数据库中的首选项。</p>
+	<div class="media">
+		<div class="media-left">
+			<a href="#">
+				<img class="media-object authorjpg" src="images/author.jpg" alt="picture">
+			</a>
+		</div>
+		<div class="media-body">
+			<?php echo $echo;?>
+		</div>
+	</div>
+</div>
+<?php include('footer.php');?>
