@@ -112,7 +112,7 @@ if (@$_GET['return'] == 'loadpic') {
 	$echo .= '<form action="'.getNoGetURL().'"  method="post" enctype="multipart/form-data">';
 	$echo .= '<br><p><label class="sr-only" for="loadpic">上传头像</label>';
 	$echo .= '<input type="file" name="loadpic"></p>';
-	$echo .= '<br><br><p class="text-right col-sm-4 col-xs-8"><button type="submit" class="btn btn-default" name="load"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</button></p>';
+	$echo .= '<br><br><p class="text-right col-sm-5"><button tabindex="11" type="button" class="btn btn-default" onclick="javascript:window.history.back(-1);"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> 返回</button> <button type="submit" class="btn btn-default" name="load"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</button></p>';
 	$echo .= '</form>';
 }
 
