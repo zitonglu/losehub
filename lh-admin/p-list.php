@@ -131,7 +131,7 @@ include('nav.php');
 			);
 			foreach ($ths as $key => $value) {
 				if ($key == '1') {
-					echo '<th class="p-contect text-center">内容</th>';
+					echo '<th class="col-sm-5 p-contect text-center">内容</th>';
 				}else{
 					if (isset($order) && $order == 'DESC') {
 						echo '<th><a href="'.changeURLGet('orderby',$key.'-DESC').'">'.$value.'</a></th>';

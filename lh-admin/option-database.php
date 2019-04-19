@@ -70,7 +70,6 @@ $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'options';
-
 $count_query = preg_replace('/\*/','count(*)',$search_query);//用于查询总行数
 
 $search_query .= ' LIMIT ';
@@ -148,7 +147,7 @@ include('nav.php');
 	<table class="table table-striped table-hover list-table text-center">
 		<caption>
 			<h4><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span> 预配置项</h4>
-			<p class="text-2em">预配置项主要设置网站常用选项，方便二次开发者使用。部分默认数据修改请慎重。</p>
+			<p class="text-2em">预配置项主要设置网站常用选项，方便二次开发。部分默认数据修改请慎重。</p>
 		</caption>
 		<thead>
 			<tr>
@@ -183,7 +182,7 @@ include('nav.php');
 		</tbody>
 	</table>
 	</div>
-	<div class="col-sm-8">
+	<div class="col-sm-9 col-xs-8">
 	<nav aria-label="Page navigation">
 		<ul class="pagination">
 			<?php
@@ -213,7 +212,7 @@ include('nav.php');
 		</ul>
 	</nav>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-3 col-xs-4">
 		<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="get">
 			<span class="hidden-sm hidden-xs">显示条数:</span>
 			<select class="form-control selectbox" name="list" onchange="window.location=this.value;" title="显示条数">

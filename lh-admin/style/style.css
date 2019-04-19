@@ -133,7 +133,6 @@ input[type="number"]{
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis; 
-	width:50%;
 }
 .p-list .list-table .p-contect a{
 	color:#555;

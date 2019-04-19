@@ -21,16 +21,28 @@ if (isset($dbn)) {
   $query = "SELECT COUNT(*) FROM `".LH_DB_PREFIX.'ssh'."` WHERE `SSH_login` = ".$userName." AND `SSH_password` = SHA(".$userPassWord.")";
   $count = $dbn->query($query);
   if (is_object($count) && $count->fetchColumn()>0) {
-    session_start();
-    $_SESSION['lh_session_userName'] = $userName;
-    $_SESSION['lh_session_userPassWord'] = $userPassWord;
-    setcookie("lh_cookie_user",$userName,time()+14400);
+    $query = 'SELECT `SSH_date` FROM '.LH_DB_PREFIX.'ssh';
+    $query .= ' WHERE `SSH_login`='.$userName;
+    $sth = $dbn->prepare($query);
+    $sth->execute();
+    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+      $now = strtotime(date('Y-m-d'));
+      $date = strtotime($row['SSH_date']);
+      if($now<$date){
+        // 设置时间规范
+        session_start();
+        $_SESSION['lh_session_userName'] = $userName;
+        $_SESSION['lh_session_userPassWord'] = $userPassWord;
+        setcookie("lh_cookie_user",$userName,time()+14400);
 
-    if (isset($_POST['lh_remember_me'])) {// 记住用户登录
-      setcookie("lh_cookie_password",$userPassWord,time()+14400);
+        if (isset($_POST['lh_remember_me'])) {// 记住用户登录
+          setcookie("lh_cookie_password",$userPassWord,time()+14400);
+        }
+        redirect('index.php?act='.$userName);
+      }else{
+        $echo = '<p class="text-danger text-center">账户已过期</p>';
+      }
     }
-
-    redirect('index.php?act='.$userName);
   }else{
     // session_destroy();
     setcookie("lh_cookie_user");
