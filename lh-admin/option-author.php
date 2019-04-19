@@ -53,8 +53,9 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$echo .= '<p><label for="SSH_telephone">联系电话：</label>
 		<input tabindex="7" type="number" class="form-control editInput" name="SSH_telephone" placeholder="联系电话" value="'.$row['SSH_telephone'].'"></p>';
 		$echo .= '<p><textarea tabindex="8" class="form-control" rows="3" name="SSH_tips" placeholder="备注说明，可输入密码相关提示信息">'.$row['SSH_tips'].'</textarea></p>';
-		$echo .= '<p><label for="SSH_old_password">确认修改：</label>
-		<input required tabindex="98" type="password" class="form-control editInput" name="SSH_old_password" placeholder="请输入原始密码"> <button tabindex="99" type="submit" class="btn btn-default send-button" name="editAuthor" onclick="return check()"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 提交</button></p>';
+		$echo .= '<p class="lingheight3em"><label for="SSH_old_password">确认修改：</label>
+		<input required tabindex="9" type="password" class="form-control editInput" name="SSH_old_password" placeholder="请输入原始密码">*';
+		$echo .= ' <button tabindex="11" type="button" class="btn btn-default send-button" onclick="javascript:window.history.back(-1);"><span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span> 返回</button> <button tabindex="10" type="submit" class="btn btn-default send-button" name="editAuthor"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> 提交</button></p>';
 		$echo .= '</form>';
 	}
 }
