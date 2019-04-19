@@ -52,7 +52,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		<input required tabindex="6" type="email" class="form-control editInput" name="SSH_email" placeholder="个人邮箱" value="'.$row['SSH_email'].'"> *</p>';
 		$echo .= '<p><label for="SSH_telephone">联系电话：</label>
 		<input tabindex="7" type="number" class="form-control editInput" name="SSH_telephone" placeholder="联系电话" value="'.$row['SSH_telephone'].'"></p>';
-		$echo .= '<p><textarea tabindex="8" class="form-control" rows="3" name="SSH_tips" placeholder="备注说明，可输入密码相关提示信息"></textarea></p>';
+		$echo .= '<p><textarea tabindex="8" class="form-control" rows="3" name="SSH_tips" placeholder="备注说明，可输入密码相关提示信息">'.$row['SSH_tips'].'</textarea></p>';
 		$echo .= '<p><label for="SSH_old_password">确认修改：</label>
 		<input required tabindex="98" type="password" class="form-control editInput" name="SSH_old_password" placeholder="请输入原始密码"> <button tabindex="99" type="submit" class="btn btn-default send-button" name="editAuthor" onclick="return check()"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 提交</button></p>';
 		$echo .= '</form>';
@@ -75,6 +75,20 @@ if (isset($_POST['editAuthor'])) {
 			$query = 'SELECT COUNT(*) FROM `'.LH_DB_PREFIX.'ssh'.'` WHERE `SSH_id` = 1 AND `SSH_password` = SHA('.trim($_POST['SSH_old_password']).')';
 			$count = $dbn->query($query);
 			if (is_object($count) && $count->fetchColumn()>0){
+				//更新个人信息
+				$query = 'UPDATE '.LH_DB_PREFIX.'ssh'.' SET ';
+				if ($_POST['SSH_password1'] != null) {
+					$query .= '`SSH_password`=SHA(\''.$_POST['SSH_password1'].'\'),';
+				}
+				$query .= '`SSH_date`=\''.$_POST['SSH_date'].'\',';
+				$query .= '`SSH_tips`=\''.$_POST['SSH_tips'].'\',';
+				$query .= '`SSH_login`=\''.$_POST['SSH_login'].'\',';
+				$query .= '`SSH_name`=\''.$_POST['SSH_name'].'\',';
+				$query .= '`SSH_telephone`=\''.$_POST['SSH_telephone'].'\',';
+				$query .= '`SSH_email`=\''.$_POST['SSH_email'].'\'';
+				$query .= ' WHERE `SSH_id`=\'1\'';
+				$dbn->query($query);
+				redirect($lh['site_url'].'/lh-admin/option-author.php');
 			}else{
 				$echo .= '<br><p class="text-danger col-sm-12">更改无效，请输入正确的原始密码</P>';
 			}
@@ -92,6 +106,7 @@ include('nav.php');
 	<div class="lingheight3em"><?php include('option-nav.php');?></div><hr>
 	<h4><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 个人信息</h4>
 	<p class="text-2em">LoseHub建议个人用户使用，默认个人信息为密匙数据库中的首选项。</p>
+	<hr>
 	<div class="media">
 		<div class="media-left">
 			<a href="#">

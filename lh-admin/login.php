@@ -28,7 +28,7 @@ if (isset($dbn)) {
     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
       $now = strtotime(date('Y-m-d'));
       $date = strtotime($row['SSH_date']);
-      if($now<$date){
+      if($now<$date || date('Y-m-d')<$row['SSH_date']){
         // 设置时间规范
         session_start();
         $_SESSION['lh_session_userName'] = $userName;
