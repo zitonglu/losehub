@@ -18,4 +18,4 @@
 require('lh-admin/function/base.php');
 
 ?>
-这是首页
+这是首页eo
