@@ -8,7 +8,7 @@
  */
 
 /**
- * LoseHub CMS 首页程序1
+ * LoseHub CMS 首页程序
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @version 2017-1-15
