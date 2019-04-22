@@ -361,7 +361,6 @@ function LH_setup_CTSSH(){
 			SSH_password char(40) NOT NULL,
 			SSH_tips varchar(100) NOT NULL DEFAULT "",
 			SSH_date DATE NOT NULL DEFAULT "2030-12-31",
-			SSH_category varchar(40) NOT NULL DEFAULT "",
 			SSH_email varchar(100) NOT NULL DEFAULT "",
 			SSH_telephone varchar(11) NOT NULL DEFAULT ""
 			)ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';

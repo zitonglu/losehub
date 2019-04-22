@@ -123,7 +123,7 @@ if (@$_GET['return'] == 'loadpic') {
  * @global base.php($dbn;)
  * @version 2019-4-22
  * 
- * @return $echo or UPDATE back
+ * @return images/author.png
  */
 
 if (isset($_POST['load'])) {

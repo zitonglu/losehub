@@ -194,6 +194,7 @@ input[type="number"]{
 	display:inline;
 	max-width:160px;
 }
-.option-author .inputTime{padding:0 6px;}
+.option-author .inputTime,
+.ssh .inputTime{padding:0 6px;}
 /*footer*/
 .thanks{padding-top:220px}
