@@ -158,7 +158,7 @@ include('nav.php');
 	<div class="media">
 		<div class="media-left">
 			<a href="<?php echo changeURLGet('return','loadpic');?>">
-				<img class="media-object authorjpg" src="images/author.png" alt="picture">
+				<img class="media-object authorjpg" src="<?php echo $lh['author_photo']?>" alt="picture">
 			</a>
 		</div>
 		<div class="media-body">

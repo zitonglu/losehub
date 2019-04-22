@@ -93,7 +93,8 @@ $explain = array(
 	'author_email' => '作者邮箱',
 	'site_url' => '网站网址',
 	'wwwroot' => '网站根目录',
-	'row_number' => '显示行数'
+	'row_number' => '显示行数',
+	'author_photo' => '作者头像'
 );
 
 /**
@@ -117,7 +118,7 @@ foreach ($option as $options) {
         $echo .= '<button class="btn btn-default" type="submit" name="editOption"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>';
 		$echo .= '</span></div></form></td>';
 	}else{
-		$echo .= '<td class="p-contect"><a href="option-database.php?code='.$options['option_code'].'&return=optionDatabase"> '.$options['option_value'].'</a></td>';
+		$echo .= '<td class="p-contect"><a href="option-database.php?code='.$options['option_code'].'&return=optionDatabase" title="'.$options['option_value'].'"> '.$options['option_value'].'</a></td>';
 	}
 	if ($options['option_autoload'] == 'Y') {
 		$echo .= '<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>';
