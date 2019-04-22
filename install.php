@@ -109,7 +109,7 @@ function LH_setup_echo(){
     <link href="lh-admin/style/style.css" rel="stylesheet">
 </head>
 <body id="setup">
-<div class="setupBox">
+<div class="setupBox container">
     <h1 class="text-center">Lose<i class="logoColor">Hub</i> CMS</h1>
     <form method="post" action="install.php?step=<?php echo $step + 1 ;?>"> 
 <?php
