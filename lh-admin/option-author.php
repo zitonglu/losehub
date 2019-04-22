@@ -55,7 +55,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 		$echo .= '<p><textarea tabindex="8" class="form-control" rows="3" name="SSH_tips" placeholder="备注说明，可输入密码相关提示信息">'.$row['SSH_tips'].'</textarea></p>';
 		$echo .= '<p class="lingheight3em"><label for="SSH_old_password">确认修改：</label>
 		<input required tabindex="9" type="password" class="form-control editInput" name="SSH_old_password" placeholder="请输入原始密码">*';
-		$echo .= ' <button tabindex="11" type="button" class="btn btn-default send-button" onclick="javascript:window.history.back(-1);"><span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span> 返回</button> <button tabindex="10" type="submit" class="btn btn-default send-button" name="editAuthor"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> 提交</button></p>';
+		$echo .= ' <a tabindex="11" class="btn btn-default send-button" href="'.getNoGetURL().'"><span class="glyphicon glyphicon-floppy-remove" aria-hidden="true"></span> 返回</a> <button tabindex="10" type="submit" class="btn btn-default send-button" name="editAuthor"><span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> 提交</button></p>';
 		$echo .= '</form>';
 	}
 }
@@ -109,13 +109,43 @@ if (isset($_POST['editAuthor'])) {
 
 if (@$_GET['return'] == 'loadpic') {
 	$echo = '<h3 class="media-heading"><span class="glyphicon glyphicon-picture hidden-xs" aria-hidden="true"></span> 头像编辑</h3><br>';
-	$echo .= '<form action="'.getNoGetURL().'"  method="post" enctype="multipart/form-data">';
-	$echo .= '<br><p><label class="sr-only" for="loadpic">上传头像</label>';
-	$echo .= '<input type="file" name="loadpic"></p>';
-	$echo .= '<br><br><p class="text-right col-sm-5"><button tabindex="11" type="button" class="btn btn-default" onclick="javascript:window.history.back(-1);"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> 返回</button> <button type="submit" class="btn btn-default" name="load"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</button></p>';
+	$echo .= '<form action="'.getNoGetURL().'" method="post" enctype="multipart/form-data">';
+	$echo .= '<br><p><label class="sr-only" for="file">上传头像</label>';
+	$echo .= '<input type="file" required name="file">';
+	$echo .= '<input type="hidden" name="MAX_FILE_SIZE" value="2048000"></p>';//上传文件大小限制
+	$echo .= '<br><br><p class="text-right col-sm-5"><a tabindex="11" class="btn btn-default" href="'.getNoGetURL().'"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span> 返回</a> <button type="submit" class="btn btn-default" name="load"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 上传</button></p>';
 	$echo .= '</form>';
 }
 
+/**
+ * 个人头像提交修改-未完成
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)
+ * @version 2019-4-22
+ * 
+ * @return $echo or UPDATE back
+ */
+
+if (isset($_POST['load'])) {
+	$array=array("gif","png","jpg","jpeg");
+	$tmp=explode(".",$_FILES['file']['name']);
+	$extension=end($tmp);
+	if($_FILES['file']['error']>0){
+		$echo .= '<br><br><br><p class="text-danger">文件未选择，或非法文件！错误：'.$_FILES['file']['error'].'</p>';
+	}elseif((($_FILES["file"]["type"] == "image/gif")
+		|| ($_FILES["file"]["type"] == "image/jpeg")
+		|| ($_FILES["file"]["type"] == "image/pjpeg")
+		|| ($_FILES["file"]["type"] == "image/png"))
+	&& in_array($extension,$array)){
+		move_uploaded_file($_FILES['file']['tmp_name'],'images/'.'author.png');
+		$echo .= '<br><br><br><p class="text-success">头像上传成功</p>';
+	}else{
+		$echo .= '<br><br><br><p class="text-danger">文件上传的类型不正确或文件过大，扩展名支持gif，jpg，png，jpeg，文件需小于2MB</p>';
+		if (unlink($_FILES["file"]['tmp_name'])) {
+			$echo .= '<p>上传文件已删除。</p>';
+		}
+	}
+}
 
 include('header.php');
 include('nav.php');
@@ -128,7 +158,7 @@ include('nav.php');
 	<div class="media">
 		<div class="media-left">
 			<a href="<?php echo changeURLGet('return','loadpic');?>">
-				<img class="media-object authorjpg" src="images/author.jpg" alt="picture">
+				<img class="media-object authorjpg" src="images/author.png" alt="picture">
 			</a>
 		</div>
 		<div class="media-body">
