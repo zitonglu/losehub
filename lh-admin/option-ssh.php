@@ -14,6 +14,39 @@ require_once('function/authorize.php');
 $echo = '';
 
 /**
+ * 新增SSH密匙
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)，$lh
+ * @version 2019-4-23
+ * 
+ * @return option-ssh.php or $error
+ */
+
+if (isset($_POST['addSSH'])) {
+	if ($_POST['sshPassWord1'] == $_POST['sshPassWord2']) {
+	if (@$_POST['onlyDate'] == 'on') {
+		$date = date('Y-m-d',time()-86400);
+	}elseif(empty($_POST['sshDate'])){
+		$date = date('Y-m-d',time()+604800);
+	}else{
+		$date = $_POST['sshDate'];
+	}
+	if (strstr($_POST['sshTips'],$_POST['sshPassWord1'])) {
+		$error = '?error=密码提示中包含了具体密码信息';
+	}
+	$query = 'INSERT INTO '.LH_DB_PREFIX.'ssh';
+	$query .= ' (`SSH_name`,`SSH_login`,`SSH_password`,`SSH_date`,`SSH_email`,`SSH_tips`,`SSH_telephone`) VALUE (';
+	$query .= '\''.$_POST['sshName'].'\',\''.$_POST['sshLogin'].'\',SHA(\''.$_POST['sshPassWord1'].'\'),\''.$date.'\',\''.$_POST['sshEmail'].'\',\''.$_POST['sshTips'].'\',\''.$_POST['sshTelephone'].'\')';
+	//echo $query;
+	$dbn->query($query);
+	redirect('option-ssh.php'.$error);
+	}else{
+		redirect('option-ssh.php?error=两次密码不一致');
+	}
+}
+
+/**
  * 获取翻页相关信息
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
@@ -77,7 +110,7 @@ foreach ($sshArray as $ssh) {
 	$echo .= '<td>';
 	$echo .= '<a href="#" title="验证"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
 	$echo .= '&nbsp;&nbsp;<a href="#" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
-	if ($ssh['SSH_id'] == '1') {
+	if ($ssh['SSH_id'] > '1') {
 		$echo .= ' <a href="#" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
 	}
 	$echo .= '</td></tr>';
@@ -93,6 +126,11 @@ include('nav.php');
 		<caption>
 			<h4><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> 密匙设置</h4>
 			<p class="text-2em">这是与您的帐户关联的ssh密钥列表。也可以用户存储密码的记事本。</p>
+			<?php 
+				if(@$_GET['error']){
+					echo '<p class="text-2em text-danger">错误，原因：'.$_GET['error'].'</p>';
+				}
+			?>
 		</caption>
 		<thead>
 			<tr>
@@ -117,12 +155,12 @@ include('nav.php');
 					<td><input class="form-control" type="text" name="sshLogin" required placeholder="ssh-Login" tabindex="2"></td>
 					<td>
 						<label class="checkbox">
-							<input type="checkbox"> 帐号只存储
+							<input type="checkbox" name="onlyDate"> 帐号只存储
 						</label>
 					</td>
 					<td></td>
 					<td></td>
-					<td></td>
+					<td><a href="<?php echo getNoGetURL();?>" class="btn btn-default"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> 返回</a></td>
 				</tr>
 				<tr>
 					<th scope="row">密码</th>
@@ -145,7 +183,7 @@ include('nav.php');
 						</div>
 					</td>
 					<td>
-						<input class="form-control inputTime" type="date" name="sshDate" required tabindex="5">
+						<input class="form-control inputTime" type="date" name="sshDate" tabindex="5">
 					</td>
 					<td>
 						<input class="form-control" type="email" name="sshEmail" placeholder="@" tabindex="7" required>
@@ -158,7 +196,7 @@ include('nav.php');
 				<tr>
 				<th scope="row">密码提示</th>
 				<td colspan="5">
-					<textarea class="form-control" rows="3" placeholder="为了安全，请勿直接写入密码相关信息。" tabindex="10"></textarea>
+					<textarea class="form-control" rows="3" placeholder="为了安全，请勿直接写入密码相关信息。" tabindex="10" name="sshTips"></textarea>
 					<p style="display:none" id="tips" class="text-danger text-left">两次密码不一致</p>
 				</td>
 				<td>
@@ -170,7 +208,7 @@ include('nav.php');
 			<tr>
 			<th colspan="6"></th>
 			<td>
-				<a class="btn btn-default" href="<?php echo changeURLGet('return','addSSH')?>"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> 增加</a>
+				<a class="btn btn-default" href="<?php echo changeURLGet('return','addSSH');?>"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> 增加</a>
 			</td>
 			</tr>
 			<?php }?><!-- 显示增加按钮结束 -->
