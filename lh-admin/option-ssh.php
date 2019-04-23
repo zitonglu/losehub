@@ -111,7 +111,7 @@ foreach ($sshArray as $ssh) {
 	$echo .= '<a href="#" title="验证"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
 	$echo .= '&nbsp;&nbsp;<a href="#" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
 	if ($ssh['SSH_id'] > '1') {
-		$echo .= ' <a href="#" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
+		$echo .= ' <a href="deletedb.php?return=optionSSH&SSHid='.$ssh['SSH_id'].'" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
 	}
 	$echo .= '</td></tr>';
 }

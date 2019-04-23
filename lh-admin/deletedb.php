@@ -109,6 +109,33 @@ switch ($_GET['return']) {
 	}
 	break;
 
+	case 'optionSSH':// 返回查询的密匙信息，改变return值
+	$query = 'SELECT * FROM '.LH_DB_PREFIX.'ssh';
+	$query .= ' WHERE `SSH_id`=\''.$_GET['SSHid'].'\'';
+	$sth = $dbn->prepare($query);
+	$sth->execute();
+	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$echo .= '<br><p>准备删除'.LH_DB_PREFIX.'ssh'.'表中如下信息：</p>';
+		$echo .= '<p class="lead">登录“'.$row['SSH_name'].'”的帐号：'.$row['SSH_login'];
+		$echo .= '。它的有效日期截止：'.$row['SSH_date'].'</p><br>';
+	}
+
+	$return_value = 'delSSH';
+	$id_value = $_GET['SSHid'];
+	break;
+
+	case 'delSSH':// 确认删除预密匙的相应值
+	$query = 'DELETE FROM '.LH_DB_PREFIX.'ssh';
+	$query .= ' WHERE `SSH_id`=\''.$_GET['id'].'\'';
+	$sth = $dbn->query($query);
+	//echo $query;
+	if ($sth == 1) {
+		redirect($lh['site_url'].'/lh-admin/option-ssh.php?return=OK');
+	}else{
+		$echo = '<p>删除执行错误</p>';
+	}
+	break;
+
 	default:
 	$echo ='未能删除完成';
 	break;
