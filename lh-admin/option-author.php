@@ -73,7 +73,7 @@ if (isset($_POST['editAuthor'])) {
 		$sth2 = $dbn->query($query);
 		while ($update = $sth2->fetch(PDO::FETCH_ASSOC)) {
 			$inPassWord = trim($_POST['SSH_old_password']);
-			$query = 'SELECT COUNT(*) FROM `'.LH_DB_PREFIX.'ssh'.'` WHERE `SSH_id` = 1 AND `SSH_password` = SHA('.trim($_POST['SSH_old_password']).')';
+			$query = 'SELECT COUNT(*) FROM `'.LH_DB_PREFIX.'ssh'.'` WHERE `SSH_id` = 1 AND `SSH_password` = SHA(\''.trim($_POST['SSH_old_password']).'\')';
 			$count = $dbn->query($query);
 			if (is_object($count) && $count->fetchColumn()>0){
 				//更新个人信息

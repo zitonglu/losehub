@@ -196,5 +196,7 @@ input[type="number"]{
 }
 .option-author .inputTime,
 .ssh .inputTime{padding:0 6px;}
+/* option-ssh */
+.ssh .turn{white-space:pre-line;}
 /*footer*/
 .thanks{padding-top:220px}

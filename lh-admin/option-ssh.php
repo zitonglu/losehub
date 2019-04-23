@@ -47,6 +47,26 @@ if (isset($_POST['addSSH'])) {
 }
 
 /**
+ * 验证SSH密匙
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)，$lh
+ * @version 2019-4-23
+ * 
+ * @return option-ssh.php AND $error
+ */
+
+if (isset($_POST['testSSH'])) {
+	$query = 'SELECT COUNT(*) FROM `'.LH_DB_PREFIX.'ssh'.'` WHERE `SSH_password` = SHA(\''.trim($_POST['password']).'\') AND `SSH_login`=\''.$_POST['login'].'\' AND `SSH_id`='.$_POST['id'];
+	echo $query;
+	if ($_POST['password'] == 1) {
+		//redirect('option-ssh.php?error=密码正确');
+	}else{
+		//redirect('option-ssh.php?error=密码不正确&return=testSSH&SSHid='.$_POST['id']);
+	}
+}
+
+/**
  * 获取翻页相关信息
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
@@ -100,18 +120,27 @@ foreach ($sshArray as $ssh) {
 	$echo .= '<th scope="row">'.$ssh['SSH_id'].'</th>';
 	$echo .= '<td>'.$ssh['SSH_name'].'</td>';
 	$echo .= '<td>'.$ssh['SSH_login'].'</td>';
-	if($ssh['SSH_date']>date('Y-m-d')){
-		$echo .= '<td>'.$ssh['SSH_date'].'</td>';
+	if (@$_GET['return'] == 'testSSH' && @$_GET['SSHid'] == $ssh['SSH_id']) {//验证密匙
+		$echo .= '<td colspan="2" class="alert alert-info"><p class="text-left turn">密码提示：'.$ssh['SSH_tips'].'</p></td>';
+		$echo .= '<form action="'.$_SERVER['PHP_SELF'].'" method="post">';
+		$echo .= '<td><div class="form-group"><div class="input-group"><div class="input-group-addon"><a href="'.getNoGetURL().'" title="取消验证"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a></div><input class="form-control" type="password" name="password" required placeholder="test password"></div></div></td>';
+		$echo .= '<td><button type="submit" class="btn btn-default" name="testSSH"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> 验证</button>';
+		$echo .= '<input name="login" class="hidden" value="'.$ssh['SSH_login'].'">';
+		$echo .= '<input name="id" class="hidden" value="'.$ssh['SSH_id'].'"></form>';
 	}else{
-		$echo .= '<td class="alert alert-warning">'.$ssh['SSH_date'].'</td>';
-	}
-	$echo .= '<td>'.$ssh['SSH_email'].'</td>';
-	$echo .= '<td>'.$ssh_telephone.'</td>';
-	$echo .= '<td>';
-	$echo .= '<a href="#" title="验证"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
-	$echo .= '&nbsp;&nbsp;<a href="#" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
-	if ($ssh['SSH_id'] > '1') {
-		$echo .= ' <a href="deletedb.php?return=optionSSH&SSHid='.$ssh['SSH_id'].'" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
+		if($ssh['SSH_date']>date('Y-m-d')){
+			$echo .= '<td>'.$ssh['SSH_date'].'</td>';
+		}else{
+			$echo .= '<td><kbd>'.$ssh['SSH_date'].'</kbd></td>';
+		}
+		$echo .= '<td>'.$ssh['SSH_email'].'</td>';
+		$echo .= '<td>'.$ssh_telephone.'</td>';
+		$echo .= '<td>';
+		$echo .= '<a href="'.getNoGetURL().'?return=testSSH&SSHid='.$ssh['SSH_id'].'" title="提示：'.$ssh['SSH_tips'].'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
+		$echo .= '&nbsp;&nbsp;<a href="#" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+		if ($ssh['SSH_id'] > '1') {
+			$echo .= ' <a href="deletedb.php?return=optionSSH&SSHid='.$ssh['SSH_id'].'" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
+		}
 	}
 	$echo .= '</td></tr>';
 }
@@ -128,7 +157,7 @@ include('nav.php');
 			<p class="text-2em">这是与您的帐户关联的ssh密钥列表。也可以用户存储密码的记事本。</p>
 			<?php 
 				if(@$_GET['error']){
-					echo '<p class="text-2em text-danger">错误，原因：'.$_GET['error'].'</p>';
+					echo '<p class="text-2em text-danger">'.$_GET['error'].'</p>';
 				}
 			?>
 		</caption>
@@ -166,7 +195,7 @@ include('nav.php');
 					<th scope="row">密码</th>
 					<td>
 						<div class="form-group">
-							<label class="sr-only" for="exampleInputAmount">password</label>
+							<label class="sr-only">password</label>
 							<div class="input-group">
 								<div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
 								<input class="form-control" type="password" name="sshPassWord1" required placeholder="password" tabindex="3" id="psw">
@@ -175,7 +204,7 @@ include('nav.php');
 					</td>
 					<td>
 						<div class="form-group">
-							<label class="sr-only" for="exampleInputAmount">password again</label>
+							<label class="sr-only">password again</label>
 							<div class="input-group">
 								<div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
 								<input class="form-control" type="password" name="sshPassWord2" required placeholder="password again" tabindex="4" id="psw1">
