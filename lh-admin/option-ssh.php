@@ -76,7 +76,7 @@ if (isset($_POST['testSSH'])) {
  * @global base.php($dbn;)，$lh
  * @version 2019-4-25
  * 
- * @return $SSHrow
+ * @return $SSHrow back to option-ssh.php
  */
 
 if (@$_GET['return'] == 'changeSSH') {// 跳转页面判断
@@ -84,6 +84,24 @@ if (@$_GET['return'] == 'changeSSH') {// 跳转页面判断
 	//echo $query;
 	$result = $dbn->query($query);
 	$changeSSHrow = $result->fetchAll();
+}
+if (isset($_POST['changeSSH'])) {
+	if ($_POST['sshPassWord1'] == $_POST['sshPassWord2']) {
+		$query = 'UPDATE '.LH_DB_PREFIX.'ssh'.' SET ';
+		$query .='`SSH_name` = \''.$_POST['sshName'];
+		$query .='\',`SSH_login` = \''.$_POST['sshLogin'];
+		$query .='\',`SSH_tips` = \''.$_POST['sshTips'];
+		$query .='\',`SSH_email` = \''.$_POST['sshEmail'];
+		$query .='\',`SSH_telephone` = \''.$_POST['sshTelephone'];
+		$query .='\',`SSH_date` = \''.$_POST['sshDate'];
+		$query .='\',`SSH_password` = SHA(\''.$_POST['sshPassWord1'];
+		$query .='\') WHERE `SSH_id` = '.$_POST['id'];
+		//echo $query;
+		$dbn->query($query);
+		redirect('option-ssh.php?success=SSH密码修改成功');
+	}else{
+		redirect('option-ssh.php?error=两次密码不一致');
+	}
 }
 
 /**
@@ -157,8 +175,8 @@ foreach ($sshArray as $ssh) {
 		$echo .= '<td>'.$ssh_telephone.'</td>';
 		$echo .= '<td>';
 		$echo .= '<a href="'.getNoGetURL().'?return=testSSH&SSHid='.$ssh['SSH_id'].'" title="提示：'.$ssh['SSH_tips'].'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
-		$echo .= '&nbsp;&nbsp;<a href="'.getNoGetURL().'?return=changeSSH&SSHid='.$ssh['SSH_id'].'" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
 		if ($ssh['SSH_id'] > '1') {
+			$echo .= '&nbsp;&nbsp;<a href="'.getNoGetURL().'?return=changeSSH&SSHid='.$ssh['SSH_id'].'" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
 			$echo .= ' <a href="deletedb.php?return=optionSSH&SSHid='.$ssh['SSH_id'].'" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
 		}
 	}
@@ -174,7 +192,7 @@ include('nav.php');
 	<table class="table table-striped table-hover list-table text-center">
 		<caption>
 			<h4><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> 密匙设置</h4>
-			<p class="text-2em">这是与您的帐户关联的ssh密钥列表。也可以用户存储密码的记事本。</p>
+			<p class="text-2em">这是与您的帐户关联的ssh密钥列表。也可以作为存储密码的记事本。</p>
 			<?php 
 				if(@$_GET['error']){
 					echo '<p class="text-2em text-danger">'.$_GET['error'].'</p>';
@@ -282,7 +300,7 @@ include('nav.php');
 					if (empty($SSHrow['SSH_password'])) {
 						echo '<button type="submit" class="btn btn-default" name="addSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 保存</button>';
 					}else{
-						echo '<button type="submit" class="btn btn-default" name="changeSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 变更</button>';
+						echo '<button type="submit" class="btn btn-success" name="changeSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 变更</button>';
 					}
 					?>	
 				</td>
