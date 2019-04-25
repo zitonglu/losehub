@@ -163,11 +163,9 @@ function LH_setup_CTtags(){
 	$sql = 'CREATE TABLE IF NOT EXISTS '.$tableName.'(
 			tag_id int(11) NOT NULL AUTO_INCREMENT,
 			tag_name varchar(20) NOT NULL,
-			tag_a_id int(11) NOT NULL DEFAULT "0",
-			tag_state_code varchar(10) NOT NULL DEFAULT "P",
+			tag_a_id int(11) NOT NULL DEFAULT "1",
 			PRIMARY KEY (tag_id),
-			CONSTRAINT tagToarticle FOREIGN KEY(tag_a_id) REFERENCES '.$dataBase['dbprefix'].'articles'.'(a_id) on delete cascade on update cascade,
-			CONSTRAINT tagTostate FOREIGN KEY(tag_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
+			CONSTRAINT tagToarticle FOREIGN KEY(tag_a_id) REFERENCES '.$dataBase['dbprefix'].'articles'.'(a_id) on delete cascade on update cascade
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';
 	try{
 		$conn->exec($sql);

@@ -198,5 +198,11 @@ input[type="number"]{
 .ssh .inputTime{padding:0 6px;}
 /* option-ssh */
 .ssh .turn{white-space:pre-line;}
+/* option-tag */
+.tag-list .tagbox{
+	margin-top:3em;
+	line-height:3em;
+}
+.tag-list .tagbox a{margin-right:0.5em}
 /*footer*/
 .thanks{padding-top:220px}
