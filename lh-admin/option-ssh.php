@@ -12,6 +12,7 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
+@$_GET['error'] == '密码不正确' ? $testPasswrod = '密码不正确' : $testPasswrod = 'test password';
 
 /**
  * 新增SSH密匙
@@ -57,12 +58,13 @@ if (isset($_POST['addSSH'])) {
  */
 
 if (isset($_POST['testSSH'])) {
-	$query = 'SELECT COUNT(*) FROM `'.LH_DB_PREFIX.'ssh'.'` WHERE `SSH_password` = SHA(\''.trim($_POST['password']).'\') AND `SSH_login`=\''.$_POST['login'].'\' AND `SSH_id`='.$_POST['id'];
-	echo $query;
-	if ($_POST['password'] == 1) {
-		//redirect('option-ssh.php?error=密码正确');
+	$query = 'SELECT COUNT(*) FROM '.LH_DB_PREFIX.'ssh'.' WHERE `SSH_password` = SHA(\''.trim($_POST['password']).'\') AND `SSH_login` = \''.$_POST['login'].'\' AND `SSH_id` = '.$_POST['id'];
+	$count = $dbn->query($query);
+	// echo $query;
+	if(is_object($count) && $count->fetchColumn()>0) {
+		redirect('option-ssh.php?success=密码输入正确');
 	}else{
-		//redirect('option-ssh.php?error=密码不正确&return=testSSH&SSHid='.$_POST['id']);
+		redirect('option-ssh.php?error=密码不正确&return=testSSH&SSHid='.$_POST['id']);
 	}
 }
 
@@ -123,7 +125,7 @@ foreach ($sshArray as $ssh) {
 	if (@$_GET['return'] == 'testSSH' && @$_GET['SSHid'] == $ssh['SSH_id']) {//验证密匙
 		$echo .= '<td colspan="2" class="alert alert-info"><p class="text-left turn">密码提示：'.$ssh['SSH_tips'].'</p></td>';
 		$echo .= '<form action="'.$_SERVER['PHP_SELF'].'" method="post">';
-		$echo .= '<td><div class="form-group"><div class="input-group"><div class="input-group-addon"><a href="'.getNoGetURL().'" title="取消验证"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a></div><input class="form-control" type="password" name="password" required placeholder="test password"></div></div></td>';
+		$echo .= '<td><div class="form-group"><div class="input-group"><div class="input-group-addon"><a href="'.getNoGetURL().'" title="取消验证"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></a></div><input class="form-control" type="password" name="password" required placeholder="'.$testPasswrod.'"></div></div></td>';
 		$echo .= '<td><button type="submit" class="btn btn-default" name="testSSH"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> 验证</button>';
 		$echo .= '<input name="login" class="hidden" value="'.$ssh['SSH_login'].'">';
 		$echo .= '<input name="id" class="hidden" value="'.$ssh['SSH_id'].'"></form>';
@@ -158,6 +160,9 @@ include('nav.php');
 			<?php 
 				if(@$_GET['error']){
 					echo '<p class="text-2em text-danger">'.$_GET['error'].'</p>';
+				}
+				if(@$_GET['success']){
+					echo '<p class="text-2em text-primary">'.$_GET['success'].'</p>';
 				}
 			?>
 		</caption>
