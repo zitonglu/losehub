@@ -12,7 +12,10 @@ require_once('function/base.php');
 require_once('function/authorize.php');
 
 $echo = '';
+$SSHrow = array();
+$changeSSHrow = array();
 @$_GET['error'] == '密码不正确' ? $testPasswrod = '密码不正确' : $testPasswrod = 'test password';
+
 
 /**
  * 新增SSH密匙
@@ -28,8 +31,6 @@ if (isset($_POST['addSSH'])) {
 	if ($_POST['sshPassWord1'] == $_POST['sshPassWord2']) {
 	if (@$_POST['onlyDate'] == 'on') {
 		$date = date('Y-m-d',time()-86400);
-	}elseif(empty($_POST['sshDate'])){
-		$date = date('Y-m-d',time()+604800);
 	}else{
 		$date = $_POST['sshDate'];
 	}
@@ -54,7 +55,7 @@ if (isset($_POST['addSSH'])) {
  * @global base.php($dbn;)，$lh
  * @version 2019-4-23
  * 
- * @return option-ssh.php AND $error
+ * @return option-ssh.php AND $_GET
  */
 
 if (isset($_POST['testSSH'])) {
@@ -66,6 +67,23 @@ if (isset($_POST['testSSH'])) {
 	}else{
 		redirect('option-ssh.php?error=密码不正确&return=testSSH&SSHid='.$_POST['id']);
 	}
+}
+
+/**
+ * 修改SSH密匙
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)，$lh
+ * @version 2019-4-25
+ * 
+ * @return $SSHrow
+ */
+
+if (@$_GET['return'] == 'changeSSH') {// 跳转页面判断
+	$query = 'SELECT * FROM '.LH_DB_PREFIX.'ssh'.' WHERE `SSH_id` = '.$_GET['SSHid'];
+	//echo $query;
+	$result = $dbn->query($query);
+	$changeSSHrow = $result->fetchAll();
 }
 
 /**
@@ -139,7 +157,7 @@ foreach ($sshArray as $ssh) {
 		$echo .= '<td>'.$ssh_telephone.'</td>';
 		$echo .= '<td>';
 		$echo .= '<a href="'.getNoGetURL().'?return=testSSH&SSHid='.$ssh['SSH_id'].'" title="提示：'.$ssh['SSH_tips'].'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>';
-		$echo .= '&nbsp;&nbsp;<a href="#" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+		$echo .= '&nbsp;&nbsp;<a href="'.getNoGetURL().'?return=changeSSH&SSHid='.$ssh['SSH_id'].'" title="编辑"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
 		if ($ssh['SSH_id'] > '1') {
 			$echo .= ' <a href="deletedb.php?return=optionSSH&SSHid='.$ssh['SSH_id'].'" title="删除"><code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a>';
 		}
@@ -179,14 +197,34 @@ include('nav.php');
 		</thead>
 		<tbody>
 			<?php echo $echo;
-				if (@$_GET['return'] == 'addSSH') {//增加密匙
+				if (@$_GET['return'] == 'addSSH' || @$_GET['return'] == 'changeSSH') {//增加或者变更密匙
+					if (empty($changeSSHrow)) {
+						$SSHrow = array(
+							'SSH_name' => 'placeholder="ssh-Name"',
+							'SSH_login' => 'placeholder="ssh-Login"',
+							'SSH_date' => 'value="'.date('Y-m-d').'"',
+							'SSH_email' => 'placeholder="@"',
+							'SSH_telephone' => 'placeholder="ssh-Telephone"',
+						);
+						//print_r($SSHrow);
+					}else{
+						foreach ($changeSSHrow as $row) {
+							foreach ($row as $key => $value) {
+								if (!is_numeric($key)) {
+									$array = array( $key => 'value="'.$value.'"');
+									$SSHrow = array_merge($SSHrow, $array);
+								}
+							}
+						}
+						//print_r($SSHrow);
+					}
 			?>		
 			<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" id="addSSH">
-				<input type="hidden" name="code" value="<?php echo $_GET['code'];?>">
+				<input type="hidden" name="id" value="<?php echo @$_GET['SSHid'];?>">
 				<tr>
 					<th></th>
-					<td><input class="form-control" type="text" name="sshName" required placeholder="ssh-Name" tabindex="1"></td>
-					<td><input class="form-control" type="text" name="sshLogin" required placeholder="ssh-Login" tabindex="2"></td>
+					<td><input class="form-control" type="text" name="sshName" required  tabindex="1" <?php echo $SSHrow['SSH_name'];?>></td>
+					<td><input class="form-control" type="text" name="sshLogin" required <?php echo $SSHrow['SSH_login'];?> tabindex="2"></td>
 					<td>
 						<label class="checkbox">
 							<input type="checkbox" name="onlyDate"> 帐号只存储
@@ -217,24 +255,36 @@ include('nav.php');
 						</div>
 					</td>
 					<td>
-						<input class="form-control inputTime" type="date" name="sshDate" tabindex="5">
+						<input class="form-control inputTime" type="date" name="sshDate" tabindex="5" <?php echo $SSHrow['SSH_date'];?>>
 					</td>
 					<td>
-						<input class="form-control" type="email" name="sshEmail" placeholder="@" tabindex="7" required>
+						<input class="form-control" type="email" name="sshEmail" tabindex="7" required <?php echo $SSHrow['SSH_email'];?>>
 					</td>
 					<td>
-						<input class="form-control" type="number" name="sshTelephone" placeholder="ssh-Telephone" tabindex="8">
+						<input class="form-control" type="number" name="sshTelephone" tabindex="8" <?php echo $SSHrow['SSH_telephone'];?>>
 					</td>
 					<td></td>
 				</tr>
 				<tr>
 				<th scope="row">密码提示</th>
 				<td colspan="5">
-					<textarea class="form-control" rows="3" placeholder="为了安全，请勿直接写入密码相关信息。" tabindex="10" name="sshTips"></textarea>
+					<textarea class="form-control" rows="3" tabindex="10" name="sshTips"<?php if(empty($SSHrow['SSH_tips'])){
+							echo ' placeholder="为了安全，请勿直接写入密码相关信息。"></textarea';
+						}else{
+							echo '>'.$row['SSH_tips'].'</textarea';
+						};
+					?>
+					><!-- 注意这个>号，这是textarea的结尾符 -->
 					<p style="display:none" id="tips" class="text-danger text-left">两次密码不一致</p>
 				</td>
 				<td>
-					<button type="submit" class="btn btn-default" name="addSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 保存</button>
+					<?php
+					if (empty($SSHrow['SSH_password'])) {
+						echo '<button type="submit" class="btn btn-default" name="addSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 保存</button>';
+					}else{
+						echo '<button type="submit" class="btn btn-default" name="changeSSH" tabindex="6"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> 变更</button>';
+					}
+					?>	
 				</td>
 				</tr>
 			</form><!-- 增加SSH结束 -->
