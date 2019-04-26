@@ -15,6 +15,7 @@ $type_C = 'A';
 $state_C = 'P';
 $title = null;
 $checkbox = null;
+$addTagsValue = '';
 
 if (isset($_GET['Aid']) === TRUE) {
 	$Aid_value = ' value="'. $_GET['Aid'].'"';
@@ -28,6 +29,26 @@ if (isset($_GET['Aid']) === TRUE) {
 }else{
 	$p_order ='10';
 	$Aid_value = null;
+}
+
+/**
+ * 查找长篇文章对应tag
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @global base.php($dbn;)，$lh
+ * @version 2019-4-26
+ * 
+ * @return $addTagsValue
+ */
+if (is_numeric(@$_GET['Aid'])) {
+	$query = 'SELECT `tag_name` FROM '.LH_DB_PREFIX.'tags'.' WHERE `tag_a_id` = '.$_GET['Aid'];
+	// echo $query;
+	$result = $dbn->query($query);
+	$haveTags = $result->fetchAll(PDO::FETCH_COLUMN);
+	if (!empty($haveTags)) {
+		$key = implode(',',$haveTags);
+		$addTagsValue = ' value="'.$key.'"';
+	}
 }
 
 include('header.php');
@@ -264,7 +285,7 @@ include('nav.php');
 			<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
 			<p class="input-group">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
-				<input type="text" name="tags" class="form-control" placeholder="文章标签：以逗号，顿号，-等符号分割">
+				<input type="text" name="tags" class="form-control" placeholder="文章标签：以逗号，顿号，-等符号分割"<?php echo $addTagsValue;?>>
 				<span class="input-group-btn"><button class="btn btn-default" name="addTags" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</button></span>
 			</p>
 		</form>
