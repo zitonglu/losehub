@@ -210,4 +210,17 @@ function MySQL_options_change($code,$value,$tableName ='lh_options',$optionCode=
     $returnSQL .= '`'.$optionValue.'` = \''.$value.'\'';
     return $returnSQL;
 }
+
+/**
+ * 删除数组中的指定键值函数
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-4-26
+ * 
+ * @return $arr
+ */
+function arrayRemoveElement(&$arr,$element){
+    if(in_array($element,$arr)){
+        array_splice($arr,array_search($element,$arr),1);
+    }
+}
 ?>

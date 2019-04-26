@@ -260,7 +260,14 @@ include('nav.php');
 				</form>
 			</div>
 		</p>
-		<p class="text-right"><a href="a-list.php" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</a></p>
+		<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="Aid" value="<?php echo $_GET['Aid'];?>">
+			<p class="input-group">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
+				<input type="text" name="tags" class="form-control" placeholder="文章标签：以逗号，顿号，-等符号分割">
+				<span class="input-group-btn"><button class="btn btn-default" name="addTags" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 完成</button></span>
+			</p>
+		</form>
 	<?php }else{ //没有生产文章ID的情况?>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
 		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>#</i></h4></div>
