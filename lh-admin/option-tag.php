@@ -13,6 +13,7 @@ require_once('function/authorize.php');
 
 $echo = '';
 $button = '';
+$num_page = '1';
 
 /**
  * 获取翻页相关信息
@@ -21,7 +22,7 @@ $button = '';
  * @global base.php($dbn;)，$lh
  * @version 2019-4-18
  * 
- * @return $num_page等变量
+ * @return $cur_page等变量
  */
 if (isset($_GET['listselect'])) {
 	$results_per_page = (int)$_GET['listselect'];// 翻页行数
@@ -35,27 +36,8 @@ $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;// 当前页面数
 $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
-$search_query = "SELECT * FROM ".LH_DB_PREFIX.'tags';
-$count_query = preg_replace('/\*/','count(*)',$search_query);//用于查询总行数
-
-$search_query .= ' LIMIT ';
-if($cur_page > 1){
-	$i = (int)$results_per_page*($cur_page-1);
-	$search_query .= $i.',';
-}
-$search_query .= $results_per_page;
-$result = $dbn->prepare($search_query);
-$result->execute();
-$tags = $result->fetchAll();
-
-$count = $dbn->query($count_query);
-$counts = $count->fetch();
-$total = $counts[0];// 获取总行数
-$num_page = ceil($total/$results_per_page);// 分页数
-// 获取翻页相关信息 end
-
 /**
- * 列表输出
+ * 按钮输出
  * @copyright LoseHub
  * @author 紫铜炉 910109610@QQ.com
  * @version 2019-4-18
@@ -69,6 +51,45 @@ $tags = $result->fetchAll();
 foreach ($tags as $tag) {
 	$button.= '<a class="btn btn-default" href="'.changeURLGet('tagName',$tag['tag_name']).'" role="button" title="'.$tag['tag_name'].'">'.$tag['tag_name'].' ('.$tag['count(*)'].')</a>';
 }
+
+/**
+ * 列表输出
+ * @copyright LoseHub
+ * @author 紫铜炉 910109610@QQ.com
+ * @version 2019-5-4
+ * 
+ * @return $echo
+ */
+if (isset($_GET['tagName'])) {
+	$query = 'SELECT A.a_id,A.a_title FROM '.LH_DB_PREFIX.'articles'.' AS A RIGHT JOIN ';
+	$query .= LH_DB_PREFIX.'tags'.' AS T ON ( A.a_id = T.tag_a_id ) ';
+	$query .='WHERE T.tag_name = \''.$_GET['tagName'].'\'';
+
+	$count_query = preg_replace('/A.a_id,A.a_title/','count(*)',$query);//用于查询总行数
+	$count = $dbn->query($count_query);
+	$counts = $count->fetch();
+	$total = $counts[0];// 获取总行数
+	$num_page = ceil($total/$results_per_page);// 分页数
+	//echo $count_query;分页面相关参数END
+
+	$query .= ' LIMIT ';
+	if($cur_page > 1){
+		$i = (int)$results_per_page*($cur_page-1);
+		$query .= $i.',';
+	}
+	$query .= $results_per_page;
+	//echo $query;
+	$result = $dbn->query($query);
+	$list = $result->fetchAll();
+	foreach ($list as $article) {
+		$echo .= '<tr>';
+		$echo .= '<th class="col-sm-1">'.$article['a_id'].'</th>';
+		$echo .= '<td>'.$article['a_title'].'</td>';
+		$echo .= '<td></td>';
+		$echo .= '</tr>';
+	}
+}
+
 
 include('header.php');
 include('nav.php');
