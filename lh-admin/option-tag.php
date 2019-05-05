@@ -84,8 +84,20 @@ if (isset($_GET['tagName'])) {
 	foreach ($list as $article) {
 		$echo .= '<tr>';
 		$echo .= '<th class="col-sm-1">'.$article['a_id'].'</th>';
-		$echo .= '<td>'.$article['a_title'].'</td>';
-		$echo .= '<td></td>';
+		$echo .= '<td class="p-contect">'.$article['a_title'].'</td><td>';
+		
+		//搜索文章所有的标签;
+		$query = 'SELECT * FROM '.LH_DB_PREFIX.'tags WHERE `tag_a_id` ='.$article['a_id'];
+		//echo $query;
+		$result = $dbn->query($query);
+		$tags = $result->fetchAll();
+		foreach ($tags as $tag) {
+			$echo .= '<a href="deletedb.php?return=tags&tagid='.$tag['tag_id'].'" class="btn btn-default btn-xs" title="del '.$tag['tag_name'].'">'.$tag['tag_name'].'<code><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></code></a> ';
+		}
+		$echo .= '</td>';
+		//搜索文章所有的标签END;
+
+		$echo .= '<td><a href="edit-article.php?Aid='.$tag['tag_a_id'].'" title="编辑"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>';
 		$echo .= '</tr>';
 	}
 }
@@ -105,8 +117,9 @@ include('nav.php');
 		<thead>
 			<tr>
 				<th class="col-sm-1">#</th>
-				<th class="text-center col-sm-7">标题</th>
-				<th class="text-center col-sm-4">标签</th>
+				<th class="text-center col-sm-5">标题</th>
+				<th class="text-center col-sm-5">标签</th>
+				<th class="text-center col-sm-1">编辑</th>
 			</tr>
 		</thead>
 		<tbody>

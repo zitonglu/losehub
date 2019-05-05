@@ -136,6 +136,32 @@ switch ($_GET['return']) {
 	}
 	break;
 
+	case 'tags':// 返回查询的标签信息，改变return值
+	$query = 'SELECT `tag_name` FROM '.LH_DB_PREFIX.'tags';
+	$query .= ' WHERE `tag_id`=\''.$_GET['tagid'].'\'';
+	$sth = $dbn->prepare($query);
+	$sth->execute();
+	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+		$echo .= '<br><p>准备删除'.LH_DB_PREFIX.'tags'.'表中如下信息：</p>';
+		$echo .= '<p class="lead">你确定删除此文章下的"'.$row['tag_name'].'"标签吗？</>';
+	}
+
+	$return_value = 'deltag';
+	$id_value = $_GET['tagid'];
+	break;
+
+	case 'deltag':// 确认删除文章对应的标签项
+	$query = 'DELETE FROM '.LH_DB_PREFIX.'tags';
+	$query .= ' WHERE `tag_id`=\''.$_GET['id'].'\'';
+	$sth = $dbn->query($query);
+	//echo $query;
+	if ($sth == 1) {
+		redirect($lh['site_url'].'/lh-admin/option-tag.php?return=OK');
+	}else{
+		$echo = '<p>删除执行错误</p>';
+	}
+	break;
+
 	default:
 	$echo ='未能删除完成';
 	break;
