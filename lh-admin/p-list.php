@@ -116,9 +116,10 @@ include('header.php');
 include('nav.php');
 ?>
 <div class="container p-list">
+	<div class="lingheight3em"><?php include('list-nav.php');?></div><hr>
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
-		<caption><h4><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 段落列表</h4></caption>
+		<caption><h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 段落</h4></caption>
 		<thead>
 			<tr><?php
 			$ths = array(
