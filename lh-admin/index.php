@@ -14,5 +14,4 @@ require_once('function/authorize.php');
 include('header.php');
 include('nav.php');
 include('footer.php');
-
 ?>

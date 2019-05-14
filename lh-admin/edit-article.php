@@ -108,6 +108,7 @@ include('nav.php');
 						<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
 						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 						<button type="submit" class="btn btn-success" name="edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</button>
+						<!-- 此按钮有问题 -->
 					</div>
 					<div id="collapseThree" class="collapse text-right">
 						<label class="checkbox-inline">
@@ -118,7 +119,7 @@ include('nav.php');
 			</div>
 		</form><!-- 编辑文章页面 -->
 	<?php }else{ ?>
-		<div class="col-sm-1 text-right hidden-xs"><h4>#</h4></div>
+		<div class="col-sm-1 text-right hidden-xs"><h4>^</h4></div>
 		<div class="col-sm-10 col-xs-11 text-center">
 			<h2><?php echo $title; ?></h2>
 			<p class="text-right">
@@ -128,7 +129,7 @@ include('nav.php');
 			</p><!-- 变更字体大小 -->
 		</div>
 		<div class="col-sm-1 col-xs-1">
-			<a href="<?php echo changeURLGet('return','Aedit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br>
+			<!-- <a href="<?php echo changeURLGet('return','Aedit');?>" title="编辑"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br> 按钮暂时有问题-->
 		</div><!-- 只读文章页面 -->
 		<div class="clearfix"></div>
 	<?php }//编辑首部标题部分
@@ -160,7 +161,7 @@ include('nav.php');
 			//输出段落编辑页面 ?>
 		<hr id="editP">
 		<form action="function/edit-p.php" method="post" enctype="multipart/form-data">
-			<div class="col-sm-1 hidden-xs text-right">#</div>
+			<div class="col-sm-1 hidden-xs text-right">^</div>
 			<div class="col-lg-8 col-sm-7">
 				<textarea name="textarea" required id="summernote2"><?php echo ltrim($textarea);?></textarea>
 			</div>
@@ -291,7 +292,7 @@ include('nav.php');
 		</form>
 	<?php }else{ //没有生产文章ID的情况?>
 	<form action="function/edit-a.php" method="post" enctype="multipart/form-data">
-		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>#</i></h4></div>
+		<div class="col-sm-1 hidden-xs text-right hidden-xs"><h4><i>^</i></h4></div>
 		<div class="col-lg-8 col-sm-7">
 			<textarea name="title" required class="form-control" rows="3" placeholder="文章标题"><?php echo $title;?></textarea>
 		</div>
@@ -322,7 +323,7 @@ include('nav.php');
 			<div class="panel-group">
 				<div class="lingheight3em">
 					<input type="hidden" name="Aid"<?php echo $Aid_value;?>>
-					<a class="btn btn-default" href="edit.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写短文</a>
+					<!-- <a class="btn btn-default" href="edit.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写短文</a> -->
 					<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 					<button type="submit" class="btn btn-default" name="new"> <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 新建</button>
 				</div>

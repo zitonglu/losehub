@@ -24,7 +24,13 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav" id="divNavBar">
-				<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/edit.php"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 新建 <span class="sr-only">(current)</span></a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 新建 <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/edit.php">段落</a><li>
+						<li><a href="<?php echo $lh['site_url']; ?>/lh-admin/edit-article.php">长文</a></li>
+					</ul>
+				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 订阅 <span class="caret"></span></a>
 					<ul class="dropdown-menu">

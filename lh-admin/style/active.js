@@ -41,24 +41,5 @@ window.onload= function(){
         oPtxt.style.fontSize=num+'px';
     }
 }
-// //警告框
-// $('#myAlert').alert('close');
-
-// 返回顶部时影藏
-// $(function(){
-//     $(window).scroll(function() {
-//         var scrollY = $(document).scrollTop();
-//         if (scrollY <= 0){
-//         	$('#backTop').addClass('hiddened');
-//         } 
-//         else {
-//             $('#backTop').removeClass('hiddened');
-//         }
-//      });
-// });
-// // 返回顶部
-// $("#returnTop").click(function () {
-//     var speed = 500;
-//     $('body,html').animate({scrollTop:0}, speed);
-//     return false;
-// });
+// 子元素scroll父元素容器不跟随滚动JS实现
+// https://www.zhangxinxu.com/wordpress/2015/12/element-scroll-prevent-parent-element-scroll-js/
