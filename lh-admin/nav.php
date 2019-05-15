@@ -34,7 +34,7 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 订阅 <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">RSS源</a></li>
+						<li><a href="rss-list.php">RSS源</a></li>
 						<li><a href="#">条目列表</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 全部更新</a></li>

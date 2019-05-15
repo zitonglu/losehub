@@ -294,7 +294,6 @@ function LH_setup_CTRSS(){
 			RSS_email varchar(100) NOT NULL DEFAULT "0",
 			RSS_state_code varchar(10) NOT NULL DEFAULT "P",
 			RSS_datetime DATETIME NOT NULL DEFAULT NOW(),
-			RSS_category varchar(100) NOT NULL DEFAULT "0",
 			PRIMARY KEY (RSS_id),
 			CONSTRAINT RSSToState FOREIGN KEY(RSS_state_code) REFERENCES '.$dataBase['dbprefix'].'states'.'(state_code) on delete cascade on update cascade
 			)DEFAULT CHARSET=utf8 AUTO_INCREMENT=1';

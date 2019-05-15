@@ -27,8 +27,52 @@ $skip = ($cur_page-1) * $results_per_page;// 计算上一页行数
 $page_link = '';
 
 $search_query = "SELECT * FROM ".LH_DB_PREFIX.'rss';
+//WHERE 条件
+if(empty($_GET['state']) === false || empty($_GET['type']) === false){
+	$search_query .= ' WHERE ';
+	if (empty($_GET['state']) === false && empty($_GET['type']) === false) {
+		$search_query .= '`p_state_code`=\''.$_GET['state'].'\' AND `p_type_code`=\''.$_GET['type'].'\'';
+	}elseif(empty($_GET['state']) === false){
+		$search_query .= '`p_state_code`=\''.$_GET['state'].'\'';
+	}else{
+		$search_query .= '`p_type_code`=\''.$_GET['type'].'\'';
+	}
+}
+// 查询排序，生降序调整 ORDER BY
+if (isset($_GET['orderby'])) {
+	$orderbys = explode("-", $_GET['orderby']);
+	$orderby = reset($orderbys);
+	if (next($orderbys) == 'ASC') {
+		$order = 'DESC';
+	}else{
+		$order = 'ASC';
+	}
+
+    // 增加SQL的ORDER BY
+	switch ($orderby) {
+		case 'id':
+		$search_query .= ' ORDER BY id ';
+		break;
+		case 'type':
+		$search_query .= ' ORDER BY `p_type_code` ';
+		break;
+		case 'state':
+		$search_query .= ' ORDER BY `p_state_code` ';
+		break;
+		case 'cstate':
+		$search_query .= ' ORDER BY `p_c_state_code` ';
+		break;
+		case 'time':
+		$search_query .= ' ORDER BY `p_datetime` ';
+		break;
+		default:
+		break;
+	}
+	$search_query .= $order;
+}
 $count_query = preg_replace('/\*/','count(*)',$search_query);//用于查询总行数
 
+$search_query .= ' LIMIT ';
 if($cur_page > 1){
 	$i = (int)$results_per_page*($cur_page-1);
 	$search_query .= $i.',';
@@ -75,35 +119,37 @@ include('nav.php');
 	<div class="lingheight3em"><?php include('list-nav.php');?></div><hr>
 	<div class="table-responsive">
 	<table class="table table-striped table-hover list-table">
-		<caption><h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 段落</h4></caption>
+		<caption>
+			<h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> RSS源</h4>
+			<p class="text-2em">管理收集的RSS源相关信息</p>
+		</caption>
+
 		<thead>
-			<tr><?php
-			$ths = array(
-				'id' => '#',
-				'type' => '类别',
-				'1' => '内容',
-				'state' => '状态',
-				'cstate' => '评论',
-				'time' => '时间'
-			);
-			foreach ($ths as $key => $value) {
-				if ($key == '1') {
-					echo '<th class="col-sm-5 p-contect text-center">内容</th>';
-				}else{
-					if (isset($order) && $order == 'DESC') {
-						echo '<th><a href="'.changeURLGet('orderby',$key.'-DESC').'">'.$value.'</a></th>';
-					}else{
-						echo '<th><a href="'.changeURLGet('orderby',$key.'-ASC').'">'.$value.'</a></th>';
-					}
-				}
-			}
-			?>
-				<th class="text-right">归属</th>
-				<th></th>
+			<tr>
+				<th class="col-sm-1">id</th>
+				<th class="col-sm-3 text-center">标题</th>
+				<th class="col-sm-1">URL地址</th>
+				<th class="col-sm-3 text-center">介绍</th>
+				<th class="col-sm-1">作者邮箱</th>
+				<th class="col-sm-1">更新时间</th>
+				<th class="col-sm-1">状态</th>
+				<th class="col-sm-1"></th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php echo $echo;?>
+			<form action="function/edit-rss.php" method="post">
+				<tr>
+					<th colspan="7" class="form-horizontal">
+						<input type="hidden" name="return" value="rss-list">
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon1">RSS地址或网址</span>
+							<input type="text" class="form-control" id="RSSURL" placeholder="http://" name="RSSURl" required>
+						</div>
+					</th>
+					<td><button type="submit" class="btn btn-default" name="create">新建</button></td>
+				</tr>
+			</form>
 		</tbody>
 	</table>
 	</div>
