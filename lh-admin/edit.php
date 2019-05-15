@@ -99,7 +99,7 @@ include('nav.php');
 					<div class="lingheight3em">
 						<input type="hidden" name="id"<?php echo $id_value;?>>
 						<input type="hidden" name="return"<?php echo $return_value;?>>
-						<!-- <a class="btn btn-default" href="edit-article.php" role="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 写长文</a> -->
+						<a class="btn btn-default" href="p-list.php" role="button"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</a>
 						<button type="submit" class="btn btn-default" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseListGroup1"> <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> 参数</button>
 						<?php echo $send;?>
 					</div>
